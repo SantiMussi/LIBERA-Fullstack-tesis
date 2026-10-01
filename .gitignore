@@ -1,0 +1,7 @@
+# Editores locales
+.vscode/
+.idea/
+
+# Build
+backend/target/
+*.zip

@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Detalle de la reserva — LIBERA</title>
+<meta name="description" content="Todos los detalles de esta reserva transferible en LIBERA: fechas, huéspedes, servicios y el precio que definió quien la publicó.">
+<link rel="icon" type="image/png" href="assets/brand/libera-bird-only.png?v=20260806d">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+
+<link rel="stylesheet" href="style.css?v=20260806d">
+</head>
+<body data-view="b2c" data-page="oferta">
+
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<!-- SVG SYMBOL LIBRARY -->
+<svg class="sr-only" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 6" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 8.7 8 11 4.6-2.3 8-6 8-11V5l-8-3Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12l2.4 2.4L16 9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-pin" viewBox="0 0 24 24"><path d="M12 22s7-7.4 7-12.5A7 7 0 0 0 5 9.5C5 14.6 12 22 12 22Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="icon-wifi" viewBox="0 0 24 24"><path d="M2 8.5c5.5-5 14.5-5 20 0M5.5 12c3.7-3.3 9.3-3.3 13 0M9 15.5c1.9-1.6 4.1-1.6 6 0" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="12" cy="19" r="1.2" fill="currentColor"/></symbol>
+    <symbol id="icon-pool" viewBox="0 0 24 24"><path d="M2 9c1.5 1.6 3 1.6 4.5 0S9.5 7.4 11 9s3 1.6 4.5 0 3-1.6 4.5 0M2 14c1.5 1.6 3 1.6 4.5 0s3-1.6 4.5 0 3 1.6 4.5 0 3-1.6 4.5 0M2 19c1.5 1.6 3 1.6 4.5 0s3-1.6 4.5 0 3 1.6 4.5 0 3-1.6 4.5 0" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></symbol>
+    <symbol id="icon-breakfast" viewBox="0 0 24 24"><path d="M4 9h13v4a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V9Z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M7 5.5c.5 1 .5 1.5 0 2.5M11 5.5c.5 1 .5 1.5 0 2.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/></symbol>
+    <symbol id="icon-split" viewBox="0 0 24 24"><path d="M4 6h5l3 4 3-4h5M4 18h5l3-4 3 4h5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-pencil" viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1Z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-instagram" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="15.6" cy="8.4" r=".9" fill="currentColor"/></symbol>
+    <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M14.5 8.5h-1.2c-1 0-1.5.5-1.5 1.5V11H14l-.3 2h-2v6.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="icon-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="9.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="15" r="1.3" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<!-- HEADER -->
+<header class="nav" data-nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo" aria-label="LIBERA — inicio">
+      <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806d" alt="LIBERA" />
+    </a>
+
+    <nav class="nav-links" aria-label="Navegación viajeros">
+      <a href="catalogo.html">Ofertas</a>
+      <a href="index.html#como-funciona">Cómo funciona</a>
+      <a href="index.html#que-es-libera">Qué es LIBERA</a>
+      <a href="preguntas.html">Preguntas</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a href="index.html?view=b2b" class="btn btn-ghost-nav">
+        <span>Para Hoteles</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+      </a>
+      <div class="nav-auth">
+        <button type="button" class="btn btn-ghost-nav" data-auth-open="login">Iniciar sesión</button>
+        <button type="button" class="btn btn-primary nav-cta" data-auth-open="register">Registrarse</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="offer-detail">
+    <div class="detail-topbar">
+      <a href="catalogo.html" class="detail-back">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+        Volver al catálogo
+      </a>
+    </div>
+
+    <div class="detail-layout">
+      <div class="detail-main">
+
+        <!-- GALLERY -->
+        <div class="detail-gallery reveal">
+          <div class="detail-gallery-main">
+            <img data-detail-hero-img src="" alt="">
+            <span class="offer-badge offer-badge-discount" data-detail-discount-floating>-0%</span>
+          </div>
+          <div class="detail-gallery-grid" data-detail-thumbs></div>
+        </div>
+
+        <!-- HEADER -->
+        <div class="detail-header reveal">
+          <div class="detail-header-top">
+            <h1 data-detail-hotel>—</h1>
+            <span class="offer-rating" data-detail-rating>★ 0.0</span>
+          </div>
+          <p class="offer-location">
+            <svg viewBox="0 0 24 24" aria-hidden="true" style="width:15px;height:15px;vertical-align:-2px;margin-right:.3rem;color:var(--orange)"><use href="#icon-pin"></use></svg>
+            <span data-detail-location>—</span>
+          </p>
+          <ul class="offer-meta detail-tags" data-detail-tags></ul>
+        </div>
+
+        <!-- AMENITIES -->
+        <div class="detail-section reveal">
+          <h2>Lo que ofrece esta estadía</h2>
+          <div class="detail-amenities" data-detail-amenities></div>
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="detail-section reveal">
+          <h2>Sobre esta estadía</h2>
+          <p class="detail-description" data-detail-description>—</p>
+        </div>
+
+        <!-- STAY DETAILS -->
+        <div class="detail-section reveal">
+          <h2>Detalles de tu estadía</h2>
+          <div class="stay-details-grid" data-stay-details>
+            <div class="stay-detail"><span class="stay-detail-label">Check-in</span><strong data-stay-checkin>—</strong></div>
+            <div class="stay-detail"><span class="stay-detail-label">Check-out</span><strong data-stay-checkout>—</strong></div>
+            <div class="stay-detail"><span class="stay-detail-label">Noches</span><strong data-stay-nights>—</strong></div>
+            <div class="stay-detail"><span class="stay-detail-label">Huéspedes</span><strong data-stay-guests>—</strong></div>
+            <div class="stay-detail"><span class="stay-detail-label">Régimen</span><strong data-stay-regimen>—</strong></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SIDEBAR -->
+      <aside class="detail-sidebar">
+
+        <!-- SUMMARY / RESERVAR COMPLETA -->
+        <div class="detail-summary reveal" data-summary-card
+             data-hotel="" data-location="" data-checkin="" data-checkout=""
+             data-nights="" data-guests="" data-regimen="" data-price="" data-fee-pct="">
+          <div class="offer-media" hidden><img src="" alt=""></div>
+
+          <div class="summary-price-row">
+            <span class="summary-was" data-summary-was>$0</span>
+            <span class="summary-now" data-summary-now>$0</span>
+            <span class="summary-discount-badge" data-summary-discount>-0%</span>
+          </div>
+          <p class="summary-price-caption">Precio de venta definido por quien publicó esta reserva.</p>
+
+          <div class="checkout-guarantee">
+            <div class="checkout-guarantee-head">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-shield"></use></svg>
+              <div>
+                <h4>Garantía de Traspaso LIBERA</h4>
+                <p>Si tus planes cambian, gestionamos la transferencia de tu reserva a otro viajero. Fee dinámico, siempre con tope del <strong>12,5%</strong>.</p>
+              </div>
+            </div>
+            <div class="fee-gauge">
+              <div class="fee-gauge-track"><div class="fee-gauge-fill" data-summary-gauge></div></div>
+              <div class="fee-gauge-labels"><span>0%</span><span data-summary-fee-pct>0%</span><span>12,5% tope</span></div>
+            </div>
+          </div>
+
+          <div class="checkout-breakdown">
+            <div class="breakdown-row"><span>Precio de la reserva</span><strong data-summary-base>$0</strong></div>
+            <div class="breakdown-row"><span>Garantía de Traspaso (<span data-summary-fee-pct-2>0%</span>)</span><strong data-summary-guarantee>+$0</strong></div>
+            <div class="breakdown-row breakdown-total"><span>Total a pagar</span><strong data-summary-total>$0</strong></div>
+          </div>
+
+          <button type="button" class="btn btn-primary btn-lg btn-block" data-reserve>
+            <span>Reservar esta estadía completa</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+          </button>
+        </div>
+
+        <!-- SPLIT BOOKING -->
+        <form class="split-card reveal" data-split-form novalidate>
+          <div class="split-card-head">
+            <div class="split-card-title">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-split"></use></svg>
+              <h3>Reserva Fraccionada</h3>
+            </div>
+            <span class="split-badge-new">Nuevo</span>
+          </div>
+          <p class="split-card-copy">¿No necesitás todas las noches? Elegí las fechas que sí vas a usar y pagá solo esas noches, a un precio proporcional al que fijó quien la publicó.</p>
+
+          <div class="field">
+            <label>Selecciona Checkin - Checkout</label>
+            <button type="button" class="split-date-field" data-split-date-trigger>
+              <span data-split-date-label>—</span>
+              <span class="split-date-nights" data-split-nights-label>0 noches</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+            </button>
+
+            <div class="split-calendar-panel" data-split-calendar-panel hidden>
+              <div class="split-calendar-head" data-split-cal-month-label>—</div>
+              <div class="cal-weekdays">
+                <span>Lu</span><span>Ma</span><span>Mi</span><span>Ju</span><span>Vi</span><span>Sa</span><span>Do</span>
+              </div>
+              <div class="cal-grid" data-split-cal-grid></div>
+              <div class="split-calendar-foot">
+                <span class="split-cal-range-label" data-split-cal-range-label>—</span>
+                <div class="split-calendar-actions">
+                  <button type="button" class="split-cal-cancel" data-split-cal-cancel>Cancelar</button>
+                  <button type="button" class="split-cal-apply" data-split-cal-apply>Aplicar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label-row">
+              <label for="split-price">Precio por esas noches (USD)</label>
+            </div>
+            <input type="number" id="split-price" readonly data-split-price-input>
+          </div>
+
+          <p class="split-room-line" data-split-room-line>—</p>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block" data-split-submit>
+            <span>Comprar estas noches</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+          </button>
+          <p class="contact-success" data-split-success hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>
+            <span>¡Listo! Esas noches ya son tuyas. Seguí el estado de tu compra en <a href="mi-cuenta.html">Mi cuenta</a>.</span>
+          </p>
+        </form>
+
+      </aside>
+    </div>
+  </section>
+
+</main>
+
+<!-- CHECKOUT DRAWER -->
+<div class="drawer-backdrop" data-drawer-backdrop hidden></div>
+<aside class="checkout-drawer" data-checkout-drawer role="dialog" aria-modal="true" aria-labelledby="checkout-title" hidden>
+  <div class="checkout-head">
+    <h2 id="checkout-title">Tu reserva</h2>
+    <button type="button" class="drawer-close" data-drawer-close aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-close"></use></svg>
+    </button>
+  </div>
+
+  <div class="checkout-body">
+    <div class="checkout-offer">
+      <img data-co-image src="" alt="" width="88" height="88">
+      <div>
+        <h3 data-co-hotel>—</h3>
+        <p data-co-location>—</p>
+        <p class="checkout-dates"><span data-co-dates>—</span> · <span data-co-nights>—</span> · <span data-co-guests>—</span></p>
+        <p class="checkout-regimen" data-co-regimen>—</p>
+      </div>
+    </div>
+
+    <div class="checkout-guarantee">
+      <div class="checkout-guarantee-head">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-shield"></use></svg>
+        <div>
+          <h4>Garantía de Traspaso LIBERA</h4>
+          <p>Si tus planes cambian, gestionamos la transferencia de tu reserva a otro viajero. Fee dinámico, siempre con tope del <strong>12,5%</strong>.</p>
+        </div>
+      </div>
+      <div class="fee-gauge">
+        <div class="fee-gauge-track"><div class="fee-gauge-fill" data-co-gauge></div></div>
+        <div class="fee-gauge-labels"><span>0%</span><span data-co-fee-pct>0%</span><span>12,5% tope</span></div>
+      </div>
+    </div>
+
+    <div class="checkout-breakdown">
+      <div class="breakdown-row"><span>Precio de la reserva</span><strong data-co-base>$0</strong></div>
+      <div class="breakdown-row"><span>Garantía de Traspaso (<span data-co-fee-pct-2>0%</span>)</span><strong data-co-guarantee>+$0</strong></div>
+      <div class="breakdown-row breakdown-total"><span>Total a pagar</span><strong data-co-total>$0</strong></div>
+    </div>
+
+    <button type="button" class="btn btn-primary btn-lg btn-block" data-co-confirm>
+      <span>Confirmar reserva</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+    </button>
+    <p class="checkout-success" data-co-success hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>
+      <span>¡Compra confirmada! Tu pago queda retenido hasta tu check-in. Seguí el estado en <a href="mi-cuenta.html">Mi cuenta</a>.</span>
+    </p>
+  </div>
+</aside>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" aria-label="LIBERA — inicio">
+        <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806d" alt="LIBERA" />
+      </a>
+      <p class="footer-tagline">Tu reserva, siempre flexible.</p>
+    </div>
+
+    <nav class="footer-col" aria-label="Producto">
+      <h4>Producto</h4>
+      <a href="catalogo.html">Marketplace</a>
+      <a href="vender.html">Vender mi reserva</a>
+      <a href="index.html?view=b2b#proceso">LIBERA para hoteles</a>
+      <a href="index.html?view=b2b#buyback">LIBERA Buyback</a>
+    </nav>
+    <nav class="footer-col" aria-label="Empresa">
+      <h4>Empresa</h4>
+      <a href="index.html#como-funciona">Cómo funciona</a>
+      <a href="preguntas.html">Preguntas frecuentes</a>
+      <a href="index.html?view=b2b#contacto">Contacto</a>
+    </nav>
+    <nav class="footer-col" aria-label="Legal">
+      <h4>Legal</h4>
+      <a href="terminos.html">Términos y condiciones</a>
+      <a href="privacidad.html">Privacidad</a>
+      <a href="cancelaciones.html">Garantía de Traspaso</a>
+    </nav>
+
+    <div class="footer-col footer-col-contact">
+      <h4>Contacto</h4>
+      <a href="mailto:hola@libera.travel">hola@libera.travel</a>
+      <a href="tel:+541100000000">+54 11 0000-0000</a>
+    </div>
+  </div>
+
+  <div class="footer-secure">
+    <div class="footer-secure-badge">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-lock"></use></svg>
+      <span>Pago 100% seguro</span>
+    </div>
+    <div class="footer-payment-chips">
+      <span class="payment-chip">Visa</span>
+      <span class="payment-chip">Mastercard</span>
+      <span class="payment-chip">American Express</span>
+      <span class="payment-chip">Transferencia bancaria</span>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 LIBERA®. Todos los derechos reservados.</p>
+    <div class="footer-social">
+      <a href="#" class="social-icon" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-instagram"></use></svg></a>
+      <a href="#" class="social-icon" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-facebook"></use></svg></a>
+      <a href="#" class="social-icon" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-x"></use></svg></a>
+    </div>
+    <p>Buenos Aires · Madrid · Ciudad de México</p>
+  </div>
+</footer>
+
+<div class="toast" data-toast hidden></div>
+
+<!-- AUTH MODAL -->
+<dialog class="auth-modal" data-auth-modal aria-labelledby="auth-title">
+  <button type="button" class="drawer-close auth-modal-close" data-auth-close aria-label="Cerrar">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-close"></use></svg>
+  </button>
+
+  <div class="auth-modal-head">
+    <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806d" alt="LIBERA" />
+    <h2 id="auth-title" class="sr-only">Iniciar sesión o registrarse</h2>
+  </div>
+
+  <div class="auth-tabs" role="tablist">
+    <button type="button" class="auth-tab is-active" data-auth-tab="login" role="tab" aria-selected="true">Iniciar sesión</button>
+    <button type="button" class="auth-tab" data-auth-tab="register" role="tab" aria-selected="false">Registrarse</button>
+  </div>
+
+  <form class="auth-form" data-auth-form="login" novalidate>
+    <div class="field">
+      <label for="auth-login-email">Email</label>
+      <input id="auth-login-email" type="email" name="email" required autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="auth-login-pass">Contraseña</label>
+      <input id="auth-login-pass" type="password" name="password" required autocomplete="current-password">
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block"><span>Iniciar sesión</span></button>
+  </form>
+
+  <form class="auth-form" data-auth-form="register" novalidate hidden>
+    <div class="form-row">
+      <div class="field">
+        <label for="auth-reg-first">Nombre</label>
+        <input id="auth-reg-first" type="text" name="firstName" required autocomplete="given-name">
+      </div>
+      <div class="field">
+        <label for="auth-reg-last">Apellido</label>
+        <input id="auth-reg-last" type="text" name="lastName" required autocomplete="family-name">
+      </div>
+    </div>
+    <div class="field">
+      <label for="auth-reg-doc">DNI o pasaporte</label>
+      <input id="auth-reg-doc" type="text" name="documentNumber" required autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="auth-reg-email">Email</label>
+      <input id="auth-reg-email" type="email" name="email" required autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="auth-reg-pass">Contraseña</label>
+      <input id="auth-reg-pass" type="password" name="password" required autocomplete="new-password" minlength="8">
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block"><span>Crear cuenta</span></button>
+  </form>
+
+  <p class="auth-success" data-auth-success hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>
+    <span data-auth-success-text>¡Listo!</span>
+  </p>
+
+  <p class="auth-error" data-auth-error role="alert" hidden></p>
+</dialog>
+
+<script defer src="lib/gsap.min.js"></script>
+<script defer src="lib/ScrollTrigger.min.js"></script>
+<script defer src="offers-data.js?v=20260806d"></script>
+<script defer src="api.js?v=20260806d"></script>
+<script defer src="app.js?v=20260806d"></script>
+</body>
+</html>

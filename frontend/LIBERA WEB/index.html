@@ -1,0 +1,1112 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LIBERA — Tu reserva, siempre flexible.</title>
+<meta name="description" content="LIBERA es el marketplace que le da flexibilidad a tu reserva: comprá, revendé o transferí tu estadía cuando cambien tus planes. Para viajeros y para hoteles.">
+<link rel="icon" type="image/png" href="assets/brand/libera-bird-only.png?v=20260806d">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1800&h=1100&fit=crop&q=80&auto=format" fetchpriority="high">
+
+<link rel="stylesheet" href="style.css?v=20260806d">
+</head>
+<body data-view="b2c">
+
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<!-- SPLASH -->
+<div class="splash" data-splash>
+  <div class="splash-mark">
+    <img src="assets/brand/libera-lockup.png?v=20260806d" class="splash-bird" alt="" />
+  </div>
+  <p class="splash-tag">Tu reserva, siempre flexible.</p>
+</div>
+
+<!-- SVG SYMBOL LIBRARY -->
+<svg class="sr-only" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 6" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 8.7 8 11 4.6-2.3 8-6 8-11V5l-8-3Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12l2.4 2.4L16 9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-store" viewBox="0 0 24 24"><path d="M4 9v10a1 1 0 001 1h14a1 1 0 001-1V9M3 9l1.5-5h15L21 9M3 9h18M9 20v-6h6v6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-calm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 13c1 1.3 2.3 2 4 2s3-.7 4-2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="icon-pin" viewBox="0 0 24 24"><path d="M12 22s7-7.4 7-12.5A7 7 0 0 0 5 9.5C5 14.6 12 22 12 22Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="icon-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-refresh" viewBox="0 0 24 24"><path d="M20 11A8 8 0 1 0 18.7 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M20 5v6h-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-trend" viewBox="0 0 24 24"><path d="M4 17l5-5 4 4 7-8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 8h5v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-badge" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-instagram" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="15.6" cy="8.4" r=".9" fill="currentColor"/></symbol>
+    <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M14.5 8.5h-1.2c-1 0-1.5.5-1.5 1.5V11H14l-.3 2h-2v6.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="icon-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="9.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="15" r="1.3" fill="currentColor"/></symbol>
+    <symbol id="icon-support" viewBox="0 0 24 24"><path d="M4 13v-1a8 8 0 0 1 16 0v1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="3" y="13" width="4" height="6" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="17" y="13" width="4" height="6" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M19 19v.5A2.5 2.5 0 0 1 16.5 22H13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+
+<!-- HEADER -->
+<header class="nav" data-nav>
+  <div class="nav-inner">
+    <a href="#top" class="logo" data-scroll-top aria-label="LIBERA — inicio">
+      <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806d" alt="LIBERA" />
+    </a>
+
+    <nav class="nav-links" data-nav-links="b2c" aria-label="Navegación viajeros">
+      <a href="catalogo.html">Ofertas</a>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#que-es-libera">Qué es LIBERA</a>
+      <a href="preguntas.html">Preguntas</a>
+    </nav>
+
+    <nav class="nav-links" data-nav-links="b2b" hidden aria-label="Navegación hoteles">
+      <a href="#proceso">Cómo funciona</a>
+      <a href="#beneficios">Beneficios</a>
+      <a href="#modelos">Modelos</a>
+      <a href="#confianza">Seguridad</a>
+      <a href="#preguntas-hoteles">Preguntas</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button type="button" class="btn btn-ghost-nav" data-view-toggle data-label-b2c="Para Hoteles" data-label-b2b="Para Viajeros">
+        <span data-view-toggle-label>Para Hoteles</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+      </button>
+      <div class="nav-auth" data-nav-cta-b2c>
+        <button type="button" class="btn btn-ghost-nav" data-auth-open="login">Iniciar sesión</button>
+        <button type="button" class="btn btn-primary nav-cta" data-auth-open="register">Registrarse</button>
+      </div>
+      <a href="#contacto" class="btn btn-primary nav-cta" data-nav-cta-b2b hidden>Agendar demo</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============================= B2C VIEW ============================= -->
+<div class="view" data-view-panel="b2c" id="top">
+
+  <!-- HERO -->
+  <section class="hero hero-b2c" id="hero-b2c">
+    <div class="hero-bg" data-parallax-bg data-hero-carousel>
+      <img class="is-active" src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1800&h=1100&fit=crop&q=80&auto=format" alt="Piscina infinita de un resort de lujo al atardecer" fetchpriority="high" loading="eager">
+      <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1800&h=1100&fit=crop&q=80&auto=format" alt="Piscina infinita y solárium al atardecer" loading="eager">
+      <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=1800&h=1100&fit=crop&q=80&auto=format" alt="Vista aérea de una costa turquesa" loading="eager">
+      <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=1800&h=1100&fit=crop&q=80&auto=format" alt="Habitación de hotel con vista al mar" loading="eager">
+      <div class="hero-bg-tint"></div>
+    </div>
+    <div class="hero-grain" aria-hidden="true"></div>
+
+    <div class="hero-inner">
+      <p class="kicker reveal" data-parallax-el data-depth="0.1">Marketplace de viajes · Reservas flexibles</p>
+      <h1 class="hero-title reveal" data-split="words" data-parallax-el data-depth="0.05">Planes que cambian,<br>reservas que no se pierden.</h1>
+      <p class="hero-sub reveal" data-parallax-el data-depth="0.08">Comprá estadías con descuento real, o revendé la tuya si tus planes cambian. LIBERA gestiona el traspaso.</p>
+    </div>
+
+    <div class="hero-side-col">
+      <a href="catalogo.html" class="hero-side-card reveal">
+        <span class="quick-access-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-search"></use></svg></span>
+        <h3>Comprar una reserva</h3>
+        <p>Descuento real en estadías que otros viajeros ya no pueden usar.</p>
+        <span class="quick-access-link">Ver catálogo <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg></span>
+      </a>
+      <a href="vender.html" class="hero-side-card hero-side-card-alt reveal">
+        <span class="quick-access-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-store"></use></svg></span>
+        <h3>Vender mi reserva</h3>
+        <p>Publicá en minutos y recuperá tu dinero si tus planes cambiaron.</p>
+        <span class="quick-access-link">Publicar ahora <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- OTA SEARCH BAR -->
+  <section class="ota-search-section" aria-label="Buscar reservas">
+    <div class="ota-search" data-ota-search>
+      <button type="button" class="ota-field" data-ota-trigger="destino">
+        <span class="ota-field-label">Dónde</span>
+        <span class="ota-field-value" data-ota-value="destino">Buscar por destino, ciudad u hotel</span>
+      </button>
+      <span class="ota-divider" aria-hidden="true"></span>
+      <button type="button" class="ota-field" data-ota-trigger="fechas">
+        <span class="ota-field-label">Cuándo</span>
+        <span class="ota-field-value" data-ota-value="fechas">Elegí un mes</span>
+      </button>
+      <span class="ota-divider" aria-hidden="true"></span>
+      <button type="button" class="ota-field" data-ota-trigger="huespedes">
+        <span class="ota-field-label">Cuántos</span>
+        <span class="ota-field-value" data-ota-value="huespedes">2 adultos · 1 habitación</span>
+      </button>
+      <button type="button" class="btn btn-primary ota-search-btn" data-ota-search-btn>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-search"></use></svg>
+        <span>Buscar</span>
+      </button>
+
+      <div class="ota-panel" data-ota-panel="destino" hidden>
+        <input type="text" class="ota-panel-input" placeholder="Buscar por destino, ciudad u hotel" data-ota-destino-input autocomplete="off">
+        <ul class="ota-destino-list" data-ota-destino-list>
+          <li data-country="Uruguay" data-label="Punta del Este - URUGUAY"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"></use></svg>Punta del Este - URUGUAY</li>
+          <li data-country="México" data-label="Cancún - MÉXICO"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"></use></svg>Cancún - MÉXICO</li>
+          <li data-country="Argentina" data-label="Bariloche - ARGENTINA"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"></use></svg>Bariloche - ARGENTINA</li>
+          <li data-country="España" data-label="Ibiza - ESPAÑA"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"></use></svg>Ibiza - ESPAÑA</li>
+          <li data-country="México" data-label="Tulum - MÉXICO"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"></use></svg>Tulum - MÉXICO</li>
+          <li data-country="Italia" data-label="Positano - ITALIA"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"></use></svg>Positano - ITALIA</li>
+          <li data-country="EAU" data-label="Dubái - EMIRATOS ÁRABES"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"></use></svg>Dubái - EMIRATOS ÁRABES</li>
+          <li data-country="Noruega" data-label="Bergen - NORUEGA"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"></use></svg>Bergen - NORUEGA</li>
+        </ul>
+      </div>
+
+      <div class="ota-panel ota-panel-wide" data-ota-panel="fechas" hidden>
+        <div class="ota-months" data-ota-months>
+          <button type="button" class="ota-month is-active" data-month="Ago"><span class="ota-month-year">2026</span><span class="ota-month-name">agosto</span></button>
+          <button type="button" class="ota-month" data-month="Sep"><span class="ota-month-year">2026</span><span class="ota-month-name">septiembre</span></button>
+          <button type="button" class="ota-month" data-month="Oct"><span class="ota-month-year">2026</span><span class="ota-month-name">octubre</span></button>
+          <button type="button" class="ota-month" data-month="Nov"><span class="ota-month-year">2026</span><span class="ota-month-name">noviembre</span></button>
+          <button type="button" class="ota-month" data-month="Dic"><span class="ota-month-year">2026</span><span class="ota-month-name">diciembre</span></button>
+          <button type="button" class="ota-month" data-month="Ene"><span class="ota-month-year">2027</span><span class="ota-month-name">enero</span></button>
+        </div>
+        <div class="ota-panel-foot">
+          <a href="#" data-ota-months-all>Seleccionar todos los meses</a>
+        </div>
+      </div>
+
+      <div class="ota-panel" data-ota-panel="huespedes" hidden>
+        <div class="ota-stepper-row">
+          <strong>Adultos</strong>
+          <div class="ota-stepper">
+            <button type="button" data-ota-stepper-minus="adults" aria-label="Menos adultos">−</button>
+            <span data-ota-stepper-value="adults">2</span>
+            <button type="button" data-ota-stepper-plus="adults" aria-label="Más adultos">+</button>
+          </div>
+        </div>
+        <div class="ota-stepper-row">
+          <strong>Habitaciones</strong>
+          <div class="ota-stepper">
+            <button type="button" data-ota-stepper-minus="rooms" aria-label="Menos habitaciones">−</button>
+            <span data-ota-stepper-value="rooms">1</span>
+            <button type="button" data-ota-stepper-plus="rooms" aria-label="Más habitaciones">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK TRUST STRIP -->
+  <section class="quick-trust-strip" aria-label="Por qué confiar en LIBERA">
+    <p class="quick-trust-kicker">Por qué confiar en LIBERA</p>
+    <div class="trust-strip-grid">
+      <div class="trust-strip-item reveal">
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-shield"></use></svg>
+        <p><strong>Garantía de Traspaso</strong> con tope fijo del 12,5%, visible antes de pagar — sin letra chica.</p>
+      </div>
+      <div class="trust-strip-item reveal">
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-calm"></use></svg>
+        <p><strong>Pago en custodia</strong> hasta tu check-in. El vendedor cobra recién ahí, nunca antes.</p>
+      </div>
+      <div class="trust-strip-item reveal">
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-search"></use></svg>
+        <p><strong>Identidad verificada</strong> de quien compra y de quien vende, antes de operar.</p>
+      </div>
+      <div class="trust-strip-item reveal">
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-support"></use></svg>
+        <p><strong>Atención al cliente</strong> real, para resolver cualquier duda antes, durante y después de tu operación.</p>
+      </div>
+      <div class="trust-strip-item reveal">
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-lock"></use></svg>
+        <p><strong>Todo dentro de la plataforma</strong>: nunca pagues ni transfieras por fuera de LIBERA.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RED DE HOTELES (boceto) -->
+  <section class="trust-strip" aria-label="Hoteles en la red de LIBERA">
+    <p class="trust-label">Hoteles en nuestra red</p>
+    <div class="marquee" data-marquee>
+      <div class="marquee-track" data-marquee-track>
+        <span>Costa Azul Resorts</span><span>Aurora Bahía Hotels</span><span>Monte Verde Lodges</span>
+        <span>Palacio Collection</span><span>Selva Alta Eco Group</span><span>Riviera Blu Hospitality</span>
+        <span>Dune Sands Hotels</span><span>Nordic Fjord Cabins</span>
+      </div>
+      <div class="marquee-track" data-marquee-track aria-hidden="true">
+        <span>Costa Azul Resorts</span><span>Aurora Bahía Hotels</span><span>Monte Verde Lodges</span>
+        <span>Palacio Collection</span><span>Selva Alta Eco Group</span><span>Riviera Blu Hospitality</span>
+        <span>Dune Sands Hotels</span><span>Nordic Fjord Cabins</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- HABITACIONES DESTACADAS -->
+  <section class="destacadas" id="destacadas">
+    <div class="section-head">
+      <p class="kicker reveal">Selección LIBERA</p>
+      <h2 class="reveal" data-split="lines">Habitaciones destacadas.</h2>
+      <p class="section-lede reveal">Una muestra de lo que hoy están transfiriendo otros viajeros. El catálogo completo tiene muchas más.</p>
+    </div>
+
+    <div class="destacadas-carousel">
+      <button type="button" class="carousel-arrow carousel-arrow-prev" data-carousel-prev aria-label="Ver anteriores">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+      </button>
+      <div class="destacadas-grid" data-carousel-track>
+      <article class="destacada-card reveal" data-tilt data-id="costa-azul-resort-spa"
+        data-hotel="Costa Azul Resort &amp; Spa" data-location="Punta del Este, Uruguay"
+        data-checkin="14 Sep 2026" data-checkout="18 Sep 2026" data-nights="4" data-guests="2"
+        data-regimen="Todo incluido" data-price="950" data-fee-pct="7.5">
+        <div class="offer-media">
+          <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=700&h=560&fit=crop&q=80&auto=format" alt="Piscina y solárium del Costa Azul Resort &amp; Spa" loading="lazy" decoding="async">
+          <span class="offer-badge offer-badge-discount">-26%</span>
+          <span class="offer-badge offer-badge-tag">Últimas 2 habitaciones</span>
+          <span class="offer-pin-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"></use></svg>Punta del Este, Uruguay</span>
+        </div>
+        <div class="destacada-body">
+          <div class="offer-top"><h3>Costa Azul Resort &amp; Spa</h3><span class="offer-rating">★ 4.8</span></div>
+          <div class="offer-foot">
+            <div class="offer-price"><span class="was">$1.290</span><span class="now">$950</span></div>
+            <a class="btn btn-primary btn-sm" href="oferta.html?id=costa-azul-resort-spa">Reservar</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="destacada-card reveal" data-tilt data-id="monte-verde-lodge"
+        data-hotel="Monte Verde Lodge" data-location="Bariloche, Argentina"
+        data-checkin="20 Ago 2026" data-checkout="25 Ago 2026" data-nights="5" data-guests="4"
+        data-regimen="Solo alojamiento" data-price="1180" data-fee-pct="7.5">
+        <div class="offer-media">
+          <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=700&h=560&fit=crop&q=80&auto=format" alt="Lodge de montaña frente al lago en Bariloche" loading="lazy" decoding="async">
+          <span class="offer-badge offer-badge-discount">-28%</span>
+          <span class="offer-badge offer-badge-tag">Favorito de viajeros</span>
+          <span class="offer-pin-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"></use></svg>Bariloche, Argentina</span>
+        </div>
+        <div class="destacada-body">
+          <div class="offer-top"><h3>Monte Verde Lodge</h3><span class="offer-rating">★ 4.9</span></div>
+          <div class="offer-foot">
+            <div class="offer-price"><span class="was">$1.650</span><span class="now">$1.180</span></div>
+            <a class="btn btn-primary btn-sm" href="oferta.html?id=monte-verde-lodge">Reservar</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="destacada-card reveal" data-tilt data-id="selva-alta-eco-resort"
+        data-hotel="Selva Alta Eco Resort" data-location="Tulum, México"
+        data-checkin="10 Sep 2026" data-checkout="14 Sep 2026" data-nights="4" data-guests="2"
+        data-regimen="Todo incluido" data-price="990" data-fee-pct="7.5">
+        <div class="offer-media">
+          <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=700&h=560&fit=crop&q=80&auto=format" alt="Cabaña eco-chic entre la selva en Tulum" loading="lazy" decoding="async">
+          <span class="offer-badge offer-badge-discount">-30%</span>
+          <span class="offer-badge offer-badge-tag">Nuevo</span>
+          <span class="offer-pin-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"></use></svg>Tulum, México</span>
+        </div>
+        <div class="destacada-body">
+          <div class="offer-top"><h3>Selva Alta Eco Resort</h3><span class="offer-rating">★ 4.8</span></div>
+          <div class="offer-foot">
+            <div class="offer-price"><span class="was">$1.410</span><span class="now">$990</span></div>
+            <a class="btn btn-primary btn-sm" href="oferta.html?id=selva-alta-eco-resort">Reservar</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="destacada-card reveal" data-tilt data-id="dune-sands-retreat"
+        data-hotel="Dune Sands Retreat" data-location="Dubái, EAU"
+        data-checkin="18 Oct 2026" data-checkout="21 Oct 2026" data-nights="3" data-guests="2"
+        data-regimen="Todo incluido" data-price="1540" data-fee-pct="7.5">
+        <div class="offer-media">
+          <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=700&h=560&fit=crop&q=80&auto=format" alt="Lobby de lujo del Dune Sands Retreat en Dubái" loading="lazy" decoding="async">
+          <span class="offer-badge offer-badge-discount">-25%</span>
+          <span class="offer-badge offer-badge-tag">Alta demanda</span>
+          <span class="offer-pin-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"></use></svg>Dubái, EAU</span>
+        </div>
+        <div class="destacada-body">
+          <div class="offer-top"><h3>Dune Sands Retreat</h3><span class="offer-rating">★ 4.9</span></div>
+          <div class="offer-foot">
+            <div class="offer-price"><span class="was">$2.050</span><span class="now">$1.540</span></div>
+            <a class="btn btn-primary btn-sm" href="oferta.html?id=dune-sands-retreat">Reservar</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="destacada-card reveal" data-tilt data-id="aurora-bahia-suites"
+        data-hotel="Aurora Bahía Suites" data-location="Cancún, México"
+        data-checkin="02 Oct 2026" data-checkout="05 Oct 2026" data-nights="3" data-guests="2"
+        data-regimen="Media pensión" data-price="610" data-fee-pct="7.5">
+        <div class="offer-media">
+          <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=700&h=560&fit=crop&q=80&auto=format" alt="Suite frente al mar en Aurora Bahía Suites" loading="lazy" decoding="async">
+          <span class="offer-badge offer-badge-discount">-27%</span>
+          <span class="offer-pin-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"></use></svg>Cancún, México</span>
+        </div>
+        <div class="destacada-body">
+          <div class="offer-top"><h3>Aurora Bahía Suites</h3><span class="offer-rating">★ 4.6</span></div>
+          <div class="offer-foot">
+            <div class="offer-price"><span class="was">$840</span><span class="now">$610</span></div>
+            <a class="btn btn-primary btn-sm" href="oferta.html?id=aurora-bahia-suites">Reservar</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="destacada-card reveal" data-tilt data-id="riviera-blu-hotel"
+        data-hotel="Riviera Blu Hotel" data-location="Positano, Italia"
+        data-checkin="05 Sep 2026" data-checkout="08 Sep 2026" data-nights="3" data-guests="2"
+        data-regimen="Media pensión" data-price="860" data-fee-pct="7.5">
+        <div class="offer-media">
+          <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=700&h=560&fit=crop&q=80&auto=format" alt="Terraza con vista al acantilado en Positano" loading="lazy" decoding="async">
+          <span class="offer-badge offer-badge-discount">-23%</span>
+          <span class="offer-pin-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"></use></svg>Positano, Italia</span>
+        </div>
+        <div class="destacada-body">
+          <div class="offer-top"><h3>Riviera Blu Hotel</h3><span class="offer-rating">★ 4.9</span></div>
+          <div class="offer-foot">
+            <div class="offer-price"><span class="was">$1.120</span><span class="now">$860</span></div>
+            <a class="btn btn-primary btn-sm" href="oferta.html?id=riviera-blu-hotel">Reservar</a>
+          </div>
+        </div>
+      </article>
+      </div>
+      <button type="button" class="carousel-arrow carousel-arrow-next" data-carousel-next aria-label="Ver siguientes">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+      </button>
+    </div>
+
+    <div class="destacadas-cta reveal">
+      <a href="catalogo.html" class="btn btn-outline btn-lg">Ver el catálogo completo →</a>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section class="manifesto" id="como-funciona">
+    <div class="manifesto-inner">
+      <div class="manifesto-visual reveal">
+        <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=1000&h=1250&fit=crop&q=80&auto=format" alt="Vista aérea de una costa turquesa" loading="lazy" decoding="async">
+      </div>
+      <div class="manifesto-copy">
+        <p class="kicker reveal">Cómo funciona</p>
+        <h2 class="reveal" data-split="lines">Dos formas de usar LIBERA.<br>Elegís la tuya.</h2>
+        <div class="manifesto-tracks">
+          <div class="manifesto-track reveal">
+            <p class="manifesto-track-tag">Si comprás</p>
+            <ol class="manifesto-steps">
+              <li>
+                <span class="step-num">01</span>
+                <div><h3>Elegí una reserva</h3><p>Con descuento real, publicada por otro viajero. Pagás con la Garantía de Traspaso LIBERA (tope 12,5%).</p></div>
+              </li>
+              <li>
+                <span class="step-num">02</span>
+                <div><h3>Hacé check-in y listo</h3><p>LIBERA coordina el cambio de titularidad con el hotel — vos solo llegás y disfrutás.</p></div>
+              </li>
+            </ol>
+          </div>
+          <div class="manifesto-track reveal">
+            <p class="manifesto-track-tag">Si vendés</p>
+            <ol class="manifesto-steps">
+              <li>
+                <span class="step-num">01</span>
+                <div><h3>Publicá tu reserva</h3><p>Elegí tu propio descuento —entre 10% y 80%— y subila al marketplace en minutos.</p></div>
+              </li>
+              <li>
+                <span class="step-num">02</span>
+                <div><h3>Cobrá cuando se confirme</h3><p>Apenas el comprador hace check-in, te transferimos el neto, descontado nuestro fee del 7,5%.</p></div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPLIT BOOKING PREVIEW -->
+  <section class="split-preview-b2c" id="split-booking-preview">
+    <div class="section-head">
+      <p class="kicker reveal">Split Booking</p>
+      <h2 class="reveal" data-split="lines">¿Solo necesitás algunas noches?<br>Pagá nada más que esas.</h2>
+      <p class="section-lede reveal">No hace falta comprar la estadía completa. En las reservas con Split Booking habilitado, elegís las noches que realmente vas a usar y pagás solo por ellas.</p>
+    </div>
+
+    <div class="split-preview-visual reveal">
+      <p class="split-preview-label">Estadía publicada: 5 noches</p>
+      <div class="night-strip">
+        <div class="night-block is-dim"><span>Noche 1</span></div>
+        <div class="night-block is-dim"><span>Noche 2</span></div>
+        <div class="night-block is-picked"><span>Noche 3</span></div>
+        <div class="night-block is-picked"><span>Noche 4</span></div>
+        <div class="night-block is-dim"><span>Noche 5</span></div>
+      </div>
+      <div class="split-preview-legend">
+        <span><i class="split-dot split-dot-picked"></i>Las noches que elegís vos</span>
+        <span><i class="split-dot split-dot-dim"></i>Resto de la estadía original</span>
+      </div>
+    </div>
+
+    <div class="split-preview-cta reveal">
+      <a href="catalogo.html" class="btn btn-primary btn-lg" data-magnetic>
+        <span>Ver reservas con Split Booking</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- QUE ES LIBERA -->
+  <section class="about-libera" id="que-es-libera">
+    <div class="section-head">
+      <p class="kicker reveal">Qué es LIBERA</p>
+      <h2 class="reveal" data-split="lines">Empezó con una reserva<br>que no pudimos usar.</h2>
+      <p class="section-lede reveal">Pagamos una estadía no reembolsable y la perdimos por completo cuando los planes cambiaron: el hotel se quedaba con la habitación vacía, nosotros sin el viaje. Los dos perdíamos. Ahí vimos una necesidad real que nadie estaba resolviendo — y creamos LIBERA para que una reserva nunca más sea plata tirada a la basura.</p>
+    </div>
+
+    <div class="about-grid">
+      <article class="about-pillar reveal">
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-shield"></use></svg>
+        <h3>Garantías claras</h3>
+        <p>Un fee de traspaso siempre visible, con tope fijo del 12,5%. Sin letra chica.</p>
+      </article>
+      <article class="about-pillar reveal">
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-calm"></use></svg>
+        <h3>Flexibilidad real</h3>
+        <p>Tu reserva no es una apuesta. Si tus planes cambian, se transfiere — no se pierde.</p>
+      </article>
+      <article class="about-pillar reveal">
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-store"></use></svg>
+        <h3>Confianza de los dos lados</h3>
+        <p>El viajero recupera su dinero. El hotel conserva la ocupación. Nadie pierde.</p>
+      </article>
+    </div>
+
+    <p class="about-footnote reveal">Esta es la versión corta. En los próximos meses vamos a contar acá, con todo el detalle, por qué la creamos y hacia dónde vamos.</p>
+  </section>
+
+  <!-- CONFIANZA -->
+  <section class="trust-b2c-strip" id="confianza-viajeros">
+    <div class="section-head">
+      <p class="kicker reveal">Por qué es seguro</p>
+      <h2 class="reveal" data-split="lines">Tu plata, cuidada<br>en cada paso.</h2>
+    </div>
+
+    <div class="trust-strip-grid trust-strip-grid-4">
+      <div class="trust-strip-item reveal">
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-shield"></use></svg>
+        <p><strong>Pago en custodia</strong> hasta tu check-in — nunca antes</p>
+      </div>
+      <div class="trust-strip-item reveal">
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-calm"></use></svg>
+        <p><strong>Identidad verificada</strong> de quien compra y de quien vende</p>
+      </div>
+      <div class="trust-strip-item reveal">
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-badge"></use></svg>
+        <p><strong>Garantía de Traspaso</strong> con tope fijo del 12,5% — sin letra chica</p>
+      </div>
+      <div class="trust-strip-item reveal">
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-search"></use></svg>
+        <p><strong>Reembolso del 100%</strong> si la reserva resulta inválida o falsa</p>
+      </div>
+    </div>
+
+    <p class="trust-strip-footnote reveal">Todo esto está documentado públicamente en nuestra <a href="cancelaciones.html" class="faq-inline-link">Garantía de Traspaso</a>.</p>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="section-head">
+      <p class="kicker reveal">Viajeros LIBERA</p>
+      <h2 class="reveal">Planes que cambian. Viajes que no se pierden.</h2>
+    </div>
+    <div class="testimonial-grid">
+      <blockquote class="testimonial-card reveal">
+        <div class="testimonial-stars" aria-hidden="true">★★★★★</div>
+        <p>“Se me complicó un viaje de trabajo dos semanas antes de viajar. Publiqué mi reserva en LIBERA y en menos de un día ya tenía el dinero en mi cuenta.”</p>
+        <footer>
+          <span class="testimonial-avatar">MR</span>
+          <span class="testimonial-who"><strong>Martina R.</strong>Vendió su reserva en Bariloche</span>
+        </footer>
+      </blockquote>
+      <blockquote class="testimonial-card reveal">
+        <div class="testimonial-stars" aria-hidden="true">★★★★★</div>
+        <p>“Compré una estadía en Ibiza a precio de otro viajero. La Garantía de Traspaso me dio tranquilidad: si algo cambiaba, tenía respaldo.”</p>
+        <footer>
+          <span class="testimonial-avatar">IS</span>
+          <span class="testimonial-who"><strong>Iñaki S.</strong>Reservó en Palacio del Mar</span>
+        </footer>
+      </blockquote>
+      <blockquote class="testimonial-card reveal">
+        <div class="testimonial-stars" aria-hidden="true">★★★★★</div>
+        <p>“Publicar mi reserva me llevó cinco minutos. Elegí mi descuento, la subí, y a las pocas horas ya tenía comprador.”</p>
+        <footer>
+          <span class="testimonial-avatar">CD</span>
+          <span class="testimonial-who"><strong>Carolina D.</strong>Vendió su reserva en Tulum</span>
+        </footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- FAQ RAPIDO -->
+  <section class="faq-preview-b2c" id="preguntas-rapidas">
+    <div class="section-head">
+      <p class="kicker reveal">Antes de reservar</p>
+      <h2 class="reveal" data-split="lines">Las dudas más comunes,<br>resueltas acá.</h2>
+    </div>
+
+    <div class="faq-preview-list">
+      <details class="faq-item reveal">
+        <summary>¿Es seguro comprarle la reserva a otro viajero?<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-chevron"></use></svg></summary>
+        <p>Sí. LIBERA retiene tu pago en custodia y recién se lo transfiere al vendedor después de tu check-in — nunca antes. Si algo no coincide con lo publicado, te devolvemos el 100%.</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary>¿Qué pasa si la reserva resulta falsa?<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-chevron"></use></svg></summary>
+        <p>Tenés reembolso garantizado del 100%: primero con los fondos que todavía están en custodia y, si no alcanzan, con el fondo de garantía de LIBERA. Nunca te quedás pagando algo que no recibiste.</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary>¿Puedo comprar solo algunas noches de una estadía?<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-chevron"></use></svg></summary>
+        <p>Sí, con Split Booking: en las reservas que lo permiten, elegís las noches que necesitás y pagás solo por esas.</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary>¿Cuánto tarda en confirmarse mi compra?<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-chevron"></use></svg></summary>
+        <p>El pago queda registrado al instante. LIBERA se encarga de coordinar el traspaso con el hotel — en la mayoría de los casos no vas a notar ningún trámite adicional de tu lado.</p>
+      </details>
+    </div>
+
+    <p class="faq-preview-footnote reveal">¿Tenés otra duda? <a href="preguntas.html" class="faq-inline-link">Ver todas las preguntas frecuentes →</a></p>
+  </section>
+
+</div>
+<!-- =========================== FIN B2C VIEW =========================== -->
+
+
+<!-- ============================= B2B VIEW ============================= -->
+<div class="view" data-view-panel="b2b" id="top-b2b" hidden>
+
+  <!-- HERO -->
+  <section class="hero hero-b2b" id="hero-b2b">
+    <div class="hero-mesh" aria-hidden="true"></div>
+    <div class="hero-grain" aria-hidden="true"></div>
+
+    <div class="hero-b2b-layout">
+      <div class="hero-inner">
+        <p class="kicker reveal">LIBERA para hoteles</p>
+        <h1 class="hero-title reveal" data-split="words">Convertí cada cancelación<br>en ingreso.</h1>
+        <p class="hero-sub reveal">LIBERA transforma tu tarifa no reembolsable en la Tarifa Revendible LIBERA. Vos conservás la ocupación y el consumo real del hotel — tu huésped nunca vuelve a perderlo todo.</p>
+        <div class="hero-actions reveal">
+          <a href="#contacto" class="btn btn-primary btn-lg" data-magnetic>
+            <span>Agendar una demo</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+          </a>
+          <a href="#proceso" class="btn btn-outline-dark btn-lg" data-magnetic>Ver cómo funciona</a>
+        </div>
+
+        <div class="hero-b2b-stats reveal">
+          <div class="hero-b2b-stat"><strong>$0</strong><span>Costo de instalación</span></div>
+          <div class="hero-b2b-stat"><strong>48&nbsp;hs</strong><span>Tiempo estimado de alta</span></div>
+          <div class="hero-b2b-stat"><strong>12,5%</strong><span>Tope máximo del fee — nunca más</span></div>
+        </div>
+      </div>
+
+      <div class="hero-b2b-mockup reveal" aria-hidden="true">
+        <div class="engine-mockup">
+          <div class="engine-mockup-bar"><span></span><span></span><span></span><p>tuhotel.com/reservar</p></div>
+          <div class="engine-mockup-steps"><span class="is-done">1 Hotel</span><span class="is-done">2 Habitación</span><span class="is-active">3 Tarifa</span></div>
+          <div class="engine-mockup-body">
+            <div class="engine-mockup-photo"></div>
+            <div class="engine-mockup-info">
+              <p class="engine-mockup-room">Habitación Deluxe · 2 huéspedes</p>
+
+              <div class="engine-mockup-rates">
+                <div class="engine-mockup-rate">
+                  <div class="engine-mockup-rate-text">
+                    <p class="engine-mockup-rate-name">Tarifa Flexible</p>
+                    <p class="engine-mockup-rate-tag">Cancelación gratuita</p>
+                  </div>
+                  <p class="engine-mockup-rate-price">$230<small>/noche</small></p>
+                </div>
+                <div class="engine-mockup-rate is-libera">
+                  <div class="engine-mockup-rate-text">
+                    <p class="engine-mockup-rate-name">Tarifa Revendible LIBERA</p>
+                    <p class="engine-mockup-rate-badge">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-shield"></use></svg>
+                      Revendible si tus planes cambian
+                    </p>
+                  </div>
+                  <p class="engine-mockup-rate-price">$190<small>/noche</small></p>
+                </div>
+              </div>
+
+              <div class="engine-mockup-cta">Reservar ahora</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST MARQUEE -->
+  <section class="trust-strip" aria-label="Hoteles que confían en LIBERA">
+    <p class="trust-label">Hoteles que ya confían en LIBERA</p>
+    <div class="marquee" data-marquee>
+      <div class="marquee-track" data-marquee-track>
+        <span>Costa Azul Resorts</span><span>Aurora Bahía Hotels</span><span>Monte Verde Lodges</span>
+        <span>Palacio Collection</span><span>Selva Alta Eco Group</span><span>Riviera Blu Hospitality</span>
+        <span>Dune Sands Hotels</span><span>Nordic Fjord Cabins</span>
+      </div>
+      <div class="marquee-track" data-marquee-track aria-hidden="true">
+        <span>Costa Azul Resorts</span><span>Aurora Bahía Hotels</span><span>Monte Verde Lodges</span>
+        <span>Palacio Collection</span><span>Selva Alta Eco Group</span><span>Riviera Blu Hospitality</span>
+        <span>Dune Sands Hotels</span><span>Nordic Fjord Cabins</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESO -->
+  <section class="process-b2b" id="proceso">
+    <div class="section-head section-head-dark">
+      <p class="kicker reveal">Cómo funciona</p>
+      <h2 class="reveal" data-split="lines">Todo el proceso,<br>en cuatro pasos.</h2>
+      <p class="section-lede reveal">Desde que activás la Tarifa LIBERA hasta que el pago te llega — sin que tu equipo gestione nada manualmente.</p>
+    </div>
+
+    <div class="process-grid">
+      <article class="process-card reveal">
+        <span class="process-num">01</span>
+        <h3>Reemplazás tu tarifa no reembolsable</h3>
+        <p>En todo tu catálogo, pasa a ser la Tarifa Revendible LIBERA: la integrás a tu motor de reservas en el Modelo Integración, o firmás un convenio simple sin tocar tu stack en el Modelo Convenio.</p>
+      </article>
+      <article class="process-card reveal">
+        <span class="process-num">02</span>
+        <h3>Un imprevisto cambia los planes</h3>
+        <p>El huésped no puede viajar. En vez de perder su dinero, publica o transfiere su reserva en el marketplace de LIBERA.</p>
+      </article>
+      <article class="process-card reveal">
+        <span class="process-num">03</span>
+        <h3>LIBERA gestiona el traspaso</h3>
+        <p>Verificamos identidad, retenemos el pago en custodia y coordinamos el cambio de titularidad directo con vos.</p>
+      </article>
+      <article class="process-card reveal">
+        <span class="process-num">04</span>
+        <h3>Check-in real, ingreso real</h3>
+        <p>Un huésped nuevo llega a tu lobby con la reserva confirmada. Vos cobrás la estadía completa — recién ahí liberamos el pago al vendedor.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- BENEFICIOS (PEDESTAL) -->
+  <section class="hbenefits-b2b" id="beneficios">
+    <div class="section-head section-head-dark">
+      <p class="kicker reveal">Por qué te conviene</p>
+      <h2 class="reveal" data-split="lines">Todo lo que ganás<br>al pasarte a LIBERA.</h2>
+      <p class="section-lede reveal">De tarifa no reembolsable a Tarifa Revendible LIBERA: no es solo "menos cancelaciones". Es un cambio que te suma ingresos, reputación y clientes que vuelven.</p>
+    </div>
+
+    <div class="hbenefits-grid">
+      <article class="hbenefits-card reveal" data-tilt>
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-store"></use></svg>
+        <h3>Ancillary revenue real</h3>
+        <p>Cada traspaso trae un huésped de carne y hueso a tu lobby — con consumo real en restaurante, bar, spa y parking. No un número que se cancela.</p>
+      </article>
+      <article class="hbenefits-card reveal" data-tilt>
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-trend"></use></svg>
+        <h3>Ingreso extra compartido</h3>
+        <p>En el Modelo Integración, sumás una porción de cada operación de reventa que se genera sobre tu propio inventario — plata que hoy no existe.</p>
+      </article>
+      <article class="hbenefits-card reveal" data-tilt>
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-refresh"></use></svg>
+        <h3>Canalizás una demanda que ya existe</h3>
+        <p>Hoy tus huéspedes ya intentan revender o transferir su reserva por su cuenta, por redes o boca en boca. Con LIBERA, ese impulso queda dentro de tu ecosistema — no se te escapa.</p>
+      </article>
+      <article class="hbenefits-card reveal" data-tilt>
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-calm"></use></svg>
+        <h3>Cero reseñas negativas por cancelación</h3>
+        <p>El huésped que recupera su dinero no escribe una reseña de una estrella. La frustración que hoy termina en Google Reviews, con LIBERA se resuelve antes.</p>
+      </article>
+      <article class="hbenefits-card reveal" data-tilt>
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-badge"></use></svg>
+        <h3>Cliente fidelizado, no perdido</h3>
+        <p>Un huésped al que le resolviste un imprevisto vuelve a elegirte. Uno al que le retuviste el 100% del pago, no.</p>
+      </article>
+      <article class="hbenefits-card reveal" data-tilt>
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-shield"></use></svg>
+        <h3>Venta directa, a tu manera</h3>
+        <p>Ahorrás la comisión que hoy le pagás a canales de distribución externos, sin resignar relación con el huésped ni ceder tu tarifa.</p>
+      </article>
+      <article class="hbenefits-card reveal" data-tilt>
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-close"></use></svg>
+        <h3>Cero fricción en recepción</h3>
+        <p>Se acabaron los reclamos por políticas "que no se entendían". El huésped que llega a tu lobby, llega tranquilo — y tu equipo también.</p>
+      </article>
+      <article class="hbenefits-card reveal" data-tilt>
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-search"></use></svg>
+        <h3>Cero riesgo, cero costo</h3>
+        <p>Vos nunca asumís el reembolso — lo gestiona LIBERA. Y la instalación no te cuesta nada, en ninguno de los dos modelos.</p>
+      </article>
+      <article class="hbenefits-card reveal" data-tilt>
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-pin"></use></svg>
+        <h3>Tu marca, con sello de garantía</h3>
+        <p>LIBERA aparece dentro de tu propio motor de reservas como respaldo visible para el huésped — reforzando tu marca, no reemplazándola.</p>
+      </article>
+    </div>
+
+    <p class="hbenefits-intro reveal">Y estos dos, en detalle — porque son los que más impacto tienen en tu revenue.</p>
+
+    <!-- SPLIT BOOKING -->
+    <div class="hbenefits-featured reveal" id="split-booking">
+      <p class="hbenefits-featured-tag">Beneficio destacado · 01</p>
+      <h3 class="hbenefits-featured-title">Split Booking — vendé la estadía completa, o solo las noches que se ocupan</h3>
+      <p class="hbenefits-featured-lede">No todos los compradores necesitan las mismas noches que reservó el huésped original. Con Split Booking, las que nadie ofertó vuelven a tu disponibilidad en vez de perderse.</p>
+
+      <div class="split-visual">
+        <p class="split-visual-label">Reserva original: 5 noches</p>
+        <div class="night-strip">
+          <div class="night-block is-returned"><span>Noche 1</span></div>
+          <div class="night-block is-returned"><span>Noche 2</span></div>
+          <div class="night-block is-sold"><span>Noche 3</span></div>
+          <div class="night-block is-sold"><span>Noche 4</span></div>
+          <div class="night-block is-sold"><span>Noche 5</span></div>
+        </div>
+        <div class="split-visual-legend">
+          <span><i class="split-dot split-dot-sold"></i>Compradas por el nuevo huésped</span>
+          <span><i class="split-dot split-dot-returned"></i>Vuelven a tu disponibilidad, a costo cero</span>
+        </div>
+      </div>
+
+      <div class="split-points">
+        <div class="split-point">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-refresh"></use></svg>
+          <p>Las noches que nadie ofertó siguen siendo tuyas para vender de nuevo, a tarifa de mostrador.</p>
+        </div>
+        <div class="split-point">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-store"></use></svg>
+          <p>Más ofertas cruzadas significan más probabilidades de que la habitación no quede vacía ninguna noche.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIBERA BUYBACK -->
+    <div class="hbenefits-featured reveal" id="buyback">
+      <p class="hbenefits-featured-tag">Beneficio destacado · 02</p>
+      <h3 class="hbenefits-featured-title">LIBERA Buyback — recuperá una reserva antes de que se pierda</h3>
+      <p class="hbenefits-featured-lede">Cuando una reserva se publica con descuento, tu hotel puede recomprarla antes que cualquier otro comprador — y revender esas mismas noches a tarifa de mostrador. Así se ve un caso, con números de ejemplo.</p>
+
+      <div class="buyback-case">
+        <div class="buyback-step">
+          <p class="buyback-step-label">Reserva original</p>
+          <p class="buyback-step-value">$540</p>
+          <p class="buyback-step-detail">3 noches × $180</p>
+        </div>
+        <svg class="buyback-arrow" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+        <div class="buyback-step">
+          <p class="buyback-step-label">Se publica con descuento</p>
+          <p class="buyback-step-value">$380</p>
+          <p class="buyback-step-detail">El huésped no puede viajar</p>
+        </div>
+        <svg class="buyback-arrow" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+        <div class="buyback-step">
+          <p class="buyback-step-label">Tu hotel la recompra</p>
+          <p class="buyback-step-value">$380</p>
+          <p class="buyback-step-detail">Antes que otro comprador</p>
+        </div>
+        <svg class="buyback-arrow" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+        <div class="buyback-step buyback-step-final">
+          <p class="buyback-step-label">La revendés al mostrador</p>
+          <p class="buyback-step-value">$630</p>
+          <p class="buyback-step-detail">3 noches × $210, tarifa del día</p>
+        </div>
+      </div>
+
+      <p class="buyback-result">En vez de una reserva cancelada y una habitación vacía, tu hotel generó <strong>$630 de ingreso real</strong> sobre esas mismas noches — a tarifa de mostrador, no de descuento.</p>
+      <p class="buyback-footnote">*Ejemplo ilustrativo. Disponible en el Modelo Integración.</p>
+    </div>
+  </section>
+
+  <!-- DOS MODELOS -->
+  <section class="models-b2b" id="modelos">
+    <div class="section-head section-head-dark">
+      <p class="kicker reveal">Cómo te sumás</p>
+      <h2 class="reveal" data-split="lines">Dos formas de trabajar<br>con LIBERA. Elegís vos.</h2>
+      <p class="section-lede reveal">No todos los hoteles tienen el mismo stack tecnológico ni el mismo equipo de revenue management — por eso construimos dos caminos, no uno solo.</p>
+    </div>
+
+    <div class="models-grid">
+      <article class="model-card reveal">
+        <p class="model-card-tag">Integración profunda</p>
+        <h3>Modelo Integración</h3>
+        <p class="model-card-sub">Para hoteles y cadenas boutique que pueden conectar su motor de reservas con LIBERA.</p>
+        <ul class="model-card-list">
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>Reemplazamos tu tarifa no reembolsable por la Tarifa Revendible LIBERA en todo tu catálogo</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>Split Booking: vendé noches sueltas, no solo la estadía completa</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>LIBERA Buyback: recuperá inventario liberado y revendelo vos mismo</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>Ingreso pasivo compartido en cada operación de reventa</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>El sello LIBERA, visible en tu propio motor de reservas, como garantía frente al huésped</li>
+        </ul>
+        <a href="#contacto" class="btn btn-outline-dark model-card-cta" data-magnetic>Quiero integrar LIBERA</a>
+      </article>
+
+      <article class="model-card model-card-featured reveal">
+        <p class="model-card-tag">Convenio administrativo</p>
+        <h3>Modelo Convenio</h3>
+        <p class="model-card-sub">Para grandes cadenas que no integran software externo — sin tocar tu stack actual.</p>
+        <ul class="model-card-list">
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>LIBERA gestiona el cambio de titularidad directo con tu equipo</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>Cero integración técnica, cero cambios en tu PMS</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>Recepción sin fricción: el huésped llega, el nombre coincide</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>Las mismas garantías para tus huéspedes que en el Modelo Integración</li>
+        </ul>
+        <a href="#contacto" class="btn btn-primary model-card-cta" data-magnetic>Quiero un convenio simple</a>
+      </article>
+    </div>
+
+    <p class="models-footnote reveal">En los dos casos: costo de instalación $0 y activación en menos de 48 horas. Nosotros nos adaptamos a vos, no al revés.</p>
+  </section>
+
+  <!-- CONFIANZA -->
+  <section class="trust-b2b-strip" id="confianza">
+    <div class="section-head section-head-dark">
+      <p class="kicker reveal">Por qué es seguro para vos</p>
+      <h2 class="reveal" data-split="lines">Cada detalle, pensado<br>para que no te la juegues.</h2>
+    </div>
+
+    <div class="trust-strip-grid">
+      <div class="trust-strip-item reveal">
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-shield"></use></svg>
+        <p><strong>Pago en custodia</strong> hasta el check-in del huésped</p>
+      </div>
+      <div class="trust-strip-item reveal">
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-search"></use></svg>
+        <p><strong>Revisión manual</strong> con comprobante obligatorio en publicaciones no integradas</p>
+      </div>
+      <div class="trust-strip-item reveal">
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-calm"></use></svg>
+        <p><strong>Identidad verificada</strong> de quien compra y de quien vende</p>
+      </div>
+      <div class="trust-strip-item reveal">
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-trend"></use></svg>
+        <p><strong>Ahorrás</strong> la comisión que hoy le pagás a canales de distribución externos</p>
+      </div>
+      <div class="trust-strip-item reveal">
+        <svg viewBox="0 0 24 24" class="benefit-icon" aria-hidden="true"><use href="#icon-badge"></use></svg>
+        <p><strong>Tu marca</strong>, visible como garantía dentro de tu propio motor de reservas</p>
+      </div>
+    </div>
+
+    <p class="trust-strip-footnote reveal">La custodia del pago y la verificación de identidad están documentadas públicamente en nuestra <a href="cancelaciones.html" class="faq-inline-link">Garantía de Traspaso</a>.</p>
+  </section>
+
+  <!-- FAQ HOTELES -->
+  <section class="hotel-faq" id="preguntas-hoteles">
+    <div class="section-head section-head-dark">
+      <p class="kicker reveal">Antes de que preguntes</p>
+      <h2 class="reveal" data-split="lines">Lo que todo gerente<br>de hotel nos pregunta.</h2>
+    </div>
+
+    <div class="hotel-faq-list">
+      <details class="faq-item reveal">
+        <summary>¿Pierdo el control de mi inventario o de mis tarifas?<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-chevron"></use></svg></summary>
+        <p>No. Vos seguís definiendo tu tarifa, tu disponibilidad y tus políticas. LIBERA no cambia precios por su cuenta — solo gestiona la reventa de reservas que ya existen bajo tus condiciones.</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary>¿Esto reemplaza mi tarifa no reembolsable, o convive con ella?<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-chevron"></use></svg></summary>
+        <p>La reemplaza: en el Modelo Integración, tu tarifa no reembolsable pasa a ser la Tarifa Revendible LIBERA en todo tu catálogo — no es una tarifa más que se suma a las que ya tenías. Y no se vende más barata: mantiene tu precio y le suma al huésped la posibilidad de revenderla o transferirla si sus planes cambian.</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary>¿Qué pasa si un traspaso resulta fraudulento?<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-chevron"></use></svg></summary>
+        <p>El pago del comprador queda en custodia de LIBERA hasta el check-in, y toda publicación no integrada pasa por revisión manual con comprobante obligatorio. Si algo no es legítimo, el reembolso lo cubre LIBERA — no tu hotel.</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary>¿Cuánto cuesta implementarlo?<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-chevron"></use></svg></summary>
+        <p>Cero. La instalación no tiene costo para tu hotel, en ninguno de los dos modelos. Ganamos únicamente cuando se concreta una operación.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- CONTACT FORM -->
+  <section class="contact" id="contacto">
+    <div class="contact-inner">
+      <div class="contact-copy">
+        <p class="kicker reveal">Hoteles fundadores</p>
+        <h2 class="reveal" data-split="lines">Agendá una demo<br>con nuestro equipo.</h2>
+        <p class="section-lede reveal">Estamos seleccionando un grupo acotado de hoteles para esta primera etapa de LIBERA. Contanos sobre el tuyo y te mostramos, en 20 minutos, cuál de los dos modelos te conviene.</p>
+        <ul class="contact-points">
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>Sin costo de implementación</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>Integración con tu PMS actual, o convenio sin integración</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>Alta en menos de 48 horas</li>
+        </ul>
+      </div>
+
+      <form class="contact-form reveal" data-contact-form novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="cf-name">Nombre completo</label>
+            <input id="cf-name" name="name" type="text" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="cf-hotel">Hotel / Cadena</label>
+            <input id="cf-hotel" name="hotel" type="text" required autocomplete="organization">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="cf-email">Email corporativo</label>
+            <input id="cf-email" name="email" type="email" required autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="cf-phone">Teléfono</label>
+            <input id="cf-phone" name="phone" type="tel" autocomplete="tel">
+          </div>
+        </div>
+        <div class="field">
+          <label for="cf-rooms">Cantidad de habitaciones</label>
+          <select id="cf-rooms" name="rooms">
+            <option>1 – 30</option>
+            <option>31 – 80</option>
+            <option>81 – 150</option>
+            <option>Más de 150</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cf-message">Contanos sobre tu hotel</label>
+          <textarea id="cf-message" name="message" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block" data-magnetic>
+          <span>Solicitar demo</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+        </button>
+        <p class="contact-success" data-contact-success hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>
+          ¡Listo! Tu solicitud fue registrada — te vamos a contactar en menos de 24 horas.
+        </p>
+      </form>
+    </div>
+  </section>
+
+</div>
+<!-- =========================== FIN B2B VIEW =========================== -->
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#top" class="logo" data-scroll-top aria-label="LIBERA — inicio">
+        <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806d" alt="LIBERA" />
+      </a>
+      <p class="footer-tagline">Tu reserva, siempre flexible.</p>
+    </div>
+
+    <nav class="footer-col" aria-label="Producto">
+      <h4>Producto</h4>
+      <a href="catalogo.html">Marketplace</a>
+      <a href="vender.html">Vender mi reserva</a>
+      <a href="#proceso">LIBERA para hoteles</a>
+      <a href="#buyback">LIBERA Buyback</a>
+    </nav>
+    <nav class="footer-col" aria-label="Empresa">
+      <h4>Empresa</h4>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="preguntas.html">Preguntas frecuentes</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <nav class="footer-col" aria-label="Legal">
+      <h4>Legal</h4>
+      <a href="terminos.html">Términos y condiciones</a>
+      <a href="privacidad.html">Privacidad</a>
+      <a href="cancelaciones.html">Garantía de Traspaso</a>
+    </nav>
+
+    <div class="footer-col footer-col-contact">
+      <h4>Contacto</h4>
+      <a href="mailto:hola@libera.travel">hola@libera.travel</a>
+      <a href="tel:+541100000000">+54 11 0000-0000</a>
+    </div>
+  </div>
+
+  <div class="footer-secure">
+    <div class="footer-secure-badge">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-lock"></use></svg>
+      <span>Pago 100% seguro</span>
+    </div>
+    <div class="footer-payment-chips">
+      <span class="payment-chip">Visa</span>
+      <span class="payment-chip">Mastercard</span>
+      <span class="payment-chip">American Express</span>
+      <span class="payment-chip">Transferencia bancaria</span>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 LIBERA®. Todos los derechos reservados.</p>
+    <div class="footer-social">
+      <a href="#" class="social-icon" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-instagram"></use></svg></a>
+      <a href="#" class="social-icon" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-facebook"></use></svg></a>
+      <a href="#" class="social-icon" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-x"></use></svg></a>
+    </div>
+    <p>Buenos Aires · Madrid · Ciudad de México</p>
+  </div>
+</footer>
+
+<div class="toast" data-toast hidden></div>
+
+<!-- AUTH MODAL -->
+<dialog class="auth-modal" data-auth-modal aria-labelledby="auth-title">
+  <button type="button" class="drawer-close auth-modal-close" data-auth-close aria-label="Cerrar">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-close"></use></svg>
+  </button>
+
+  <div class="auth-modal-head">
+    <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806d" alt="LIBERA" />
+    <h2 id="auth-title" class="sr-only">Iniciar sesión o registrarse</h2>
+  </div>
+
+  <div class="auth-tabs" role="tablist">
+    <button type="button" class="auth-tab is-active" data-auth-tab="login" role="tab" aria-selected="true">Iniciar sesión</button>
+    <button type="button" class="auth-tab" data-auth-tab="register" role="tab" aria-selected="false">Registrarse</button>
+  </div>
+
+  <form class="auth-form" data-auth-form="login" novalidate>
+    <div class="field">
+      <label for="auth-login-email">Email</label>
+      <input id="auth-login-email" type="email" name="email" required autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="auth-login-pass">Contraseña</label>
+      <input id="auth-login-pass" type="password" name="password" required autocomplete="current-password">
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block"><span>Iniciar sesión</span></button>
+  </form>
+
+  <form class="auth-form" data-auth-form="register" novalidate hidden>
+    <div class="form-row">
+      <div class="field">
+        <label for="auth-reg-first">Nombre</label>
+        <input id="auth-reg-first" type="text" name="firstName" required autocomplete="given-name">
+      </div>
+      <div class="field">
+        <label for="auth-reg-last">Apellido</label>
+        <input id="auth-reg-last" type="text" name="lastName" required autocomplete="family-name">
+      </div>
+    </div>
+    <div class="field">
+      <label for="auth-reg-doc">DNI o pasaporte</label>
+      <input id="auth-reg-doc" type="text" name="documentNumber" required autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="auth-reg-email">Email</label>
+      <input id="auth-reg-email" type="email" name="email" required autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="auth-reg-pass">Contraseña</label>
+      <input id="auth-reg-pass" type="password" name="password" required autocomplete="new-password" minlength="8">
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block"><span>Crear cuenta</span></button>
+  </form>
+
+  <p class="auth-success" data-auth-success hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>
+    <span data-auth-success-text>¡Listo!</span>
+  </p>
+
+  <p class="auth-error" data-auth-error role="alert" hidden></p>
+</dialog>
+
+<script defer src="lib/gsap.min.js"></script>
+<script defer src="lib/ScrollTrigger.min.js"></script>
+<script defer src="api.js?v=20260806d"></script>
+<script defer src="app.js?v=20260806d"></script>
+</body>
+</html>

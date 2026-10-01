@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vender mi reserva — LIBERA</title>
+<meta name="description" content="Publicá tu reserva en el marketplace de LIBERA en minutos: elegí tu descuento, verificamos tu reserva y tu identidad, y listo.">
+<link rel="icon" type="image/png" href="assets/brand/libera-bird-only.png?v=20260806d">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+
+<link rel="stylesheet" href="style.css?v=20260806d">
+</head>
+<body data-view="b2c" data-page="vender">
+
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<!-- SVG SYMBOL LIBRARY -->
+<svg class="sr-only" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 6" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 8.7 8 11 4.6-2.3 8-6 8-11V5l-8-3Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12l2.4 2.4L16 9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-pin" viewBox="0 0 24 24"><path d="M12 22s7-7.4 7-12.5A7 7 0 0 0 5 9.5C5 14.6 12 22 12 22Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="icon-upload" viewBox="0 0 24 24"><path d="M12 15V4M12 4 8 8M12 4l4 4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4.5 20c1.4-4 4.2-6 7.5-6s6.1 2 7.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="icon-instagram" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="15.6" cy="8.4" r=".9" fill="currentColor"/></symbol>
+    <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M14.5 8.5h-1.2c-1 0-1.5.5-1.5 1.5V11H14l-.3 2h-2v6.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="icon-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="9.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="15" r="1.3" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<!-- HEADER -->
+<header class="nav" data-nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo" aria-label="LIBERA — inicio">
+      <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806d" alt="LIBERA" />
+    </a>
+
+    <nav class="nav-links" aria-label="Navegación viajeros">
+      <a href="catalogo.html">Ofertas</a>
+      <a href="index.html#como-funciona">Cómo funciona</a>
+      <a href="index.html#que-es-libera">Qué es LIBERA</a>
+      <a href="preguntas.html">Preguntas</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a href="index.html?view=b2b" class="btn btn-ghost-nav">
+        <span>Para Hoteles</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+      </a>
+      <div class="nav-auth">
+        <button type="button" class="btn btn-ghost-nav" data-auth-open="login">Iniciar sesión</button>
+        <button type="button" class="btn btn-primary nav-cta" data-auth-open="register">Registrarse</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="seller-wizard">
+    <div class="section-head">
+      <p class="kicker reveal">Vender mi reserva</p>
+      <h1 class="reveal" data-split="lines">Publicá tu reserva<br>en minutos.</h1>
+      <p class="section-lede reveal">Un proceso guiado, simple y seguro — pensado para que cualquiera pueda hacerlo sin vueltas.</p>
+    </div>
+
+    <div class="wizard-security-strip reveal">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-shield"></use></svg>
+      <p>Tu cobro queda protegido: LIBERA retiene el pago del comprador y te lo transferimos recién después de su check-in. Y una regla que no tiene excepción: <strong>nunca coordines un pago fuera de LIBERA</strong>, sea cual sea el motivo.</p>
+    </div>
+
+    <div class="wizard-shell reveal">
+
+      <div class="wizard-steps" data-wizard-steps>
+        <div class="wizard-step" data-wizard-step-indicator="1"><span class="wizard-step-num">1</span><span class="wizard-step-label">Hotel</span></div>
+        <div class="wizard-step-line"></div>
+        <div class="wizard-step" data-wizard-step-indicator="2"><span class="wizard-step-num">2</span><span class="wizard-step-label">Tu reserva</span></div>
+        <div class="wizard-step-line"></div>
+        <div class="wizard-step" data-wizard-step-indicator="3"><span class="wizard-step-num">3</span><span class="wizard-step-label">Verificación</span></div>
+        <div class="wizard-step-line"></div>
+        <div class="wizard-step" data-wizard-step-indicator="4"><span class="wizard-step-num">4</span><span class="wizard-step-label">Comprobante</span></div>
+        <div class="wizard-step-line"></div>
+        <div class="wizard-step" data-wizard-step-indicator="5"><span class="wizard-step-num">5</span><span class="wizard-step-label">Precio</span></div>
+        <div class="wizard-step-line"></div>
+        <div class="wizard-step" data-wizard-step-indicator="6"><span class="wizard-step-num">6</span><span class="wizard-step-label">Identidad</span></div>
+        <div class="wizard-step-line"></div>
+        <div class="wizard-step" data-wizard-step-indicator="7"><span class="wizard-step-num">7</span><span class="wizard-step-label">Revisión</span></div>
+      </div>
+
+      <div class="wizard-grid">
+      <div class="wizard-main">
+      <div class="wizard-body" data-wizard-body>
+
+        <!-- PASO 1 -->
+        <div class="wizard-panel" data-wizard-panel="1">
+          <p class="wizard-kicker">Paso 1 de 7</p>
+          <h2>¿En qué hotel es tu reserva?</h2>
+          <p class="wizard-lede">Buscalo por nombre o ciudad. Si es un hotel asociado a LIBERA, vamos a poder confirmar tu reserva directo con ellos.</p>
+
+          <div class="hotel-search">
+            <input type="text" class="hotel-search-input" placeholder="Ej: Costa Azul, o Mendoza…" data-hotel-search-input autocomplete="off">
+            <div class="hotel-search-results" data-hotel-search-results hidden></div>
+          </div>
+
+          <button type="button" class="hotel-search-fallback" data-hotel-manual-toggle>¿No encontrás tu hotel?</button>
+
+          <div class="hotel-manual-form" data-hotel-manual-form hidden>
+            <p>Por ahora solo se pueden publicar reservas de hoteles que ya están en el directorio de LIBERA. Escribinos con el nombre y la ciudad del hotel y lo sumamos.</p>
+          </div>
+
+          <div class="hotel-confirm-card" data-hotel-confirm hidden></div>
+        </div>
+
+        <!-- PASO 2 -->
+        <div class="wizard-panel" data-wizard-panel="2" hidden>
+          <p class="wizard-kicker">Paso 2 de 7</p>
+          <h2>Contanos los detalles de tu reserva</h2>
+          <p class="wizard-lede">Con esto armamos tu publicación en el marketplace.</p>
+
+          <div class="field">
+            <label>Check-in — Check-out</label>
+            <button type="button" class="split-date-field" data-wizard-date-trigger>
+              <span data-wizard-date-label>Elegí tus fechas</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+            </button>
+            <div class="wizard-calendar-panel" data-wizard-calendar-panel hidden>
+              <div class="wizard-calendar-nav">
+                <button type="button" class="wizard-cal-nav-btn" data-wizard-cal-prev aria-label="Meses anteriores">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+                </button>
+                <span class="wizard-cal-nav-hint">Elegí cualquier fecha futura</span>
+                <button type="button" class="wizard-cal-nav-btn wizard-cal-nav-next" data-wizard-cal-next aria-label="Meses siguientes">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+                </button>
+              </div>
+              <div class="wizard-calendar-months" data-wizard-calendar-months></div>
+              <div class="split-calendar-foot">
+                <span class="split-cal-range-label" data-wizard-cal-range-label>—</span>
+                <div class="split-calendar-actions">
+                  <button type="button" class="split-cal-cancel" data-wizard-cal-cancel>Cancelar</button>
+                  <button type="button" class="split-cal-apply" data-wizard-cal-apply>Aplicar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label>Huéspedes</label>
+              <div class="ota-stepper" data-wizard-guests-stepper>
+                <button type="button" data-wizard-guests-minus aria-label="Menos huéspedes">−</button>
+                <span data-wizard-guests-value>2</span>
+                <button type="button" data-wizard-guests-plus aria-label="Más huéspedes">+</button>
+              </div>
+            </div>
+            <div class="field">
+              <label for="wizard-room-type">Tipo de habitación</label>
+              <select id="wizard-room-type" data-wizard-room-type>
+                <option value="Individual">Individual</option>
+                <option value="Doble Estándar" selected>Doble Estándar</option>
+                <option value="Doble Superior">Doble Superior</option>
+                <option value="Triple">Triple</option>
+                <option value="Suite">Suite</option>
+                <option value="Familiar">Familiar</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="wizard-provider">¿Dónde reservaste originalmente?</label>
+              <select id="wizard-provider" data-wizard-provider>
+                <option value="Directo con el hotel">Directo con el hotel</option>
+                <option value="Booking.com">Booking.com</option>
+                <option value="Expedia">Expedia</option>
+                <option value="Despegar.com">Despegar.com</option>
+                <option value="Agencia de viajes">Agencia de viajes</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="wizard-booking-ref">Código de confirmación de tu reserva</label>
+              <input type="text" id="wizard-booking-ref" data-wizard-booking-ref placeholder="Ej: LB48291">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="wizard-reason">¿Por qué la revendés? (opcional)</label>
+            <select id="wizard-reason" data-wizard-reason>
+              <option value="">Preferí no decirlo</option>
+              <option value="Cambio de planes">Cambio de planes</option>
+              <option value="Problema de salud">Problema de salud</option>
+              <option value="Cambio de fechas de viaje">Cambio de fechas de viaje</option>
+              <option value="Motivos laborales">Motivos laborales</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- PASO 3 -->
+        <div class="wizard-panel" data-wizard-panel="3" hidden>
+          <p class="wizard-kicker">Paso 3 de 7</p>
+          <h2>Confirmemos tu reserva</h2>
+          <p class="wizard-lede">Así protegemos cada operación en LIBERA, tanto para quien compre como para el hotel.</p>
+
+          <div class="verify-status" data-verify-status="pending">
+            <span class="verify-spinner" aria-hidden="true"></span>
+            <svg class="verify-check" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>
+            <p data-verify-text>Verificando tu reserva con el hotel…</p>
+          </div>
+          <p class="wizard-demo-note">Versión demo — esta verificación no se procesa contra un sistema real todavía.</p>
+        </div>
+
+        <!-- PASO 4 -->
+        <div class="wizard-panel" data-wizard-panel="4" hidden>
+          <p class="wizard-kicker">Paso 4 de 7</p>
+          <h2>Subí tu comprobante de reserva</h2>
+          <p class="wizard-lede">Nos ayuda a confirmar que la reserva es tuya, y protege tanto a quien la compre como al hotel de publicaciones falsas. Tiene que verse con claridad el <strong>número de confirmación</strong>, el <strong>hotel</strong>, las <strong>fechas</strong> y el <strong>precio pagado</strong>.</p>
+
+          <label class="upload-dropzone" data-upload-dropzone for="voucher-upload">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-upload"></use></svg>
+            <span data-upload-label>Arrastrá tu voucher acá o hacé click para subirlo</span>
+            <span class="upload-hint">PDF, JPG o PNG</span>
+            <input type="file" id="voucher-upload" accept="image/*,.pdf" data-upload-input hidden>
+          </label>
+          <p class="upload-confirmed" data-upload-confirmed hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>
+            <span data-upload-filename>—</span><span>&nbsp;cargado correctamente</span>
+          </p>
+          <p class="wizard-demo-note">Versión demo — el archivo no se sube a ningún servidor todavía.</p>
+        </div>
+
+        <!-- PASO 5 -->
+        <div class="wizard-panel" data-wizard-panel="5" hidden>
+          <p class="wizard-kicker">Paso 5 de 7</p>
+          <h2>Elegí tu descuento y precio de venta</h2>
+          <p class="wizard-lede">Vos decidís el descuento. Nunca podés vender por más de lo que pagaste.</p>
+
+          <div class="field">
+            <label for="wizard-original-price">¿Cuánto pagaste originalmente? (USD)</label>
+            <input type="number" id="wizard-original-price" min="1" step="1" data-wizard-original-price placeholder="Ej: 950">
+          </div>
+
+          <div class="dashboard-panel wizard-price-panel">
+            <div class="dashboard-controls">
+              <div class="field">
+                <div class="field-label-row">
+                  <label for="wizard-discount-range">Tu descuento de reventa</label>
+                  <span class="field-value" data-wizard-discount-readout>30%</span>
+                </div>
+                <input type="range" id="wizard-discount-range" min="10" max="80" step="1" value="30" data-wizard-discount-range>
+                <div class="range-scale"><span>10%</span><span>80%</span></div>
+              </div>
+            </div>
+            <div class="dashboard-results">
+              <div class="result-row"><span>Precio original de tu reserva</span><strong data-wizard-out="original">$0</strong></div>
+              <div class="result-row"><span>Precio de venta con tu descuento</span><strong data-wizard-out="sale">$0</strong></div>
+              <div class="result-row result-row-fee"><span>Fee LIBERA (7,5%)</span><strong data-wizard-out="fee">−$0</strong></div>
+              <div class="result-row result-row-net"><span>Dinero neto a recibir</span><strong class="net-value" data-wizard-out="net">$0</strong></div>
+            </div>
+          </div>
+
+          <p class="wizard-custody-note">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-shield"></use></svg>
+            Por tu seguridad y la del comprador, LIBERA retiene este pago y te lo transfiere recién después de su check-in — nunca antes.
+          </p>
+
+          <div class="wizard-options">
+            <h3>Opciones de tu publicación</h3>
+            <label class="toggle-row">
+              <div class="toggle-row-text"><strong>Recibir ofertas de precio</strong><span>Los compradores van a poder proponerte un precio distinto al publicado.</span></div>
+              <span class="toggle-switch"><input type="checkbox" data-wizard-allow-offers checked><span class="toggle-track"></span></span>
+            </label>
+            <label class="toggle-row" data-wizard-split-row>
+              <div class="toggle-row-text"><strong>Permitir Split Booking</strong><span>El comprador va a poder quedarse solo con algunas noches de tu estadía, pagando solo esas.</span></div>
+              <span class="toggle-switch"><input type="checkbox" data-wizard-allow-split checked><span class="toggle-track"></span></span>
+            </label>
+            <p class="wizard-split-warning" data-wizard-split-warning>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-shield"></use></svg>
+              Importante: el código de tu reserva es único y no se puede dividir en dos. Si aceptás una oferta de Split Booking, se transfiere el código completo al comprador — incluidas las noches que no eligió. Esas noches sobrantes no las vas a poder usar ni volver a vender.
+            </p>
+            <p class="wizard-split-unavailable" data-wizard-split-unavailable hidden>Split Booking no está disponible todavía para este hotel — recién lo podemos ofrecer en hoteles asociados a LIBERA, porque necesitamos coordinar directo con ellos para dividir la estadía.</p>
+          </div>
+        </div>
+
+        <!-- PASO 6 -->
+        <div class="wizard-panel" data-wizard-panel="6" hidden>
+          <p class="wizard-kicker">Paso 6 de 7</p>
+          <h2>Verificá tu identidad</h2>
+          <p class="wizard-lede">Así protegemos a quien compre tu reserva, y le damos garantías al hotel de quién está detrás de cada publicación.</p>
+
+          <div class="wizard-identity-form">
+            <div class="field">
+              <label for="wizard-name">Nombre completo</label>
+              <input type="text" id="wizard-name" data-wizard-name autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="wizard-email">Email</label>
+              <input type="email" id="wizard-email" data-wizard-email autocomplete="email">
+            </div>
+            <div class="field">
+              <label for="wizard-phone">Teléfono</label>
+              <input type="tel" id="wizard-phone" data-wizard-phone autocomplete="tel">
+            </div>
+            <label class="wizard-consent">
+              <input type="checkbox" data-wizard-consent>
+              <span>Confirmo que soy el titular de esta reserva y que toda la información que cargué es real. Entiendo que publicar una reserva falsa puede derivar en la baja de mi cuenta y responsabilidad legal. Acepto los <a href="terminos.html">Términos y Condiciones</a> y la <a href="cancelaciones.html">Política de Cancelación y Reembolsos</a> de LIBERA.</span>
+            </label>
+          </div>
+          <p class="wizard-demo-note">Tu nombre y email salen de tu cuenta de LIBERA.</p>
+        </div>
+
+        <!-- PASO 7 -->
+        <div class="wizard-panel" data-wizard-panel="7" hidden>
+          <p class="wizard-kicker">Paso 7 de 7</p>
+          <h2>Última revisión</h2>
+          <p class="wizard-lede">Repasá el resumen de tu publicación acá al lado, y confirmá que todo esté bien antes de publicarla.</p>
+
+          <div class="security-recap">
+            <h3><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-shield"></use></svg>Así protegemos esta operación</h3>
+            <ul>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg><span data-wizard-recap-verify>Reserva verificada</span></li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg><span>Comprobante de reserva validado</span></li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg><span>Identidad del vendedor confirmada</span></li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg><span>El pago queda protegido hasta después de tu check-in</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ÉXITO -->
+        <div class="wizard-panel wizard-success" data-wizard-panel="success" hidden>
+          <div class="wizard-success-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg></div>
+          <h2>¡Tu reserva ya está publicada!</h2>
+          <p class="wizard-lede">Ya aparece en el marketplace de LIBERA. Te avisamos apenas alguien la compre.</p>
+          <ul class="wizard-success-facts">
+            <li>Podés cancelar la publicación en cualquier momento antes de que se venda.</li>
+            <li>El dinero llega a tu cuenta unos días hábiles después de confirmada la operación.</li>
+            <li>Vas a recibir una notificación por email en cada paso — y el hotel también.</li>
+          </ul>
+          <div class="wizard-success-actions">
+            <a href="catalogo.html" class="btn btn-primary btn-lg" data-wizard-view-listing>Ver cómo se ve tu publicación</a>
+            <a href="index.html" class="btn btn-outline btn-lg">Volver al inicio</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="wizard-nav" data-wizard-nav>
+        <button type="button" class="btn btn-outline" data-wizard-back hidden>Atrás</button>
+        <button type="button" class="btn btn-primary" data-wizard-next disabled>
+          <span>Continuar</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+        </button>
+      </div>
+      </div>
+
+      <aside class="wizard-summary" data-wizard-summary>
+        <h3>Tu publicación</h3>
+        <div data-wizard-summary-body>
+          <p class="wizard-summary-empty" data-wizard-summary-empty>Elegí un hotel para empezar a armar tu publicación.</p>
+        </div>
+      </aside>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" aria-label="LIBERA — inicio">
+        <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806d" alt="LIBERA" />
+      </a>
+      <p class="footer-tagline">Tu reserva, siempre flexible.</p>
+    </div>
+
+    <nav class="footer-col" aria-label="Producto">
+      <h4>Producto</h4>
+      <a href="catalogo.html">Marketplace</a>
+      <a href="vender.html">Vender mi reserva</a>
+      <a href="index.html?view=b2b#proceso">LIBERA para hoteles</a>
+      <a href="index.html?view=b2b#buyback">LIBERA Buyback</a>
+    </nav>
+    <nav class="footer-col" aria-label="Empresa">
+      <h4>Empresa</h4>
+      <a href="index.html#como-funciona">Cómo funciona</a>
+      <a href="preguntas.html">Preguntas frecuentes</a>
+      <a href="index.html?view=b2b#contacto">Contacto</a>
+    </nav>
+    <nav class="footer-col" aria-label="Legal">
+      <h4>Legal</h4>
+      <a href="terminos.html">Términos y condiciones</a>
+      <a href="privacidad.html">Privacidad</a>
+      <a href="cancelaciones.html">Garantía de Traspaso</a>
+    </nav>
+
+    <div class="footer-col footer-col-contact">
+      <h4>Contacto</h4>
+      <a href="mailto:hola@libera.travel">hola@libera.travel</a>
+      <a href="tel:+541100000000">+54 11 0000-0000</a>
+    </div>
+  </div>
+
+  <div class="footer-secure">
+    <div class="footer-secure-badge">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-lock"></use></svg>
+      <span>Pago 100% seguro</span>
+    </div>
+    <div class="footer-payment-chips">
+      <span class="payment-chip">Visa</span>
+      <span class="payment-chip">Mastercard</span>
+      <span class="payment-chip">American Express</span>
+      <span class="payment-chip">Transferencia bancaria</span>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 LIBERA®. Todos los derechos reservados.</p>
+    <div class="footer-social">
+      <a href="#" class="social-icon" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-instagram"></use></svg></a>
+      <a href="#" class="social-icon" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-facebook"></use></svg></a>
+      <a href="#" class="social-icon" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-x"></use></svg></a>
+    </div>
+    <p>Buenos Aires · Madrid · Ciudad de México</p>
+  </div>
+</footer>
+
+<div class="toast" data-toast hidden></div>
+
+<!-- AUTH MODAL -->
+<dialog class="auth-modal" data-auth-modal aria-labelledby="auth-title">
+  <button type="button" class="drawer-close auth-modal-close" data-auth-close aria-label="Cerrar">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-close"></use></svg>
+  </button>
+
+  <div class="auth-modal-head">
+    <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806d" alt="LIBERA" />
+    <h2 id="auth-title" class="sr-only">Iniciar sesión o registrarse</h2>
+  </div>
+
+  <div class="auth-tabs" role="tablist">
+    <button type="button" class="auth-tab is-active" data-auth-tab="login" role="tab" aria-selected="true">Iniciar sesión</button>
+    <button type="button" class="auth-tab" data-auth-tab="register" role="tab" aria-selected="false">Registrarse</button>
+  </div>
+
+  <form class="auth-form" data-auth-form="login" novalidate>
+    <div class="field">
+      <label for="auth-login-email">Email</label>
+      <input id="auth-login-email" type="email" name="email" required autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="auth-login-pass">Contraseña</label>
+      <input id="auth-login-pass" type="password" name="password" required autocomplete="current-password">
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block"><span>Iniciar sesión</span></button>
+  </form>
+
+  <form class="auth-form" data-auth-form="register" novalidate hidden>
+    <div class="form-row">
+      <div class="field">
+        <label for="auth-reg-first">Nombre</label>
+        <input id="auth-reg-first" type="text" name="firstName" required autocomplete="given-name">
+      </div>
+      <div class="field">
+        <label for="auth-reg-last">Apellido</label>
+        <input id="auth-reg-last" type="text" name="lastName" required autocomplete="family-name">
+      </div>
+    </div>
+    <div class="field">
+      <label for="auth-reg-doc">DNI o pasaporte</label>
+      <input id="auth-reg-doc" type="text" name="documentNumber" required autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="auth-reg-email">Email</label>
+      <input id="auth-reg-email" type="email" name="email" required autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="auth-reg-pass">Contraseña</label>
+      <input id="auth-reg-pass" type="password" name="password" required autocomplete="new-password" minlength="8">
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block"><span>Crear cuenta</span></button>
+  </form>
+
+  <p class="auth-success" data-auth-success hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>
+    <span data-auth-success-text>¡Listo!</span>
+  </p>
+
+  <p class="auth-error" data-auth-error role="alert" hidden></p>
+</dialog>
+
+<script defer src="lib/gsap.min.js"></script>
+<script defer src="lib/ScrollTrigger.min.js"></script>
+<script defer src="offers-data.js?v=20260806d"></script>
+<script defer src="api.js?v=20260806d"></script>
+<script defer src="app.js?v=20260806d"></script>
+</body>
+</html>

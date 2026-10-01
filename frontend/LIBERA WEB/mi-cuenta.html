@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mi cuenta — LIBERA</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Tus compras, publicaciones y ventas en LIBERA.">
+<link rel="icon" type="image/png" href="assets/brand/libera-bird-only.png?v=20260806d">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+
+<link rel="stylesheet" href="style.css?v=20260806d">
+</head>
+<body data-view="b2c" data-page="cancelaciones">
+
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<!-- SVG SYMBOL LIBRARY -->
+<svg class="sr-only" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 6" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 8.7 8 11 4.6-2.3 8-6 8-11V5l-8-3Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12l2.4 2.4L16 9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-instagram" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="15.6" cy="8.4" r=".9" fill="currentColor"/></symbol>
+    <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M14.5 8.5h-1.2c-1 0-1.5.5-1.5 1.5V11H14l-.3 2h-2v6.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="icon-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="9.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="15" r="1.3" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<!-- HEADER -->
+<header class="nav" data-nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo" aria-label="LIBERA — inicio">
+      <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806d" alt="LIBERA" />
+    </a>
+
+    <nav class="nav-links" aria-label="Navegación viajeros">
+      <a href="catalogo.html">Ofertas</a>
+      <a href="index.html#como-funciona">Cómo funciona</a>
+      <a href="index.html#que-es-libera">Qué es LIBERA</a>
+      <a href="preguntas.html">Preguntas</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a href="index.html?view=b2b" class="btn btn-ghost-nav">
+        <span>Para Hoteles</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+      </a>
+      <div class="nav-auth">
+        <button type="button" class="btn btn-ghost-nav" data-auth-open="login">Iniciar sesión</button>
+        <button type="button" class="btn btn-primary nav-cta" data-auth-open="register">Registrarse</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="faq-hero">
+    <div class="section-head">
+      <p class="kicker reveal">Mi cuenta</p>
+      <h1 class="reveal">Tus compras y publicaciones.</h1>
+      <p class="section-lede reveal" data-account-greeting>Seguí el estado de cada operación: el pago queda retenido hasta que el hotel confirma el check-in.</p>
+    </div>
+  </section>
+
+  <section class="faq-body account-body" data-account>
+    <div class="account-guest" data-account-guest hidden>
+      <p>Iniciá sesión para ver tus compras, tus publicaciones y tus ventas.</p>
+      <button type="button" class="btn btn-primary" data-auth-open="login">Iniciar sesión</button>
+    </div>
+
+    <div class="account-panels" data-account-panels hidden>
+      <div class="auth-tabs account-tabs" role="tablist">
+        <button type="button" class="auth-tab is-active" role="tab" aria-selected="true" data-account-tab="purchases">Mis compras</button>
+        <button type="button" class="auth-tab" role="tab" aria-selected="false" data-account-tab="listings">Mis publicaciones</button>
+        <button type="button" class="auth-tab" role="tab" aria-selected="false" data-account-tab="sales">Mis ventas</button>
+      </div>
+      <div class="account-list" data-account-panel="purchases"></div>
+      <div class="account-list" data-account-panel="listings" hidden></div>
+      <div class="account-list" data-account-panel="sales" hidden></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" aria-label="LIBERA — inicio">
+        <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806d" alt="LIBERA" />
+      </a>
+      <p class="footer-tagline">Tu reserva, siempre flexible.</p>
+    </div>
+
+    <nav class="footer-col" aria-label="Producto">
+      <h4>Producto</h4>
+      <a href="catalogo.html">Marketplace</a>
+      <a href="vender.html">Vender mi reserva</a>
+      <a href="index.html?view=b2b#proceso">LIBERA para hoteles</a>
+      <a href="index.html?view=b2b#buyback">LIBERA Buyback</a>
+    </nav>
+    <nav class="footer-col" aria-label="Empresa">
+      <h4>Empresa</h4>
+      <a href="index.html#como-funciona">Cómo funciona</a>
+      <a href="preguntas.html">Preguntas frecuentes</a>
+      <a href="index.html?view=b2b#contacto">Contacto</a>
+    </nav>
+    <nav class="footer-col" aria-label="Legal">
+      <h4>Legal</h4>
+      <a href="terminos.html">Términos y condiciones</a>
+      <a href="privacidad.html">Privacidad</a>
+      <a href="cancelaciones.html">Garantía de Traspaso</a>
+    </nav>
+
+    <div class="footer-col footer-col-contact">
+      <h4>Contacto</h4>
+      <a href="mailto:hola@libera.travel">hola@libera.travel</a>
+      <a href="tel:+541100000000">+54 11 0000-0000</a>
+    </div>
+  </div>
+
+  <div class="footer-secure">
+    <div class="footer-secure-badge">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-lock"></use></svg>
+      <span>Pago 100% seguro</span>
+    </div>
+    <div class="footer-payment-chips">
+      <span class="payment-chip">Visa</span>
+      <span class="payment-chip">Mastercard</span>
+      <span class="payment-chip">American Express</span>
+      <span class="payment-chip">Transferencia bancaria</span>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 LIBERA®. Todos los derechos reservados.</p>
+    <div class="footer-social">
+      <a href="#" class="social-icon" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-instagram"></use></svg></a>
+      <a href="#" class="social-icon" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-facebook"></use></svg></a>
+      <a href="#" class="social-icon" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-x"></use></svg></a>
+    </div>
+    <p>Buenos Aires · Madrid · Ciudad de México</p>
+  </div>
+</footer>
+
+<div class="toast" data-toast hidden></div>
+
+<!-- AUTH MODAL -->
+<dialog class="auth-modal" data-auth-modal aria-labelledby="auth-title">
+  <button type="button" class="drawer-close auth-modal-close" data-auth-close aria-label="Cerrar">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-close"></use></svg>
+  </button>
+
+  <div class="auth-modal-head">
+    <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806d" alt="LIBERA" />
+    <h2 id="auth-title" class="sr-only">Iniciar sesión o registrarse</h2>
+  </div>
+
+  <div class="auth-tabs" role="tablist">
+    <button type="button" class="auth-tab is-active" data-auth-tab="login" role="tab" aria-selected="true">Iniciar sesión</button>
+    <button type="button" class="auth-tab" data-auth-tab="register" role="tab" aria-selected="false">Registrarse</button>
+  </div>
+
+  <form class="auth-form" data-auth-form="login" novalidate>
+    <div class="field">
+      <label for="auth-login-email">Email</label>
+      <input id="auth-login-email" type="email" name="email" required autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="auth-login-pass">Contraseña</label>
+      <input id="auth-login-pass" type="password" name="password" required autocomplete="current-password">
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block"><span>Iniciar sesión</span></button>
+  </form>
+
+  <form class="auth-form" data-auth-form="register" novalidate hidden>
+    <div class="form-row">
+      <div class="field">
+        <label for="auth-reg-first">Nombre</label>
+        <input id="auth-reg-first" type="text" name="firstName" required autocomplete="given-name">
+      </div>
+      <div class="field">
+        <label for="auth-reg-last">Apellido</label>
+        <input id="auth-reg-last" type="text" name="lastName" required autocomplete="family-name">
+      </div>
+    </div>
+    <div class="field">
+      <label for="auth-reg-doc">DNI o pasaporte</label>
+      <input id="auth-reg-doc" type="text" name="documentNumber" required autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="auth-reg-email">Email</label>
+      <input id="auth-reg-email" type="email" name="email" required autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="auth-reg-pass">Contraseña</label>
+      <input id="auth-reg-pass" type="password" name="password" required autocomplete="new-password" minlength="8">
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block"><span>Crear cuenta</span></button>
+  </form>
+
+  <p class="auth-success" data-auth-success hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>
+    <span data-auth-success-text>¡Listo!</span>
+  </p>
+
+  <p class="auth-error" data-auth-error role="alert" hidden></p>
+</dialog>
+
+<script defer src="lib/gsap.min.js"></script>
+<script defer src="lib/ScrollTrigger.min.js"></script>
+<script defer src="api.js?v=20260806d"></script>
+<script defer src="app.js?v=20260806d"></script>
+</body>
+</html>

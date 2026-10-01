@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cancelación, Reembolsos y Garantía de Traspaso — LIBERA</title>
+<meta name="description" content="Cómo funciona la Garantía de Traspaso LIBERA, cuándo se libera el pago, cómo cancelar una publicación o una compra, y cómo pedir un reembolso.">
+<link rel="icon" type="image/png" href="assets/brand/libera-bird-only.png?v=20260806d">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+
+<link rel="stylesheet" href="style.css?v=20260806d">
+</head>
+<body data-view="b2c" data-page="cancelaciones">
+
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<!-- SVG SYMBOL LIBRARY -->
+<svg class="sr-only" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 6" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 8.7 8 11 4.6-2.3 8-6 8-11V5l-8-3Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12l2.4 2.4L16 9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-instagram" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="15.6" cy="8.4" r=".9" fill="currentColor"/></symbol>
+    <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M14.5 8.5h-1.2c-1 0-1.5.5-1.5 1.5V11H14l-.3 2h-2v6.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="icon-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="9.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="15" r="1.3" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<!-- HEADER -->
+<header class="nav" data-nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo" aria-label="LIBERA — inicio">
+      <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806d" alt="LIBERA" />
+    </a>
+
+    <nav class="nav-links" aria-label="Navegación viajeros">
+      <a href="catalogo.html">Ofertas</a>
+      <a href="index.html#como-funciona">Cómo funciona</a>
+      <a href="index.html#que-es-libera">Qué es LIBERA</a>
+      <a href="preguntas.html">Preguntas</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a href="index.html?view=b2b" class="btn btn-ghost-nav">
+        <span>Para Hoteles</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+      </a>
+      <div class="nav-auth">
+        <button type="button" class="btn btn-ghost-nav" data-auth-open="login">Iniciar sesión</button>
+        <button type="button" class="btn btn-primary nav-cta" data-auth-open="register">Registrarse</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="faq-hero">
+    <div class="section-head">
+      <p class="kicker reveal">Legal</p>
+      <h1 class="reveal" data-split="lines">Cancelación, Reembolsos<br>y Garantía de Traspaso.</h1>
+      <p class="section-lede reveal">Cuándo se libera el pago, cómo cancelar, y qué pasa si algo sale mal. Para cualquier reclamo, escribinos a <a href="mailto:hola@libera.travel" class="faq-inline-link">hola@libera.travel</a>.</p>
+      <p class="legal-updated reveal">Última actualización: agosto de 2026</p>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <section class="faq-body">
+    <div class="faq-layout">
+
+      <nav class="faq-toc reveal" aria-label="Secciones">
+        <a href="#garantia">Garantía de Traspaso</a>
+        <a href="#custodia">Cuándo se libera el pago</a>
+        <a href="#cancelar-venta">Cancelar una publicación</a>
+        <a href="#cancelar-compra">Cancelar una compra</a>
+        <a href="#reembolsos">Reembolsos por fraude</a>
+        <a href="#plazos">Plazos</a>
+        <a href="#reclamos">Reclamos</a>
+      </nav>
+
+      <div class="faq-groups">
+
+        <div class="faq-group reveal" id="garantia">
+          <h2>1. Qué cubre la Garantía de Traspaso</h2>
+          <div class="legal-content">
+            <p>Cada compra en LIBERA incluye la Garantía de Traspaso: pagás un fee dinámico (7,5% a 12,5%, según el descuento que publicó el vendedor) y a cambio LIBERA gestiona todo el traspaso de la reserva y te protege si algo no es como se publicó.</p>
+            <p>Concretamente, la Garantía de Traspaso significa que:</p>
+            <ul>
+              <li>Si la reserva resulta inválida, falsa o el hotel no la reconoce por un error nuestro o del vendedor, <strong>te devolvemos el 100% de lo pagado</strong>.</li>
+              <li>Tu pago no llega al vendedor hasta después de tu check-in (ver siguiente sección) — nunca quedás pagando algo que todavía no se confirmó.</li>
+              <li>Gestionamos toda la comunicación del traspaso con el hotel de tu parte.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="faq-group reveal" id="custodia">
+          <h2>2. Cuándo se libera el pago</h2>
+          <div class="legal-content">
+            <p>Este es el mecanismo que sostiene todo lo demás: <strong>LIBERA retiene el pago del comprador y no lo transfiere al vendedor hasta después de confirmado el check-in.</strong></p>
+            <p>Así, si algo sale mal antes de tu llegada al hotel — la reserva no existía, el hotel no la reconoce, o hay cualquier otro problema — el dinero todavía está en custodia y se puede devolver sin inconvenientes. El vendedor cobra recién cuando la operación se completó de verdad.</p>
+          </div>
+        </div>
+
+        <div class="faq-group reveal" id="cancelar-venta">
+          <h2>3. Cancelar una publicación (si vendés)</h2>
+          <div class="legal-content">
+            <p>Podés dar de baja tu publicación en cualquier momento, sin costo, mientras nadie la haya comprado. Una vez vendida, la operación queda firme — es tu compromiso con quien compró.</p>
+            <p>Si publicaste tu reserva con Split Booking habilitado y aceptás una oferta por menos noches de las que tenías, tené en cuenta que el código de reserva es único y el hotel no lo puede dividir en dos. Al aceptar, se transfiere el código completo al comprador — incluidas las noches que no eligió pagar — y esas noches sobrantes dejan de estar disponibles para vos: no las podés usar ni volver a publicar.</p>
+          </div>
+        </div>
+
+        <div class="faq-group reveal" id="cancelar-compra">
+          <h2>4. Cancelar una compra (si comprás)</h2>
+          <div class="legal-content">
+            <p>Una vez confirmada la compra, la reserva pasa a tu nombre y la operación queda firme — LIBERA gestiona la reventa y el traspaso, no una reserva directa con el hotel, así que no es una compra que se pueda "devolver" salvo en los casos de la Garantía de Traspaso (sección 1) o de fraude (sección 5). Cambios de fecha o condiciones de la estadía dependen de la política del hotel, no de LIBERA.</p>
+          </div>
+        </div>
+
+        <div class="faq-group reveal" id="reembolsos">
+          <h2>5. Reembolsos por reserva inválida o fraude</h2>
+          <div class="legal-content">
+            <p>Si se comprueba que una reserva era falsa, ya estaba cancelada, o el hotel no la reconoce por un problema de la publicación, tenés reembolso garantizado del 100%: primero con los fondos que todavía están en custodia (sección 2), y si no alcanzan, con un fondo de garantía de LIBERA para estos casos. Vos, como comprador de buena fe, nunca te quedás pagando algo que no recibiste.</p>
+          </div>
+        </div>
+
+        <div class="faq-group reveal" id="plazos">
+          <h2>6. Plazos</h2>
+          <div class="legal-content">
+            <ul>
+              <li><strong>Liberación del pago al vendedor:</strong> unos días hábiles después de confirmado tu check-in.</li>
+              <li><strong>Reembolsos:</strong> se procesan en unos días hábiles desde que se confirma el problema, usando el mismo medio de pago con el que compraste.</li>
+              <li><strong>Respuesta a un reclamo:</strong> nuestro objetivo es responder dentro de las 48 horas.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="faq-group reveal" id="reclamos">
+          <h2>7. Cómo hacer un reclamo</h2>
+          <div class="legal-content">
+            <p>Escribinos a <a href="mailto:hola@libera.travel">hola@libera.travel</a> con tu número de operación y una descripción del problema. Si es sobre una reserva en curso o un check-in, contanos apenas puedas — cuanto antes lo sepamos, más rápido lo resolvemos.</p>
+          </div>
+          <p class="legal-note">Este documento describe las políticas de LIBERA de buena fe. Antes de su publicación definitiva en producción, corresponde una revisión por un estudio jurídico.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" aria-label="LIBERA — inicio">
+        <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806d" alt="LIBERA" />
+      </a>
+      <p class="footer-tagline">Tu reserva, siempre flexible.</p>
+    </div>
+
+    <nav class="footer-col" aria-label="Producto">
+      <h4>Producto</h4>
+      <a href="catalogo.html">Marketplace</a>
+      <a href="vender.html">Vender mi reserva</a>
+      <a href="index.html?view=b2b#proceso">LIBERA para hoteles</a>
+      <a href="index.html?view=b2b#buyback">LIBERA Buyback</a>
+    </nav>
+    <nav class="footer-col" aria-label="Empresa">
+      <h4>Empresa</h4>
+      <a href="index.html#como-funciona">Cómo funciona</a>
+      <a href="preguntas.html">Preguntas frecuentes</a>
+      <a href="index.html?view=b2b#contacto">Contacto</a>
+    </nav>
+    <nav class="footer-col" aria-label="Legal">
+      <h4>Legal</h4>
+      <a href="terminos.html">Términos y condiciones</a>
+      <a href="privacidad.html">Privacidad</a>
+      <a href="cancelaciones.html">Garantía de Traspaso</a>
+    </nav>
+
+    <div class="footer-col footer-col-contact">
+      <h4>Contacto</h4>
+      <a href="mailto:hola@libera.travel">hola@libera.travel</a>
+      <a href="tel:+541100000000">+54 11 0000-0000</a>
+    </div>
+  </div>
+
+  <div class="footer-secure">
+    <div class="footer-secure-badge">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-lock"></use></svg>
+      <span>Pago 100% seguro</span>
+    </div>
+    <div class="footer-payment-chips">
+      <span class="payment-chip">Visa</span>
+      <span class="payment-chip">Mastercard</span>
+      <span class="payment-chip">American Express</span>
+      <span class="payment-chip">Transferencia bancaria</span>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 LIBERA®. Todos los derechos reservados.</p>
+    <div class="footer-social">
+      <a href="#" class="social-icon" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-instagram"></use></svg></a>
+      <a href="#" class="social-icon" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-facebook"></use></svg></a>
+      <a href="#" class="social-icon" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-x"></use></svg></a>
+    </div>
+    <p>Buenos Aires · Madrid · Ciudad de México</p>
+  </div>
+</footer>
+
+<div class="toast" data-toast hidden></div>
+
+<!-- AUTH MODAL -->
+<dialog class="auth-modal" data-auth-modal aria-labelledby="auth-title">
+  <button type="button" class="drawer-close auth-modal-close" data-auth-close aria-label="Cerrar">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-close"></use></svg>
+  </button>
+
+  <div class="auth-modal-head">
+    <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806d" alt="LIBERA" />
+    <h2 id="auth-title" class="sr-only">Iniciar sesión o registrarse</h2>
+  </div>
+
+  <div class="auth-tabs" role="tablist">
+    <button type="button" class="auth-tab is-active" data-auth-tab="login" role="tab" aria-selected="true">Iniciar sesión</button>
+    <button type="button" class="auth-tab" data-auth-tab="register" role="tab" aria-selected="false">Registrarse</button>
+  </div>
+
+  <form class="auth-form" data-auth-form="login" novalidate>
+    <div class="field">
+      <label for="auth-login-email">Email</label>
+      <input id="auth-login-email" type="email" name="email" required autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="auth-login-pass">Contraseña</label>
+      <input id="auth-login-pass" type="password" name="password" required autocomplete="current-password">
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block"><span>Iniciar sesión</span></button>
+  </form>
+
+  <form class="auth-form" data-auth-form="register" novalidate hidden>
+    <div class="form-row">
+      <div class="field">
+        <label for="auth-reg-first">Nombre</label>
+        <input id="auth-reg-first" type="text" name="firstName" required autocomplete="given-name">
+      </div>
+      <div class="field">
+        <label for="auth-reg-last">Apellido</label>
+        <input id="auth-reg-last" type="text" name="lastName" required autocomplete="family-name">
+      </div>
+    </div>
+    <div class="field">
+      <label for="auth-reg-doc">DNI o pasaporte</label>
+      <input id="auth-reg-doc" type="text" name="documentNumber" required autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="auth-reg-email">Email</label>
+      <input id="auth-reg-email" type="email" name="email" required autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="auth-reg-pass">Contraseña</label>
+      <input id="auth-reg-pass" type="password" name="password" required autocomplete="new-password" minlength="8">
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block"><span>Crear cuenta</span></button>
+  </form>
+
+  <p class="auth-success" data-auth-success hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>
+    <span data-auth-success-text>¡Listo!</span>
+  </p>
+
+  <p class="auth-error" data-auth-error role="alert" hidden></p>
+</dialog>
+
+<script defer src="lib/gsap.min.js"></script>
+<script defer src="lib/ScrollTrigger.min.js"></script>
+<script defer src="api.js?v=20260806d"></script>
+<script defer src="app.js?v=20260806d"></script>
+</body>
+</html>
