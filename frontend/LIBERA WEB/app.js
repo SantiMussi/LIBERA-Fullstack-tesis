@@ -150,6 +150,58 @@
   }
 
   /* ---------------------------------------------------------------
+     SCROLL SUAVIZADO (Lenis, lib/lenis.min.js)
+     La rueda del mouse deja de avanzar "a saltos": Lenis interpola el
+     scroll y lo sincroniza con el reloj de GSAP, así el parallax se
+     mueve en el mismo cuadro que la página. En pantallas táctiles queda
+     el scroll nativo, y no se activa si el sistema pide reducir movimiento.
+     Se carga desde acá para no repetir la etiqueta <script> en cada página.
+  --------------------------------------------------------------- */
+  var lenis = null;
+
+  function navOffset() {
+    var nav = $("[data-nav]");
+    return -((nav ? nav.offsetHeight : 0) + 16);
+  }
+
+  // Scroll programático: pasa por Lenis si está activo, si no usa el nativo
+  function scrollToTarget(target) {
+    if (lenis) { lenis.scrollTo(target, { offset: typeof target === "number" ? 0 : navOffset() }); return; }
+    if (typeof target === "number") window.scrollTo({ top: target, behavior: "smooth" });
+    else target.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // Bloquea el scroll de la página (drawer abierto)
+  function setPageScrollLocked(locked) {
+    document.documentElement.style.overflow = locked ? "hidden" : "";
+    if (lenis) { if (locked) lenis.stop(); else lenis.start(); }
+  }
+
+  function initSmoothScroll() {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var script = document.createElement("script");
+    script.src = "lib/lenis.min.js?v=1.3.26";
+    script.onload = function () {
+      if (!window.Lenis) return;
+      var withGsap = !!(window.gsap && window.ScrollTrigger);
+      lenis = new window.Lenis({
+        lerp: 0.1,               // cuánto "flota": más bajo = más suave y lento
+        smoothWheel: true,
+        syncTouch: false,        // táctil: scroll nativo del celular
+        allowNestedScroll: true, // drawer, modal y listas con scroll propio siguen andando
+        anchors: { offset: navOffset() },
+        autoRaf: !withGsap
+      });
+      if (withGsap) {
+        lenis.on("scroll", window.ScrollTrigger.update);
+        window.gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+        window.gsap.ticker.lagSmoothing(0);
+      }
+    };
+    document.head.appendChild(script);
+  }
+
+  /* ---------------------------------------------------------------
      SPLASH
   --------------------------------------------------------------- */
   function initSplash() {
@@ -201,11 +253,44 @@
     window.addEventListener("scroll", onScroll, { passive: true });
   }
 
+  /* ---------------------------------------------------------------
+     MENÚ MÓVIL — en pantallas chicas (≤1024px, ver style.css) los links
+     y botones de la nav pasan a un panel que abre el botón hamburguesa.
+     El botón se inserta acá para no repetir el markup en cada página.
+  --------------------------------------------------------------- */
+  function initMobileNav() {
+    var nav = $("[data-nav]");
+    var inner = nav && $(".nav-inner", nav);
+    if (!inner) return;
+
+    var toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "nav-toggle";
+    toggle.setAttribute("aria-label", "Abrir menú");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.innerHTML = "<span></span><span></span><span></span>";
+    var logo = $(".logo", inner);
+    inner.insertBefore(toggle, logo ? logo.nextSibling : inner.firstChild);
+
+    function setOpen(open) {
+      nav.classList.toggle("is-menu-open", open);
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      toggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+    }
+    toggle.addEventListener("click", function () { setOpen(!nav.classList.contains("is-menu-open")); });
+    // Elegir un link o un botón del panel lo cierra
+    inner.addEventListener("click", function (e) {
+      if (e.target.closest(".nav-links a, .nav-actions a, .nav-actions button")) setOpen(false);
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") setOpen(false); });
+    window.addEventListener("resize", function () { if (window.innerWidth > 1024) setOpen(false); });
+  }
+
   function initScrollTopLinks() {
     $$("[data-scroll-top]").forEach(function (link) {
       link.addEventListener("click", function (e) {
         e.preventDefault();
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        scrollToTarget(0);
       });
     });
   }
@@ -275,7 +360,7 @@
       };
       var onScroll = function () { if (window.scrollY <= 2) finish(); };
       window.addEventListener("scroll", onScroll, { passive: true });
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      scrollToTarget(0);
       setTimeout(finish, 900);
     });
   }
@@ -499,13 +584,13 @@
         drawer.classList.add("is-open");
         backdrop.classList.add("is-open");
       });
-      document.documentElement.style.overflow = "hidden";
+      setPageScrollLocked(true);
     }
 
     function close() {
       drawer.classList.remove("is-open");
       backdrop.classList.remove("is-open");
-      document.documentElement.style.overflow = "";
+      setPageScrollLocked(false);
       setTimeout(function () { drawer.hidden = true; backdrop.hidden = true; }, 560);
     }
 
@@ -995,6 +1080,23 @@
     var section = $("#marketplace");
     var list = $("[data-catalog-list]");
     if (!section || !list) return;
+
+    // En pantallas chicas los filtros arrancan plegados (style.css) y este botón los abre
+    var filtersBox = $(".catalog-filters");
+    var filtersHead = filtersBox && $(".catalog-filters-head", filtersBox);
+    if (filtersHead) {
+      var filtersToggle = document.createElement("button");
+      filtersToggle.type = "button";
+      filtersToggle.className = "catalog-filters-toggle";
+      filtersToggle.setAttribute("aria-expanded", "false");
+      filtersToggle.textContent = "Mostrar filtros";
+      filtersHead.appendChild(filtersToggle);
+      filtersToggle.addEventListener("click", function () {
+        var open = filtersBox.classList.toggle("is-open");
+        filtersToggle.setAttribute("aria-expanded", open ? "true" : "false");
+        filtersToggle.textContent = open ? "Ocultar filtros" : "Mostrar filtros";
+      });
+    }
     var cards = [];
     var countEl = $("[data-catalog-count]");
     var emptyEl = $("[data-catalog-empty]");
@@ -1072,7 +1174,7 @@
     function revealCatalog(scroll) {
       if (section.hidden) section.hidden = false;
       if (scroll !== false) {
-        nextFrame(function () { section.scrollIntoView({ behavior: "smooth", block: "start" }); });
+        nextFrame(function () { scrollToTarget(section); });
       }
     }
 
@@ -2283,7 +2385,9 @@
       }
       $$("[data-parallax-el]", hero).forEach(function (el) {
         var depth = parseFloat(el.dataset.depth || "0.1");
-        gsap.to(el, { y: depth * 260, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: 0.6 } });
+        // fromTo desde 0: con gsap.to tomaba como base el translateY(36px) inicial de .reveal
+        // y el texto quedaba corrido 36px para siempre (la etiqueta pisaba al título)
+        gsap.fromTo(el, { y: 0 }, { y: depth * 260, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: 0.6 } });
       });
     });
   }
@@ -2294,7 +2398,9 @@
   function boot() {
     safe(initSplash, "initSplash");
     safe(initCatalogLoading, "initCatalogLoading");
+    safe(initSmoothScroll, "initSmoothScroll");
     safe(initNavScroll, "initNavScroll");
+    safe(initMobileNav, "initMobileNav");
     safe(initScrollTopLinks, "initScrollTopLinks");
     safe(initViewToggle, "initViewToggle");
     safe(initSplitText, "initSplitText");

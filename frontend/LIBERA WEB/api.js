@@ -13,7 +13,10 @@
 (function (global) {
   "use strict";
 
-  var servedByBackend = /^https?:$/.test(global.location.protocol) && global.location.port !== "8765";
+  // Solo la página que sirve el propio backend (puerto 8080, o sin puerto en producción) usa rutas
+  // relativas; cualquier otro servidor de desarrollo (Go Live :5500, serve.ps1 :8765) va a localhost:8080
+  var port = global.location.port;
+  var servedByBackend = /^https?:$/.test(global.location.protocol) && (port === "8080" || port === "");
   var BASE = (global.LIBERA_API_BASE || (servedByBackend ? "/api/v1" : "http://localhost:8080/api/v1")).replace(/\/$/, "");
   var TOKEN_KEY = "libera.token";
   var USER_KEY = "libera.user";

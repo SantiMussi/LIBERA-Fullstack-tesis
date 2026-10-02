@@ -81,7 +81,6 @@ body {
   overflow-x: clip;
   overscroll-behavior-y: none;
   transition: background .6s var(--ease-soft), color .6s var(--ease-soft);
-  min-width: 1180px;
 }
 img, svg, video { display: block; max-width: 100%; }
 img { height: auto; }
@@ -1512,3 +1511,182 @@ input[type="range"]::-moz-range-track { height: 6px; border-radius: 100px; backg
   .account-item-side { align-items: flex-start; text-align: left; }
   .account-item-actions { justify-content: flex-start; }
 }
+
+/* ===============================================================
+   RESPONSIVE — tablet (hasta 1024px) y celular (hasta 640px)
+   El diseño de escritorio no cambia: todo lo de acá está dentro
+   de media queries.
+   =============================================================== */
+
+/* Botón hamburguesa (initMobileNav) y "Mostrar filtros" (initCatalog): solo en pantallas chicas */
+.nav-toggle, .catalog-filters-toggle { display: none; }
+
+@media (max-width: 1200px) {
+  .nav-inner { gap: 1.4rem; }
+  .nav-links { gap: 1.4rem; }
+}
+
+@media (max-width: 1024px) {
+  :root { --nav-h: 72px; }
+
+  /* ---------- Nav: logo + hamburguesa, el resto en un panel desplegable ---------- */
+  .nav { height: auto; min-height: var(--nav-h); }
+  .nav-inner { flex-wrap: wrap; gap: 0; height: auto; min-height: var(--nav-h); }
+  .nav-toggle {
+    display: inline-flex; flex-direction: column; justify-content: center; gap: 5px;
+    width: 44px; height: 44px; margin-left: auto; padding: 0 11px; position: relative; z-index: 1;
+    border-radius: 50%; border: 1px solid var(--line-strong);
+  }
+  .nav-toggle span { display: block; height: 2px; border-radius: 2px; background: var(--ink); transition: transform .3s var(--ease-out), opacity .2s; }
+  .nav.is-menu-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav.is-menu-open .nav-toggle span:nth-child(2) { opacity: 0; }
+  .nav.is-menu-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links, .nav-actions { display: none; }
+  .nav.is-menu-open .nav-links,
+  .nav.is-menu-open .nav-actions {
+    display: flex; flex-direction: column; align-items: stretch; width: 100%; gap: .2rem;
+  }
+  .nav.is-menu-open .nav-links { padding: .8rem 0; border-top: 1px solid var(--line); margin-top: .2rem; }
+  .nav.is-menu-open .nav-links a { padding: .75rem 0; font-size: 1rem; }
+  .nav.is-menu-open .nav-links a::after { display: none; }
+  .nav.is-menu-open .nav-actions { gap: .7rem; padding: .4rem 0 1.2rem; }
+  .nav.is-menu-open .nav-auth, .nav.is-menu-open .nav-session { flex-direction: column; align-items: stretch; gap: .6rem; }
+  .nav.is-menu-open .nav-actions .btn,
+  .nav.is-menu-open .nav-actions .btn-ghost-nav { justify-content: center; width: 100%; padding-block: .8rem; }
+  .nav-inner > .logo { height: var(--nav-h); }
+  .nav.is-menu-open::before { background: var(--surface); box-shadow: 0 20px 40px -20px rgba(6,20,30,0.35); }
+
+  /* ---------- Hero viajeros: los dos accesos pasan abajo del título ---------- */
+  .hero-b2c { flex-direction: column; align-items: stretch; justify-content: flex-end; min-height: 0; padding-top: calc(var(--nav-h) + 3rem); }
+  .hero-b2c .hero-inner { max-width: none; padding: 0 5vw 2.4rem; }
+  .hero-side-col { position: relative; width: 100%; flex-direction: row; z-index: 3; }
+  .hero-side-card { padding: 1.6rem 1.4rem 4.6rem; border-left: 0; border-top: 1px solid rgba(255,255,255,0.16); }
+  .hero-side-card + .hero-side-card { border-left: 1px solid rgba(255,255,255,0.16); }
+  .hero-title { font-size: clamp(2.2rem, 6vw, 3.4rem); }
+
+  /* ---------- Grillas ---------- */
+  .destacadas-grid, .process-grid, .trust-strip-grid, .trust-strip-grid.trust-strip-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .about-grid, .testimonial-grid, .hbenefits-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .destacadas-carousel .destacada-card { flex-basis: calc(50% - .7rem); }
+  .manifesto-inner, .contact-inner, .hero-b2b-layout { grid-template-columns: minmax(0, 1fr); gap: 3rem; }
+  .manifesto-visual { aspect-ratio: 16/9; }
+  .hero-b2b { padding-top: calc(var(--nav-h) + 3rem); padding-bottom: 4rem; min-height: 0; }
+  .footer-inner { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.4rem; }
+  .footer-inner > :first-child { grid-column: 1 / -1; }
+
+  /* ---------- Catálogo: filtros arriba del listado ---------- */
+  .catalog-layout { grid-template-columns: minmax(0, 1fr); gap: 1.6rem; }
+  .catalog-filters { position: static; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 1.6rem; }
+  .catalog-filters-head { grid-column: 1 / -1; gap: 1rem; margin-bottom: 0; }
+  .catalog-filters-head h3 { margin-right: auto; }
+  .catalog-filters .filter-group { border-bottom: 0; }
+  .catalog-filters { padding: 1.1rem 1.4rem; }
+  .catalog-filters:not(.is-open) .filter-group { display: none; }
+  .catalog-filters-toggle {
+    display: inline-flex; font-size: .82rem; font-weight: 600; color: var(--ink);
+    padding: .45rem .9rem; border-radius: 100px; border: 1px solid var(--line-strong);
+  }
+
+  /* ---------- Detalle de oferta: barra lateral debajo ---------- */
+  .detail-layout { grid-template-columns: minmax(0, 1fr); }
+  .detail-sidebar { position: static; }
+  .stay-details-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  /* ---------- Wizard de venta: resumen debajo ---------- */
+  .wizard-grid { grid-template-columns: minmax(0, 1fr); }
+
+  /* ---------- Preguntas / páginas legales: índice arriba, horizontal ---------- */
+  .faq-layout { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+  .faq-toc { position: static; flex-direction: row; flex-wrap: wrap; gap: .4rem; }
+  .faq-toc a { border-left: 0; border: 1px solid var(--line); border-radius: 100px; padding: .45rem .9rem; font-size: .82rem; }
+
+  .section-head h2, .section-head h1 { font-size: clamp(1.9rem, 4.6vw, 2.8rem); }
+
+  /* Buscador OTA: los campos pueden achicarse para que entre el botón */
+  .ota-search { padding-left: .8rem; }
+  .ota-field { min-width: 0; padding-inline: .9rem; }
+  .ota-field-value { max-width: 100%; }
+
+  .hbenefits-featured { padding: 2rem 1.6rem; }
+}
+
+@media (max-width: 640px) {
+  /* ---------- Espaciados generales ---------- */
+  .section-head { padding-bottom: 2.2rem; }
+  .manifesto, .marketplace, .dashboard, .about-libera, .destacadas, .contact, .models-b2b, .split-preview-b2c, .trust-b2c-strip { padding-top: 4rem; padding-bottom: 4.5rem; }
+  .faq-preview-b2c { padding-bottom: 4.5rem; }
+  .btn-lg { padding: .95rem 1.5rem; }
+
+  /* ---------- Hero ---------- */
+  .hero-side-col { flex-direction: column; }
+  .hero-side-card { padding: 1.3rem 1.3rem; }
+  .hero-side-card + .hero-side-card { border-left: 0; }
+  .hero-side-card:last-child { padding-bottom: 4.4rem; }
+  .hero-side-card .quick-access-icon { display: none; }
+  .hero-side-card p { margin-bottom: .7rem; }
+  .hero-sub { font-size: 1.02rem; }
+  .hero-scroll-cue { display: none; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-b2b-stats { flex-wrap: wrap; gap: 1.4rem 2rem; }
+  .engine-mockup-body { flex-direction: column; }
+
+  /* ---------- Buscador OTA: campos apilados ---------- */
+  .ota-search { flex-direction: column; border-radius: var(--radius-l); padding: .6rem; gap: .2rem; }
+  .ota-field { border-radius: var(--radius-s); padding: .7rem .9rem; }
+  .ota-field-value { max-width: none; }
+  .ota-divider { display: none; }
+  .ota-search-btn { width: 100%; margin-top: .3rem; }
+  .ota-panel, .ota-panel-wide { width: 100%; left: 0; right: 0; }
+  .ota-months { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  /* ---------- Grillas a una columna ---------- */
+  .destacadas-grid, .process-grid, .trust-strip-grid, .trust-strip-grid.trust-strip-grid-4,
+  .about-grid, .testimonial-grid, .hbenefits-grid, .models-grid, .quick-access-grid,
+  .manifesto-tracks, .split-points, .form-row, .detail-amenities { grid-template-columns: minmax(0, 1fr); }
+  .destacadas-carousel .destacada-card { flex-basis: 82%; min-width: 0; }
+  .carousel-arrow { display: none; }
+  .dashboard-panel { grid-template-columns: minmax(0, 1fr); }
+  .dashboard-controls, .dashboard-results { padding: 2rem 1.5rem; border-radius: var(--radius-l); border-right: 1px solid var(--line); }
+  .night-strip { flex-wrap: wrap; }
+  .buyback-case { flex-direction: column; gap: .8rem; }
+  .buyback-step { width: 100%; padding: 1.4rem 1.2rem; }
+  .buyback-arrow { transform: rotate(90deg); }
+
+  /* ---------- Catálogo ---------- */
+  .catalog-filters { grid-template-columns: minmax(0, 1fr); }
+  .catalog-results-head { flex-direction: column; align-items: flex-start; }
+  .offer-card { flex-direction: column; }
+  .offer-media { flex-basis: auto; aspect-ratio: 16/10; }
+
+  /* ---------- Detalle de oferta ---------- */
+  .detail-gallery { grid-template-columns: minmax(0, 1fr); height: auto; }
+  .detail-gallery-main { aspect-ratio: 4/3; }
+  .detail-gallery-grid { display: none; }
+  .stay-details-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .checkout-drawer { width: 100%; }
+
+  /* ---------- Wizard ---------- */
+  .wizard-step-label { display: none; }
+  .wizard-step-line { margin-inline: .2rem; }
+  .wizard-calendar-panel { width: 100%; }
+  .wizard-calendar-months { grid-template-columns: minmax(0, 1fr); }
+  .wizard-success-actions { flex-direction: column; }
+
+  /* ---------- Footer ---------- */
+  .footer-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+
+  /* ---------- Modales ---------- */
+  .auth-modal { width: calc(100vw - 2rem); }
+}
+
+/* ===============================================================
+   SCROLL SUAVIZADO (Lenis) — estilos que pide la librería
+   =============================================================== */
+html.lenis, html.lenis body { height: auto; }
+/* Lenis mueve el scroll cuadro a cuadro: el scroll-behavior: smooth del html
+   haría que el navegador anime cada uno de esos pasos y se trabaría */
+html.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
