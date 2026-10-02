@@ -9,12 +9,14 @@ import com.libera.backend.domain.enums.ListingStatus;
 import com.libera.backend.domain.enums.PartnershipModel;
 import com.libera.backend.dto.request.ListingCreateRequestDTO;
 import com.libera.backend.dto.request.ListingSearchCriteria;
+import com.libera.backend.dto.response.AdminListingResponseDTO;
 import com.libera.backend.dto.response.DateRangeDTO;
 import com.libera.backend.dto.response.ListingResponseDTO;
 import com.libera.backend.exception.BusinessConflictException;
 import com.libera.backend.exception.InvalidSplitBookingException;
 import com.libera.backend.exception.ResourceNotFoundException;
 import com.libera.backend.mapper.ListingMapper;
+import com.libera.backend.repository.BookingVoucherRepository;
 import com.libera.backend.repository.ListingRepository;
 import com.libera.backend.repository.OriginalBookingRepository;
 import com.libera.backend.repository.ResalePurchaseRepository;
@@ -51,6 +53,7 @@ public class ListingServiceImpl implements ListingService {
     private final UserRepository userRepository;
     private final ResalePurchaseRepository resalePurchaseRepository;
     private final ListingMapper listingMapper;
+    private final BookingVoucherRepository bookingVoucherRepository;
 
     @Override
     @Transactional
@@ -98,7 +101,8 @@ public class ListingServiceImpl implements ListingService {
                 .listedTotalPrice(request.getListedTotalPrice())
                 .discountPercentage(discountPercentage)
                 .allowsSplitBooking(request.getAllowsSplitBooking())
-                .status(ListingStatus.ACTIVE)
+                // Toda publicación nueva la revisa un administrador antes de que aparezca en el catálogo
+                .status(ListingStatus.PENDING_REVIEW)
                 .build();
 
         Listing savedListing = listingRepository.save(listing);
@@ -145,9 +149,14 @@ public class ListingServiceImpl implements ListingService {
 
     @Override
     @Transactional(readOnly = true)
-    public ListingResponseDTO getListing(Long listingId) {
+    public ListingResponseDTO getListing(Long listingId, Long viewerId, boolean viewerIsAdmin) {
         Listing listing = listingRepository.findById(listingId)
                 .orElseThrow(() -> new ResourceNotFoundException("Listing not found"));
+        boolean underReview = listing.getStatus() == ListingStatus.PENDING_REVIEW || listing.getStatus() == ListingStatus.REJECTED;
+        if (underReview && !viewerIsAdmin && !listing.getSeller().getId().equals(viewerId)) {
+            // Para el resto del público todavía no existe
+            throw new ResourceNotFoundException("Listing not found");
+        }
         return toDto(listing, resalePurchaseRepository.findByListingId(listingId));
     }
 
@@ -173,13 +182,61 @@ public class ListingServiceImpl implements ListingService {
         if (listing.getStatus() == ListingStatus.CANCELLED) {
             throw new BusinessConflictException("Listing is already cancelled.");
         }
-        if (listing.getStatus() != ListingStatus.ACTIVE) {
+        if (listing.getStatus() != ListingStatus.ACTIVE && listing.getStatus() != ListingStatus.PENDING_REVIEW) {
             throw new BusinessConflictException("A listing with sold nights cannot be cancelled.");
         }
 
         listing.setStatus(ListingStatus.CANCELLED);
         log.info("Listing {} cancelled by seller {}", listingId, authenticatedUserId);
         return toDto(listingRepository.save(listing), List.of());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AdminListingResponseDTO> getListingsForReview(ListingStatus status) {
+        return listingRepository.findByStatusOrderByIdAsc(status == null ? ListingStatus.PENDING_REVIEW : status).stream()
+                .map(this::toAdminDto)
+                .toList();
+    }
+
+    @Override
+    @Transactional
+    public AdminListingResponseDTO approveListing(Long listingId) {
+        Listing listing = pendingListing(listingId);
+        listing.setStatus(ListingStatus.ACTIVE);
+        listing.setReviewNote(null);
+        log.info("Listing {} approved by an administrator", listingId);
+        return toAdminDto(listingRepository.save(listing));
+    }
+
+    @Override
+    @Transactional
+    public AdminListingResponseDTO rejectListing(Long listingId, String note) {
+        Listing listing = pendingListing(listingId);
+        listing.setStatus(ListingStatus.REJECTED);
+        listing.setReviewNote(note.trim());
+        log.info("Listing {} rejected by an administrator", listingId);
+        return toAdminDto(listingRepository.save(listing));
+    }
+
+    private Listing pendingListing(Long listingId) {
+        Listing listing = listingRepository.findByIdForUpdate(listingId)
+                .orElseThrow(() -> new ResourceNotFoundException("Listing not found"));
+        if (listing.getStatus() != ListingStatus.PENDING_REVIEW) {
+            throw new BusinessConflictException("Only listings under review can be approved or rejected.");
+        }
+        return listing;
+    }
+
+    private AdminListingResponseDTO toAdminDto(Listing listing) {
+        OriginalBooking booking = listing.getOriginalBooking();
+        User seller = listing.getSeller();
+        String voucherFileName = bookingVoucherRepository.findInfoByOriginalBookingId(booking.getId())
+                .map(BookingVoucherRepository.VoucherInfo::getFileName)
+                .orElse(null);
+        return new AdminListingResponseDTO(toDto(listing, resalePurchaseRepository.findByListingId(listing.getId())),
+                seller.getFirstName() + " " + seller.getLastName(), seller.getEmail(),
+                booking.getPmsConfirmationCode(), booking.getTotalAmountPaid(), voucherFileName);
     }
 
     private Map<Long, List<ResalePurchase>> purchasesByListing(List<Listing> listings) {

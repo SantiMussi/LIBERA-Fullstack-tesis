@@ -37,6 +37,10 @@ public class ResalePurchase {
     @Column(name = "total_price", nullable = false, precision = 10, scale = 2)
     private BigDecimal totalPrice;
 
+    /** Garantía de Traspaso que pagó el comprador encima del precio (según el tramo de descuento). */
+    @Column(name = "buyer_fee", nullable = false, precision = 10, scale = 2)
+    private BigDecimal buyerFee;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ResalePurchaseStatus status;

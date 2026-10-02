@@ -12,6 +12,8 @@ import com.libera.backend.exception.BusinessConflictException;
 import com.libera.backend.exception.InvalidSplitBookingException;
 import com.libera.backend.exception.ResourceNotFoundException;
 import com.libera.backend.mapper.ListingMapperImpl;
+import com.libera.backend.dto.response.AdminListingResponseDTO;
+import com.libera.backend.repository.BookingVoucherRepository;
 import com.libera.backend.repository.ListingRepository;
 import com.libera.backend.repository.OriginalBookingRepository;
 import com.libera.backend.repository.ResalePurchaseRepository;
@@ -50,6 +52,8 @@ class ListingServiceImplTest {
     private UserRepository userRepository;
     @Mock
     private ResalePurchaseRepository resalePurchaseRepository;
+    @Mock
+    private BookingVoucherRepository bookingVoucherRepository;
 
     private ListingServiceImpl service;
     private User owner;
@@ -57,7 +61,7 @@ class ListingServiceImplTest {
     @BeforeEach
     void setUp() {
         service = new ListingServiceImpl(listingRepository, originalBookingRepository, userRepository,
-                resalePurchaseRepository, new ListingMapperImpl());
+                resalePurchaseRepository, new ListingMapperImpl(), bookingVoucherRepository);
         owner = User.builder().id(OWNER_ID).firstName("Ana").lastName("Pérez").build();
     }
 
@@ -102,7 +106,8 @@ class ListingServiceImplTest {
             assertThat(response.getNights()).isEqualTo(4);
             assertThat(response.getListedTotalPrice()).isEqualByComparingTo("1200.00");
             assertThat(response.getAllowsSplitBooking()).isTrue();
-            assertThat(response.getStatus()).isEqualTo(ListingStatus.ACTIVE);
+            // toda publicación nueva espera la revisión de un administrador
+            assertThat(response.getStatus()).isEqualTo(ListingStatus.PENDING_REVIEW);
             assertThat(response.getSoldRanges()).isEmpty();
 
             ArgumentCaptor<Listing> saved = ArgumentCaptor.forClass(Listing.class);
@@ -243,6 +248,64 @@ class ListingServiceImplTest {
             when(listingRepository.findByIdForUpdate(LISTING_ID)).thenReturn(Optional.of(listing(ListingStatus.CANCELLED)));
 
             assertThatThrownBy(() -> service.cancelListing(LISTING_ID, OWNER_ID)).isInstanceOf(BusinessConflictException.class);
+        }
+
+        @Test
+        void sellerCanCancelWhileUnderReview() {
+            when(listingRepository.findByIdForUpdate(LISTING_ID)).thenReturn(Optional.of(listing(ListingStatus.PENDING_REVIEW)));
+            when(listingRepository.save(any(Listing.class))).thenAnswer(inv -> inv.getArgument(0));
+
+            assertThat(service.cancelListing(LISTING_ID, OWNER_ID).getStatus()).isEqualTo(ListingStatus.CANCELLED);
+        }
+    }
+
+    @Nested
+    class Review {
+
+        private Listing listing(ListingStatus status) {
+            return Listing.builder().id(LISTING_ID).originalBooking(bookingAt(PartnershipModel.NONE)).seller(owner)
+                    .listedTotalPrice(new BigDecimal("1200.00")).allowsSplitBooking(false).status(status).build();
+        }
+
+        @Test
+        void adminApprovesListingUnderReview() {
+            when(listingRepository.findByIdForUpdate(LISTING_ID)).thenReturn(Optional.of(listing(ListingStatus.PENDING_REVIEW)));
+            when(listingRepository.save(any(Listing.class))).thenAnswer(inv -> inv.getArgument(0));
+
+            AdminListingResponseDTO response = service.approveListing(LISTING_ID);
+
+            assertThat(response.getListing().getStatus()).isEqualTo(ListingStatus.ACTIVE);
+            assertThat(response.getAmountPaid()).isEqualByComparingTo("1500.00");
+        }
+
+        @Test
+        void adminRejectsWithReason() {
+            when(listingRepository.findByIdForUpdate(LISTING_ID)).thenReturn(Optional.of(listing(ListingStatus.PENDING_REVIEW)));
+            when(listingRepository.save(any(Listing.class))).thenAnswer(inv -> inv.getArgument(0));
+
+            AdminListingResponseDTO response = service.rejectListing(LISTING_ID, "  El comprobante no es legible  ");
+
+            assertThat(response.getListing().getStatus()).isEqualTo(ListingStatus.REJECTED);
+            assertThat(response.getListing().getReviewNote()).isEqualTo("El comprobante no es legible");
+        }
+
+        @Test
+        void onlyListingsUnderReviewCanBeReviewed() {
+            when(listingRepository.findByIdForUpdate(LISTING_ID)).thenReturn(Optional.of(listing(ListingStatus.ACTIVE)));
+
+            assertThatThrownBy(() -> service.approveListing(LISTING_ID)).isInstanceOf(BusinessConflictException.class);
+            assertThatThrownBy(() -> service.rejectListing(LISTING_ID, "x")).isInstanceOf(BusinessConflictException.class);
+            verify(listingRepository, never()).save(any());
+        }
+
+        @Test
+        void listingUnderReviewIsHiddenFromThePublic() {
+            when(listingRepository.findById(LISTING_ID)).thenReturn(Optional.of(listing(ListingStatus.PENDING_REVIEW)));
+
+            assertThatThrownBy(() -> service.getListing(LISTING_ID, null, false)).isInstanceOf(ResourceNotFoundException.class);
+            assertThatThrownBy(() -> service.getListing(LISTING_ID, 999L, false)).isInstanceOf(ResourceNotFoundException.class);
+            assertThat(service.getListing(LISTING_ID, OWNER_ID, false).getStatus()).isEqualTo(ListingStatus.PENDING_REVIEW);
+            assertThat(service.getListing(LISTING_ID, 999L, true).getStatus()).isEqualTo(ListingStatus.PENDING_REVIEW);
         }
     }
 }

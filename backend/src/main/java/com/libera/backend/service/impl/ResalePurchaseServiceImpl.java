@@ -10,11 +10,13 @@ import com.libera.backend.domain.enums.ListingStatus;
 import com.libera.backend.domain.enums.ResalePurchaseStatus;
 import com.libera.backend.dto.request.PmsCheckInWebhookDTO;
 import com.libera.backend.dto.request.ResalePurchaseRequestDTO;
+import com.libera.backend.dto.response.AdminPurchaseResponseDTO;
 import com.libera.backend.dto.response.ResalePurchaseResponseDTO;
 import com.libera.backend.exception.BusinessConflictException;
 import com.libera.backend.exception.InvalidSplitBookingException;
 import com.libera.backend.exception.ResourceNotFoundException;
 import com.libera.backend.mapper.ResalePurchaseMapper;
+import com.libera.backend.mapper.TransactionMapper;
 import com.libera.backend.repository.ListingRepository;
 import com.libera.backend.repository.ResalePurchaseRepository;
 import com.libera.backend.repository.TransactionRepository;
@@ -24,6 +26,7 @@ import com.libera.backend.service.port.PmsIntegrationPort;
 import com.libera.backend.service.strategy.FeeCalculationResult;
 import com.libera.backend.service.strategy.FeeCalculationStrategy;
 import com.libera.backend.service.strategy.FeeStrategyFactory;
+import com.libera.backend.service.strategy.PublicFees;
 import com.libera.backend.util.StayDates;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +37,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -48,6 +54,7 @@ public class ResalePurchaseServiceImpl implements ResalePurchaseService {
 
     private final List<PmsIntegrationPort> pmsIntegrationPorts;
     private final FeeStrategyFactory feeStrategyFactory;
+    private final TransactionMapper transactionMapper;
 
     @Override
     @Transactional
@@ -97,13 +104,17 @@ public class ResalePurchaseServiceImpl implements ResalePurchaseService {
         long requestedNights = StayDates.nights(checkIn, checkOut);
         boolean completesListing = soldNightsBefore + requestedNights == totalNights;
 
+        BigDecimal price = priceFor(listing, existingPurchases, requestedNights, totalNights, completesListing);
+
         // Critical Rule: Initial state MUST be PAYMENT_HELD
         ResalePurchase purchase = ResalePurchase.builder()
                 .listing(listing)
                 .buyer(buyer)
                 .checkIn(checkIn)
                 .checkOut(checkOut)
-                .totalPrice(priceFor(listing, existingPurchases, requestedNights, totalNights, completesListing))
+                .totalPrice(price)
+                // Garantía de Traspaso: el comprador la paga encima del precio, según el tramo de descuento
+                .buyerFee(PublicFees.buyerFee(price, listing.getDiscountPercentage()))
                 .status(ResalePurchaseStatus.PAYMENT_HELD)
                 .build();
 
@@ -178,40 +189,40 @@ public class ResalePurchaseServiceImpl implements ResalePurchaseService {
 
     @Override
     @Transactional
-    public ResalePurchaseResponseDTO confirmCheckInManually(Long purchaseId) {
+    public AdminPurchaseResponseDTO confirmCheckInManually(Long purchaseId) {
         ResalePurchase purchase = resalePurchaseRepository.findByIdForUpdate(purchaseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Resale purchase not found"));
         log.info("Admin manually confirming check-in for purchase {}", purchaseId);
-        liquidate(purchase);
-        return resalePurchaseMapper.toDto(purchase);
+        Transaction transaction = liquidate(purchase);
+        return toAdminDto(purchase, transaction);
     }
 
     /**
      * Libera el pago retenido: registra la transacción y pasa la compra a LIQUIDATED.
      * Es idempotente: si el PMS reintenta el webhook, una compra ya liquidada no se vuelve a cobrar.
      */
-    private void liquidate(ResalePurchase purchase) {
+    private Transaction liquidate(ResalePurchase purchase) {
         if (purchase.getStatus() == ResalePurchaseStatus.LIQUIDATED || transactionRepository.existsByResalePurchaseId(purchase.getId())) {
             log.info("Purchase {} was already liquidated; ignoring duplicate check-in confirmation.", purchase.getId());
             purchase.setStatus(ResalePurchaseStatus.LIQUIDATED);
-            return;
+            return transactionRepository.findByResalePurchaseId(purchase.getId()).orElse(null);
         }
 
         // Release Payments: transition to CHECKED_IN
         purchase.setStatus(ResalePurchaseStatus.CHECKED_IN);
         resalePurchaseRepository.save(purchase);
 
-        Hotel hotel = purchase.getListing().getOriginalBooking().getHotel();
-        BigDecimal totalPaid = purchase.getTotalPrice();
+        Listing listing = purchase.getListing();
+        Hotel hotel = listing.getOriginalBooking().getHotel();
 
         // Strategy Pattern for Fee Calculation
         FeeCalculationStrategy feeStrategy = feeStrategyFactory.getStrategy(hotel.getPartnershipModel());
-        FeeCalculationResult feeResult = feeStrategy.calculateFees(totalPaid, hotel);
+        FeeCalculationResult feeResult = feeStrategy.calculateFees(purchase.getTotalPrice(), listing.getDiscountPercentage(), hotel);
 
         // Record Transaction
         Transaction transaction = Transaction.builder()
                 .resalePurchase(purchase)
-                .totalPaidByBuyer(totalPaid)
+                .totalPaidByBuyer(feeResult.getTotalPaidByBuyer())
                 .buyerFeeAmount(feeResult.getBuyerFeeAmount())
                 .sellerFeeAmount(feeResult.getSellerFeeAmount())
                 .sellerPayoutAmount(feeResult.getSellerPayoutAmount())
@@ -226,6 +237,7 @@ public class ResalePurchaseServiceImpl implements ResalePurchaseService {
         resalePurchaseRepository.save(purchase);
 
         log.info("Check-in processed for purchase {}. Transaction recorded and funds liquidated.", purchase.getId());
+        return transaction;
     }
 
     @Override
@@ -282,10 +294,26 @@ public class ResalePurchaseServiceImpl implements ResalePurchaseService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ResalePurchaseResponseDTO> getAllPurchases(ResalePurchaseStatus status) {
+    public List<AdminPurchaseResponseDTO> getAllPurchases(ResalePurchaseStatus status) {
         List<ResalePurchase> purchases = status == null
                 ? resalePurchaseRepository.findAllByOrderByIdDesc()
                 : resalePurchaseRepository.findByStatusOrderByIdDesc(status);
-        return purchases.stream().map(resalePurchaseMapper::toDto).toList();
+        if (purchases.isEmpty()) {
+            return List.of();
+        }
+        Map<Long, Transaction> transactions = transactionRepository
+                .findByResalePurchaseIdIn(purchases.stream().map(ResalePurchase::getId).toList()).stream()
+                .collect(Collectors.toMap(t -> t.getResalePurchase().getId(), Function.identity()));
+        return purchases.stream().map(p -> toAdminDto(p, transactions.get(p.getId()))).toList();
+    }
+
+    private AdminPurchaseResponseDTO toAdminDto(ResalePurchase purchase, Transaction transaction) {
+        User buyer = purchase.getBuyer();
+        User seller = purchase.getListing().getSeller();
+        return new AdminPurchaseResponseDTO(
+                resalePurchaseMapper.toDto(purchase),
+                buyer.getFirstName() + " " + buyer.getLastName(), buyer.getEmail(),
+                seller.getFirstName() + " " + seller.getLastName(), seller.getEmail(),
+                transaction == null ? null : transactionMapper.toDto(transaction));
     }
 }

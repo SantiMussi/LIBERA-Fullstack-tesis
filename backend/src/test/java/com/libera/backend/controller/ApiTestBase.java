@@ -9,12 +9,15 @@ import com.libera.backend.domain.enums.ListingStatus;
 import com.libera.backend.domain.enums.PartnershipModel;
 import com.libera.backend.domain.enums.ResalePurchaseStatus;
 import com.libera.backend.domain.enums.UserRole;
+import com.libera.backend.repository.BookingVoucherRepository;
+import com.libera.backend.repository.ContactRequestRepository;
 import com.libera.backend.repository.HotelRepository;
 import com.libera.backend.repository.ListingRepository;
 import com.libera.backend.repository.OriginalBookingRepository;
 import com.libera.backend.repository.ResalePurchaseRepository;
 import com.libera.backend.repository.TransactionRepository;
 import com.libera.backend.repository.UserRepository;
+import com.libera.backend.service.strategy.PublicFees;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -59,6 +62,10 @@ abstract class ApiTestBase {
     protected ResalePurchaseRepository purchaseRepository;
     @Autowired
     protected TransactionRepository transactionRepository;
+    @Autowired
+    protected BookingVoucherRepository bookingVoucherRepository;
+    @Autowired
+    protected ContactRequestRepository contactRequestRepository;
 
     protected User seller;
     protected User buyer;
@@ -73,6 +80,8 @@ abstract class ApiTestBase {
         transactionRepository.deleteAll();
         purchaseRepository.deleteAll();
         listingRepository.deleteAll();
+        bookingVoucherRepository.deleteAll();
+        contactRequestRepository.deleteAll();
         bookingRepository.deleteAll();
         hotelRepository.deleteAll();
         userRepository.deleteAll();
@@ -112,7 +121,9 @@ abstract class ApiTestBase {
     protected ResalePurchase savePurchase(Listing listing, ResalePurchaseStatus status) {
         return purchaseRepository.save(ResalePurchase.builder().listing(listing).buyer(buyer)
                 .checkIn(listing.getOriginalBooking().getCheckIn()).checkOut(listing.getOriginalBooking().getCheckOut())
-                .totalPrice(listing.getListedTotalPrice()).status(status).build());
+                .totalPrice(listing.getListedTotalPrice())
+                .buyerFee(PublicFees.buyerFee(listing.getListedTotalPrice(), listing.getDiscountPercentage()))
+                .status(status).build());
     }
 
     protected ResultActions postJson(String url, String body, User as) throws Exception {

@@ -16,6 +16,11 @@ public class ResalePurchaseResponseDTO {
     private LocalDate checkIn;
     private LocalDate checkOut;
     private Long nights;
+    /** Precio de las noches compradas. */
     private BigDecimal totalPrice;
+    /** Garantía de Traspaso que paga el comprador encima del precio. */
+    private BigDecimal buyerFee;
+    /** Lo que pagó el comprador en total: totalPrice + buyerFee. */
+    private BigDecimal totalPaid;
     private ResalePurchaseStatus status;
 }

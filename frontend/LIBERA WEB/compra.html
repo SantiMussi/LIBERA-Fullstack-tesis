@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Política de Privacidad — LIBERA</title>
-<meta name="description" content="Qué datos recolecta LIBERA, para qué los usa, con quién los comparte y qué derechos tenés sobre tu información.">
+<title>Detalle de la compra — LIBERA</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Estado de tu compra o venta en LIBERA.">
 <link rel="icon" type="image/png" href="assets/brand/libera-bird-only.png?v=20260806e">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +14,7 @@
 
 <link rel="stylesheet" href="style.css?v=20260806e">
 </head>
-<body data-view="b2c" data-page="privacidad">
+<body data-view="b2c" data-page="cancelaciones">
 
 <a class="skip-link" href="#main">Saltar al contenido</a>
 
@@ -23,6 +24,7 @@
     <symbol id="icon-check" viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 6" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="icon-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 8.7 8 11 4.6-2.3 8-6 8-11V5l-8-3Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12l2.4 2.4L16 9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="icon-instagram" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="15.6" cy="8.4" r=".9" fill="currentColor"/></symbol>
     <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M14.5 8.5h-1.2c-1 0-1.5.5-1.5 1.5V11H14l-.3 2h-2v6.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="icon-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
@@ -59,104 +61,38 @@
 
 <main id="main">
 
-  <!-- HERO -->
   <section class="faq-hero">
     <div class="section-head">
-      <p class="kicker reveal">Legal</p>
-      <h1 class="reveal" data-split="lines">Política de Privacidad.</h1>
-      <p class="section-lede reveal">Qué información pedimos, para qué la usamos, y cómo la cuidamos. Para ejercer cualquiera de tus derechos, escribinos a <a href="mailto:hola@libera.travel" class="faq-inline-link">hola@libera.travel</a>.</p>
-      <p class="legal-updated reveal">Última actualización: agosto de 2026</p>
+      <p class="kicker">Mi cuenta</p>
+      <h1 data-purchase-title>Detalle de la compra</h1>
+      <p class="section-lede" data-purchase-sub>Seguí cada paso: el pago queda retenido hasta que el hotel confirma el check-in.</p>
     </div>
   </section>
 
-  <!-- BODY -->
-  <section class="faq-body">
-    <div class="faq-layout">
+  <section class="faq-body account-body" data-purchase-page>
+    <div class="account-guest" data-account-guest hidden>
+      <p>Iniciá sesión para continuar.</p>
+      <button type="button" class="btn btn-primary" data-auth-open="login">Iniciar sesión</button>
+    </div>
 
-      <nav class="faq-toc reveal" aria-label="Secciones">
-        <a href="#datos">Qué datos pedimos</a>
-        <a href="#uso">Para qué los usamos</a>
-        <a href="#comparte">Con quién los compartimos</a>
-        <a href="#retencion">Cuánto los guardamos</a>
-        <a href="#derechos">Tus derechos</a>
-        <a href="#cookies">Cookies</a>
-        <a href="#seguridad">Seguridad</a>
-      </nav>
-
-      <div class="faq-groups">
-
-        <div class="faq-group reveal" id="datos">
-          <h2>1. Qué datos pedimos</h2>
-          <div class="legal-content">
-            <ul>
-              <li><strong>Datos de cuenta:</strong> nombre, email y teléfono.</li>
-              <li><strong>Verificación de identidad (para vender):</strong> documento de identidad y una foto de verificación, para confirmar que sos quien decís ser y proteger a quien compra.</li>
-              <li><strong>Datos de la reserva:</strong> el comprobante que subís al publicar (número de confirmación, hotel, fechas, precio) y los datos de la estadía que completás.</li>
-              <li><strong>Datos de pago:</strong> los procesa directamente nuestro proveedor de pagos. LIBERA no almacena el número completo de tu tarjeta.</li>
-              <li><strong>Datos de uso:</strong> cómo navegás el sitio, para mejorar la experiencia y detectar actividad sospechosa.</li>
-            </ul>
-          </div>
+    <div class="purchase-detail" data-purchase-detail hidden>
+      <a href="mi-cuenta.html" class="detail-back"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-arrow"></use></svg>Volver a Mi cuenta</a>
+      <ol class="purchase-timeline" data-purchase-timeline></ol>
+      <p class="purchase-alert" data-purchase-alert hidden></p>
+      <div class="purchase-grid">
+        <div class="purchase-card">
+          <h3>Estadía</h3>
+          <dl data-purchase-stay></dl>
         </div>
-
-        <div class="faq-group reveal" id="uso">
-          <h2>2. Para qué los usamos</h2>
-          <div class="legal-content">
-            <ul>
-              <li>Verificar tu identidad y prevenir fraude — el motivo principal por el que pedimos documento a quien vende.</li>
-              <li>Procesar pagos y gestionar el traspaso de la reserva entre comprador, vendedor y hotel.</li>
-              <li>Comunicarnos con vos sobre tus operaciones (confirmaciones, avisos, soporte).</li>
-              <li>Mejorar la plataforma y resolver problemas técnicos.</li>
-              <li>Cumplir obligaciones legales, cuando corresponda.</li>
-            </ul>
-            <p>No usamos tus datos de verificación de identidad para ningún fin comercial o publicitario.</p>
-          </div>
+        <div class="purchase-card">
+          <h3>Pago</h3>
+          <dl data-purchase-money></dl>
+          <div class="purchase-actions" data-purchase-actions></div>
         </div>
-
-        <div class="faq-group reveal" id="comparte">
-          <h2>3. Con quién los compartimos</h2>
-          <div class="legal-content">
-            <p>Compartimos lo mínimo necesario, y solo con:</p>
-            <ul>
-              <li>Nuestro proveedor de pagos, para procesar cobros y transferencias.</li>
-              <li>Nuestro proveedor de verificación de identidad, para validar documentos.</li>
-              <li>El hotel correspondiente, cuando es necesario confirmar o gestionar un traspaso.</li>
-              <li>Autoridades competentes, únicamente si estamos legalmente obligados a hacerlo.</li>
-            </ul>
-            <p><strong>Nunca vendemos tus datos a terceros con fines de marketing.</strong></p>
-          </div>
-        </div>
-
-        <div class="faq-group reveal" id="retencion">
-          <h2>4. Cuánto tiempo los guardamos</h2>
-          <div class="legal-content">
-            <p>Guardamos tus datos mientras tu cuenta esté activa, y un tiempo adicional después si es necesario por motivos legales, contables o de prevención de fraude — por ejemplo, para evitar que una cuenta dada de baja por fraude vuelva a crearse.</p>
-          </div>
-        </div>
-
-        <div class="faq-group reveal" id="derechos">
-          <h2>5. Tus derechos</h2>
-          <div class="legal-content">
-            <p>Podés pedirnos en cualquier momento: acceder a tus datos, corregirlos si están mal, o eliminarlos (salvo la información que debamos conservar por ley o por una disputa en curso). Escribinos a <a href="mailto:hola@libera.travel">hola@libera.travel</a> y te respondemos en un plazo razonable.</p>
-          </div>
-        </div>
-
-        <div class="faq-group reveal" id="cookies">
-          <h2>6. Cookies</h2>
-          <div class="legal-content">
-            <p>Usamos cookies funcionales básicas para que el sitio funcione correctamente (por ejemplo, mantener tu sesión iniciada). No usamos cookies de seguimiento publicitario de terceros.</p>
-          </div>
-        </div>
-
-        <div class="faq-group reveal" id="seguridad">
-          <h2>7. Seguridad de tus datos</h2>
-          <div class="legal-content">
-            <p>Tus datos viajan encriptados entre tu navegador y nuestros servidores, y el acceso interno está restringido a lo que cada persona del equipo necesita para hacer su trabajo. Ningún sistema es 100% infalible, pero tomamos esto en serio — especialmente los datos de verificación de identidad.</p>
-          </div>
-          <p class="legal-note">Este documento describe cómo manejamos los datos de buena fe. Antes de su publicación definitiva en producción, corresponde una revisión por un estudio jurídico especializado en protección de datos.</p>
-        </div>
-
       </div>
     </div>
+
+    <p class="account-empty" data-purchase-error hidden></p>
   </section>
 
 </main>

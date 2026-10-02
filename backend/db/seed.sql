@@ -6,7 +6,8 @@
 -- Usuarios demo (contraseña de los tres: Libera2026!)
 --   vendedor@libera.test  -> titular de las reservas publicadas
 --   comprador@libera.test -> para probar compras
---   admin@libera.test     -> rol ADMIN (confirmación manual de check-in)
+--   admin@libera.test     -> rol ADMIN (panel de administración: revisión de publicaciones,
+--                            confirmación de check-in y solicitudes de demo)
 --
 -- Los hoteles socios usan los mismos slugs que offers-data.js del front.
 -- Las fechas son relativas a hoy, así el catálogo nunca queda vencido.
@@ -44,19 +45,32 @@ INSERT INTO original_bookings (id, hotel_id, original_guest_id, pms_confirmation
 (8,  8, 1, 'RB-NF-10008', CURRENT_DATE + INTERVAL '60' DAY, CURRENT_DATE + INTERVAL '64' DAY, 'Cabaña con Sauna',            1340.00, TRUE),
 (9,  9, 1, 'GHA-10009',   CURRENT_DATE + INTERVAL '12' DAY, CURRENT_DATE + INTERVAL '15' DAY, 'Doble Estándar',               600.00, FALSE),
 -- reserva cargada pero todavía sin publicar (para probar el flujo de publicación)
-(10, 3, 1, 'RB-MV-10010', CURRENT_DATE + INTERVAL '70' DAY, CURRENT_DATE + INTERVAL '73' DAY, 'Habitación Doble',             900.00, TRUE);
+(10, 3, 1, 'RB-MV-10010', CURRENT_DATE + INTERVAL '70' DAY, CURRENT_DATE + INTERVAL '73' DAY, 'Habitación Doble',             900.00, TRUE),
+-- reserva en un hotel sin convenio, publicada y esperando la revisión de un administrador
+(11, 10, 1, 'HPC-20011',  CURRENT_DATE + INTERVAL '35' DAY, CURRENT_DATE + INTERVAL '38' DAY, 'Doble Superior',               750.00, FALSE);
 
 -- Publicaciones (los "price" de offers-data.js)
 INSERT INTO listings (id, original_booking_id, seller_id, listed_total_price, discount_percentage, allows_split_booking, status) VALUES
 (1, 1, 1,  950.00, 26.36, TRUE,  'ACTIVE'),
 (2, 2, 1,  610.00, 27.38, FALSE, 'ACTIVE'),
 (3, 3, 1, 1180.00, 28.48, TRUE,  'ACTIVE'),
-(4, 4, 1,  720.00, 26.53, FALSE, 'ACTIVE'),
+(4, 4, 1,  720.00, 26.53, FALSE, 'SOLD_OUT'),
 (5, 5, 1,  990.00, 29.79, TRUE,  'ACTIVE'),
 (6, 6, 1,  860.00, 23.21, FALSE, 'ACTIVE'),
 (7, 7, 1, 1540.00, 24.88, FALSE, 'ACTIVE'),
 (8, 8, 1,  990.00, 26.12, TRUE,  'ACTIVE'),
-(9, 9, 1,  480.00, 20.00, FALSE, 'ACTIVE');
+(9, 9, 1,  480.00, 20.00, FALSE, 'ACTIVE'),
+(10, 11, 1, 600.00, 20.00, FALSE, 'PENDING_REVIEW');
+
+-- Una compra con el pago retenido (el comprador ya figura en el hotel; falta confirmar el check-in).
+-- buyer_fee = Garantía de Traspaso: 7,5% porque el descuento es menor a 35%.
+INSERT INTO resale_purchases (id, listing_id, buyer_id, check_in, check_out, total_price, buyer_fee, status) VALUES
+(1, 4, 2, CURRENT_DATE + INTERVAL '15' DAY, CURRENT_DATE + INTERVAL '17' DAY, 720.00, 54.00, 'NAME_CHANGED');
+
+-- Una solicitud de demo de un hotel (formulario de la vista Hoteles)
+INSERT INTO contact_requests (id, name, hotel_name, email, phone, rooms, message, created_at) VALUES
+(1, 'Laura Méndez', 'Hostería del Bosque', 'laura@hosteriadelbosque.test', '+54 294 400 0000', '1 – 30',
+ 'Queremos ofrecer la tarifa revendible en temporada alta.', CURRENT_TIMESTAMP);
 
 -- Hoteles sin convenio con LIBERA (mismo directorio que hotels-directory.js del front):
 -- aparecen en el buscador del wizard de venta, sin Split Booking.

@@ -60,7 +60,15 @@
     "A listing with sold nights cannot be cancelled.": "No se puede cancelar una publicación que ya vendió noches.",
     "Listing is already cancelled.": "La publicación ya estaba cancelada.",
     "A dispute is already open for this purchase.": "Ya hay un reclamo abierto para esta compra.",
-    "The purchase has already been liquidated and cannot be disputed.": "Esta compra ya se liquidó: no se puede abrir un reclamo."
+    "The purchase has already been liquidated and cannot be disputed.": "Esta compra ya se liquidó: no se puede abrir un reclamo.",
+    "Only listings under review can be approved or rejected.": "Esta publicación ya fue revisada.",
+    "The voucher must be a PDF, JPG, PNG or WEBP file.": "El comprobante tiene que ser un PDF, JPG, PNG o WEBP.",
+    "The voucher file must be 5 MB or smaller.": "El comprobante puede pesar hasta 5 MB.",
+    "The voucher file is empty.": "El archivo del comprobante está vacío.",
+    "This booking has no voucher": "Esta reserva no tiene comprobante cargado.",
+    "You can only upload the voucher of your own booking.": "Solo podés subir el comprobante de una reserva tuya.",
+    "Resale purchase not found": "Esta compra no existe.",
+    "You do not have permission to view this purchase.": "No tenés acceso a esta compra."
   };
   var BY_STATUS = {
     0: "No pudimos conectarnos con el servidor de LIBERA. Probá de nuevo en unos minutos.",
@@ -69,6 +77,7 @@
     403: "No tenés permiso para hacer esto.",
     404: "No encontramos lo que buscabas.",
     409: "La operación no se pudo completar porque los datos cambiaron. Actualizá la página.",
+    413: "El archivo es demasiado grande (máximo 5 MB).",
     500: "Hubo un error en el servidor. Probá de nuevo en unos minutos."
   };
 
@@ -80,17 +89,22 @@
     return err;
   }
 
-  /* ---------- Request genérico ---------- */
-  function request(method, path, body) {
-    var headers = { "Accept": "application/json" };
-    if (body !== undefined) headers["Content-Type"] = "application/json";
+  /* ---------- Request genérico ----------
+     body: objeto (va como JSON) o FormData (archivos: el navegador arma el multipart).
+     asBlob: devuelve el cuerpo como archivo (Blob) en lugar de JSON. */
+  function request(method, path, body, asBlob) {
+    var headers = { "Accept": asBlob ? "*/*" : "application/json" };
+    var payload;
+    if (typeof FormData !== "undefined" && body instanceof FormData) payload = body;
+    else if (body !== undefined) { headers["Content-Type"] = "application/json"; payload = JSON.stringify(body); }
     if (memory.token) headers["Authorization"] = "Bearer " + memory.token;
 
     return fetch(BASE + path, {
       method: method,
       headers: headers,
-      body: body === undefined ? undefined : JSON.stringify(body)
+      body: payload
     }).then(function (res) {
+      if (res.ok && asBlob) return res.blob();
       return res.text().then(function (text) {
         var data = null;
         if (text) { try { data = JSON.parse(text); } catch (e) { data = null; } }
@@ -133,6 +147,15 @@
     },
     logout: function () { setSession(null, null); },
     me: function () { return request("GET", "/auth/me"); },
+    isAdmin: function () { return !!(memory.user && memory.user.role === "ADMIN"); },
+    // Trae los datos actuales del usuario (por ejemplo, si le cambiaron el rol) y avisa solo si cambiaron
+    refreshSession: function () {
+      if (!memory.token) return Promise.resolve(null);
+      return request("GET", "/auth/me").then(function (user) {
+        if (JSON.stringify(user) !== JSON.stringify(memory.user)) setSession(memory.token, user);
+        return user;
+      });
+    },
 
     /* catálogo */
     hotels: function (q) { return request("GET", "/hotels" + query({ q: q })); },
@@ -146,12 +169,32 @@
     myListings: function () { return request("GET", "/listings/mine"); },
     cancelListing: function (id) { return request("POST", "/listings/" + id + "/cancel"); },
     mySales: function () { return request("GET", "/purchases/sales"); },
+    uploadVoucher: function (bookingId, file) {
+      var form = new FormData();
+      form.append("file", file);
+      return request("POST", "/bookings/" + bookingId + "/voucher", form);
+    },
 
     /* comprador */
     purchase: function (listingId, checkIn, checkOut) {
       return request("POST", "/purchases", { listingId: listingId, checkIn: checkIn, checkOut: checkOut });
     },
     myPurchases: function () { return request("GET", "/purchases/mine"); },
-    openDispute: function (id) { return request("POST", "/purchases/" + id + "/dispute"); }
+    purchaseDetail: function (id) { return request("GET", "/purchases/" + encodeURIComponent(id)); },
+    openDispute: function (id) { return request("POST", "/purchases/" + id + "/dispute"); },
+
+    /* hoteles: formulario "Agendar demo" */
+    sendContact: function (data) { return request("POST", "/contact", data); },
+
+    /* administración (rol ADMIN) */
+    admin: {
+      listings: function (status) { return request("GET", "/admin/listings" + query({ status: status })); },
+      approveListing: function (id) { return request("POST", "/admin/listings/" + id + "/approve"); },
+      rejectListing: function (id, note) { return request("POST", "/admin/listings/" + id + "/reject", { note: note }); },
+      voucherFile: function (bookingId) { return request("GET", "/admin/bookings/" + bookingId + "/voucher", undefined, true); },
+      purchases: function (status) { return request("GET", "/admin/purchases" + query({ status: status })); },
+      confirmCheckIn: function (id) { return request("POST", "/admin/purchases/" + id + "/check-in"); },
+      contactRequests: function () { return request("GET", "/admin/contact-requests"); }
+    }
   };
 })(window);

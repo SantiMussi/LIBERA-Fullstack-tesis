@@ -58,10 +58,11 @@ class CheckInApiTest extends ApiTestBase {
             List<Transaction> txs = transactionRepository.findAll();
             assertThat(txs).hasSize(1);
             Transaction t = txs.getFirst();
-            assertThat(t.getTotalPaidByBuyer()).isEqualByComparingTo("1050.00");
-            assertThat(t.getSellerPayoutAmount()).isEqualByComparingTo("850.00");
-            assertThat(t.getHotelRevenueShareAmount()).isEqualByComparingTo("40.00");
-            assertThat(t.getLiberaNetRevenue()).isEqualByComparingTo("160.00");
+            // 1050 + Garantía 7,5% (78,75); vendedor paga 7,5%; el hotel (Integración, markup 20) se lleva el 20% de los fees
+            assertThat(t.getTotalPaidByBuyer()).isEqualByComparingTo("1128.75");
+            assertThat(t.getSellerPayoutAmount()).isEqualByComparingTo("971.25");
+            assertThat(t.getHotelRevenueShareAmount()).isEqualByComparingTo("31.50");
+            assertThat(t.getLiberaNetRevenue()).isEqualByComparingTo("126.00");
             Long linkedPurchaseId = tx.execute(s -> transactionRepository.findById(t.getId()).orElseThrow().getResalePurchase().getId());
             assertThat(linkedPurchaseId).isEqualTo(purchase.getId());
         }
@@ -105,13 +106,19 @@ class CheckInApiTest extends ApiTestBase {
         void adminConfirmsCheckInManually() throws Exception {
             postEmpty("/api/v1/admin/purchases/" + purchase.getId() + "/check-in", admin)
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.status").value("LIQUIDATED"));
+                    .andExpect(jsonPath("$.purchase.status").value("LIQUIDATED"))
+                    .andExpect(jsonPath("$.buyerEmail").value("comprador@libera.test"))
+                    .andExpect(jsonPath("$.sellerEmail").value("vendedor@libera.test"))
+                    .andExpect(jsonPath("$.transaction.sellerPayoutAmount").value(971.25));
             assertThat(transactionRepository.count()).isEqualTo(1);
         }
 
         @Test
         void adminListsPurchasesByStatus() throws Exception {
-            getAs("/api/v1/admin/purchases", admin).andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(1)));
+            getAs("/api/v1/admin/purchases", admin).andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(1)))
+                    .andExpect(jsonPath("$[0].purchase.totalPaid").value(1128.75))
+                    .andExpect(jsonPath("$[0].buyerName").value("Juan Gómez"))
+                    .andExpect(jsonPath("$[0].transaction").doesNotExist());
             getAs("/api/v1/admin/purchases?status=NAME_CHANGED", admin).andExpect(jsonPath("$", hasSize(1)));
             getAs("/api/v1/admin/purchases?status=DISPUTED", admin).andExpect(jsonPath("$", hasSize(0)));
             getAs("/api/v1/admin/purchases?status=NO_EXISTE", admin).andExpect(status().isBadRequest());

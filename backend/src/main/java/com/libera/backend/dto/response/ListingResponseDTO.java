@@ -27,6 +27,8 @@ public class ListingResponseDTO {
     private BigDecimal discountPercentage;
     private Boolean allowsSplitBooking;
     private ListingStatus status;
+    /** Motivo del rechazo, si un administrador la rechazó. */
+    private String reviewNote;
     /** Rangos de noches ya vendidos (relevante para Split Booking). */
     private List<DateRangeDTO> soldRanges;
 }

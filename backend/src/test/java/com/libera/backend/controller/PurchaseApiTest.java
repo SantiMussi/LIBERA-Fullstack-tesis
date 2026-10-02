@@ -42,6 +42,8 @@ class PurchaseApiTest extends ApiTestBase {
                     .andExpect(jsonPath("$.checkIn").value(STAY_IN.toString()))
                     .andExpect(jsonPath("$.nights").value(4))
                     .andExpect(jsonPath("$.totalPrice").value(1050.00))
+                    .andExpect(jsonPath("$.buyerFee").value(78.75))
+                    .andExpect(jsonPath("$.totalPaid").value(1128.75))
                     .andExpect(jsonPath("$.status").value("NAME_CHANGED"));
 
             assertThat(statusOf(listing)).isEqualTo(ListingStatus.SOLD_OUT);

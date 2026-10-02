@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -59,8 +61,13 @@ public class ListingController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ListingResponseDTO> getListing(@PathVariable Long id) {
-        return ResponseEntity.ok(listingService.getListing(id));
+    public ResponseEntity<ListingResponseDTO> getListing(@PathVariable Long id, Authentication authentication) {
+        // Endpoint público: sin sesión, Spring entrega un usuario anónimo (sin id)
+        boolean loggedIn = authentication != null && !(authentication instanceof AnonymousAuthenticationToken);
+        Long viewerId = loggedIn ? Long.valueOf(authentication.getName()) : null;
+        boolean isAdmin = loggedIn && authentication.getAuthorities().stream()
+                .anyMatch(a -> "ROLE_ADMIN".equals(a.getAuthority()));
+        return ResponseEntity.ok(listingService.getListing(id, viewerId, isAdmin));
     }
 
     @PostMapping("/{id}/cancel")

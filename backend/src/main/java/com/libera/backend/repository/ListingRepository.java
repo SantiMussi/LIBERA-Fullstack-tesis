@@ -29,6 +29,9 @@ public interface ListingRepository extends JpaRepository<Listing, Long>, JpaSpec
     @EntityGraph(attributePaths = {"originalBooking.hotel", "seller"})
     List<Listing> findBySellerIdOrderByIdDesc(Long sellerId);
 
+    @EntityGraph(attributePaths = {"originalBooking.hotel", "seller"})
+    List<Listing> findByStatusOrderByIdAsc(ListingStatus status);
+
     @Override
     @EntityGraph(attributePaths = {"originalBooking.hotel", "seller"})
     List<Listing> findAll(Specification<Listing> spec, Sort sort);

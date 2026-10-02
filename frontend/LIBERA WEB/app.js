@@ -26,6 +26,12 @@
     return "$" + Math.round(n).toLocaleString("es-AR");
   }
 
+  // Montos de una operación real (pagos, reparto): con centavos si los tiene
+  function formatAmount(n) {
+    var v = Number(n) || 0;
+    return "$" + v.toLocaleString("es-AR", { minimumFractionDigits: v % 1 ? 2 : 0, maximumFractionDigits: 2 });
+  }
+
   // Shared seller-side math: used by the "Elegí tu precio" step of the seller wizard (initSellerWizard).
   var SELLER_FEE = 0.075;
   function computeSaleBreakdown(original, discountPct) {
@@ -128,7 +134,7 @@
       price: Number(l.listedTotalPrice),
       original: Number(l.originalPrice),
       discountPct: discountPct,
-      feePct: feeForDiscount(discountPct),
+      feePct: feeForDiscount(Number(l.discountPercentage) || 0),
       rating: offer ? offer.rating : null,
       summary: offer ? offer.summary : "Reserva publicada por su titular original en " + l.hotelName + ".",
       description: offer ? offer.description
@@ -164,11 +170,35 @@
     return -((nav ? nav.offsetHeight : 0) + 16);
   }
 
-  // Scroll programático: pasa por Lenis si está activo, si no usa el nativo
+  // Posición de un elemento en la página sin contar transforms (las secciones .reveal entran
+  // desplazadas 36px hasta que aparecen, y getBoundingClientRect lo incluiría)
+  function absoluteTop(el) {
+    var y = 0;
+    for (var node = el; node; node = node.offsetParent) y += node.offsetTop;
+    return y;
+  }
+
+  // Scroll programático: a un número (px) o a un elemento, que queda justo debajo de la nav fija.
+  // Pasa por Lenis si está activo, si no usa el scroll nativo.
   function scrollToTarget(target) {
-    if (lenis) { lenis.scrollTo(target, { offset: typeof target === "number" ? 0 : navOffset() }); return; }
-    if (typeof target === "number") window.scrollTo({ top: target, behavior: "smooth" });
-    else target.scrollIntoView({ behavior: "smooth", block: "start" });
+    var y = typeof target === "number" ? target : Math.max(0, absoluteTop(target) + navOffset());
+    if (lenis) lenis.scrollTo(y);
+    else window.scrollTo({ top: y, behavior: "smooth" });
+  }
+
+  // Links a secciones de la misma página (#garantia, #faq-precios…): mismo cálculo que scrollToTarget
+  function initAnchorLinks() {
+    document.addEventListener("click", function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      var link = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!link) return;
+      var id = link.getAttribute("href").slice(1);
+      var target = id && document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      scrollToTarget(target);
+      if (history.replaceState) history.replaceState(null, "", "#" + id);
+    });
   }
 
   // Bloquea el scroll de la página (drawer abierto)
@@ -189,7 +219,7 @@
         smoothWheel: true,
         syncTouch: false,        // táctil: scroll nativo del celular
         allowNestedScroll: true, // drawer, modal y listas con scroll propio siguen andando
-        anchors: { offset: navOffset() },
+        anchors: false,          // las anclas las maneja initAnchorLinks (descuenta la nav fija)
         autoRaf: !withGsap
       });
       if (withGsap) {
@@ -254,7 +284,7 @@
   }
 
   /* ---------------------------------------------------------------
-     MENÚ MÓVIL — en pantallas chicas (≤1024px, ver style.css) los links
+     MENÚ MÓVIL — en pantallas de hasta 1200px (ver style.css) los links
      y botones de la nav pasan a un panel que abre el botón hamburguesa.
      El botón se inserta acá para no repetir el markup en cada página.
   --------------------------------------------------------------- */
@@ -283,7 +313,7 @@
       if (e.target.closest(".nav-links a, .nav-actions a, .nav-actions button")) setOpen(false);
     });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") setOpen(false); });
-    window.addEventListener("resize", function () { if (window.innerWidth > 1024) setOpen(false); });
+    window.addEventListener("resize", function () { if (window.innerWidth > 1200) setOpen(false); });
   }
 
   function initScrollTopLinks() {
@@ -486,8 +516,12 @@
      TILT 3D + MAGNETIC
   --------------------------------------------------------------- */
   function initTilt() {
+    $$("[data-tilt]").forEach(bindTilt);
+  }
+
+  function bindTilt(card) {
     if (!fineHover) return;
-    $$("[data-tilt]").forEach(function (card) {
+    (function () {
       var raf = null, rx = 0, ry = 0;
       card.addEventListener("mousemove", function (e) {
         var rect = card.getBoundingClientRect();
@@ -507,7 +541,7 @@
         if (card.contains(e.relatedTarget)) return;
         card.style.transform = "";
       });
-    });
+    })();
   }
 
   function initMagnetic() {
@@ -626,7 +660,7 @@
           var success = $("[data-co-success]");
           success.hidden = false;
           nextFrame(function () { success.classList.add("is-visible"); });
-          showToast("Compra confirmada — el pago queda retenido hasta tu check-in");
+          showToast("Compra confirmada: pagaste " + formatMoney(Number(purchase.totalPaid)) + ". El pago queda retenido hasta tu check-in");
           document.dispatchEvent(new CustomEvent("libera:purchased", { detail: purchase }));
         }).catch(function (err) {
           confirmBtn.disabled = false;
@@ -770,8 +804,12 @@
       var reserveLabel = reserveBtn.querySelector("span");
       var forSale = l.status === "ACTIVE" || l.status === "PARTIALLY_SOLD";
       var blocked = null;
-      if (v.isOwn) blocked = "Esta es tu publicación";
+      if (v.isOwn) {
+        blocked = l.status === "PENDING_REVIEW" ? "Tu publicación está en revisión"
+          : l.status === "REJECTED" ? "Tu publicación fue rechazada" : "Esta es tu publicación";
+      }
       else if (l.status === "SOLD_OUT") blocked = "Reserva vendida";
+      else if (l.status === "PENDING_REVIEW") blocked = "Publicación en revisión";
       else if (!forSale) blocked = "Publicación no disponible";
       else if (v.soldRanges.length) blocked = "Algunas noches ya se vendieron";
 
@@ -825,6 +863,9 @@
     var priceInput = $("[data-split-price-input]", form);
     var roomLine = $("[data-split-room-line]", form);
     var submitBtn = $("[data-split-submit]", form);
+    var feeLine = document.createElement("p");
+    feeLine.className = "split-fee-line";
+    priceInput.insertAdjacentElement("afterend", feeLine);
 
     var view = null;
     var checkinDate = null, checkoutDate = null;
@@ -932,6 +973,7 @@
         dateLabel.textContent = "Sin noches disponibles";
         nightsLabel.textContent = "";
         priceInput.value = "";
+        feeLine.textContent = "";
         submitBtn.disabled = true;
         return;
       }
@@ -939,7 +981,11 @@
       dateLabel.textContent = fmtShort(committed.start) + " – " + fmtShort(committed.end);
       nightsLabel.textContent = plural(n, "noche", "noches");
       // Mismo cálculo que el backend: proporcional a las noches sobre el precio publicado
-      priceInput.value = Math.round((view.price * n / view.nights) * 100) / 100;
+      var nightsPrice = Math.round((view.price * n / view.nights) * 100) / 100;
+      priceInput.value = nightsPrice;
+      var guarantee = Math.round(nightsPrice * view.feePct) / 100;
+      feeLine.textContent = "+ Garantía de Traspaso (" + String(view.feePct).replace(".", ",") + "%): " +
+        formatMoney(guarantee) + " · Total " + formatMoney(nightsPrice + guarantee);
       submitBtn.disabled = false;
     }
 
@@ -984,7 +1030,7 @@
         var success = $("[data-split-success]", form);
         success.hidden = false;
         nextFrame(function () { success.classList.add("is-visible"); });
-        showToast("Compraste " + plural(purchase.nights, "noche", "noches") + " — el pago queda retenido hasta tu check-in");
+        showToast("Compraste " + plural(purchase.nights, "noche", "noches") + " por " + formatMoney(Number(purchase.totalPaid)) + ". El pago queda retenido hasta tu check-in");
         document.dispatchEvent(new CustomEvent("libera:purchased", { detail: purchase }));
       }).catch(function (err) {
         label.textContent = original;
@@ -1015,6 +1061,9 @@
   /* ---------------------------------------------------------------
      CATALOG (search + filters + sort)
   --------------------------------------------------------------- */
+  // Las fotos de offers-data.js vienen grandes (galería); en tarjetas alcanza con 700px
+  function cardImage(src) { return src.replace(/w=\d+&h=\d+/, "w=700&h=560"); }
+
   // Tarjeta del catálogo a partir de una publicación de la API. Los data-* son los
   // mismos que tenían las tarjetas fijas, así los filtros y el orden no cambian.
   function buildOfferCard(v) {
@@ -1055,7 +1104,7 @@
         '</div>' +
       '</div>';
     var img = $(".offer-media img", card);
-    img.src = v.images[0].src;
+    img.src = cardImage(v.images[0].src); // la tarjeta muestra la foto a ~280px
     img.alt = v.images[0].alt;
     $(".offer-badge-discount", card).textContent = "-" + v.discountPct + "%";
     if (tag) $(".offer-badge-tag", card).textContent = tag;
@@ -1074,6 +1123,64 @@
     $(".offer-price .now", card).textContent = formatMoney(v.price);
     $(".offer-foot a", card).href = "oferta.html?id=" + l.id;
     return card;
+  }
+
+  // Tarjeta de "Habitaciones destacadas" (index.html), mismo markup que tenían las tarjetas fijas
+  function buildFeaturedCard(v) {
+    var l = v.listing;
+    var card = document.createElement("article");
+    card.className = "destacada-card";
+    card.setAttribute("data-tilt", "");
+    var tag = l.allowsSplitBooking ? "Admite noches sueltas" : "";
+    card.innerHTML =
+      '<div class="offer-media">' +
+        '<img loading="lazy" decoding="async" alt="">' +
+        '<span class="offer-badge offer-badge-discount"></span>' +
+        (tag ? '<span class="offer-badge offer-badge-tag"></span>' : "") +
+        '<span class="offer-pin-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-pin"></use></svg><span></span></span>' +
+      '</div>' +
+      '<div class="destacada-body">' +
+        '<div class="offer-top"><h3></h3>' + (v.rating ? '<span class="offer-rating"></span>' : "") + '</div>' +
+        '<p class="destacada-dates"></p>' +
+        '<div class="offer-foot">' +
+          '<div class="offer-price"><span class="was"></span><span class="now"></span></div>' +
+          '<a class="btn btn-primary btn-sm">Reservar</a>' +
+        '</div>' +
+      '</div>';
+    var img = $(".offer-media img", card);
+    img.src = cardImage(v.images[0].src);
+    img.alt = v.images[0].alt;
+    $(".offer-badge-discount", card).textContent = "-" + v.discountPct + "%";
+    if (tag) $(".offer-badge-tag", card).textContent = tag;
+    $(".offer-pin-badge span", card).textContent = v.location;
+    $("h3", card).textContent = v.hotel;
+    if (v.rating) $(".offer-rating", card).textContent = "★ " + v.rating.toFixed(1);
+    $(".destacada-dates", card).textContent = fmtRangeShort(v.checkinISO, v.checkoutISO) + " · " + plural(v.nights, "noche", "noches");
+    $(".offer-price .was", card).textContent = formatMoney(v.original);
+    $(".offer-price .now", card).textContent = formatMoney(v.price);
+    $(".offer-foot a", card).href = "oferta.html?id=" + l.id;
+    return card;
+  }
+
+  function initFeaturedOffers() {
+    var track = $(".destacadas [data-carousel-track]");
+    if (!track || !api) return;
+    var carousel = track.closest(".destacadas-carousel");
+    api.listings().then(function (listings) {
+      // primero las que tienen fotos propias del hotel, después el resto; hasta 6
+      var withContent = listings.filter(function (l) { return (window.OFFERS || {})[l.hotelSlug]; });
+      var rest = listings.filter(function (l) { return !(window.OFFERS || {})[l.hotelSlug]; });
+      var picked = withContent.concat(rest).slice(0, 6);
+      track.innerHTML = "";
+      picked.forEach(function (l) {
+        var card = buildFeaturedCard(listingView(l));
+        track.appendChild(card);
+        bindTilt(card);
+      });
+      if (carousel) carousel.hidden = picked.length === 0;
+    }).catch(function () {
+      if (carousel) carousel.hidden = true; // queda el botón "Ver el catálogo completo"
+    });
   }
 
   function initCatalog() {
@@ -1421,8 +1528,8 @@
      SELLER WIZARD (vender.html) — guided "publicar mi reserva" flow.
      El hotel se busca en la API; al publicar se registra la reserva
      original (POST /bookings) y se crea la publicación (POST /listings).
-     La verificación con el hotel (paso 3) y el comprobante (paso 4)
-     siguen siendo solo de interfaz: el backend todavía no los procesa.
+     El comprobante (paso 4) se sube al backend y la publicación queda
+     "en revisión" hasta que un administrador la valida (paso 3 lo explica).
   --------------------------------------------------------------- */
   function initSellerWizard() {
     var shell = $(".wizard-shell");
@@ -1440,6 +1547,7 @@
       step: 1, hotel: null, checkin: null, checkout: null,
       guests: 2, roomType: "Doble Estándar", provider: "Directo con el hotel", bookingRef: "", reason: "",
       originalPrice: null, discount: 30, verified: false, uploaded: false,
+      voucherFile: null, voucherUploadedFor: null, // comprobante elegido / reserva a la que ya se subió
       allowOffers: true, allowSplitBooking: true,
       bookingId: null // reserva ya registrada en el backend (para reintentar sin duplicarla)
     };
@@ -1765,25 +1873,14 @@
 
     /* ---------- Paso 3 — verificación (condicional según socio) ---------- */
     function runVerification() {
-      if (state.verified) return;
       var statusEl = $(".verify-status", shell);
       var textEl = $("[data-verify-text]", shell);
-      if (state.hotel.partner) {
-        statusEl.dataset.verifyStatus = "pending";
-        textEl.textContent = "Verificando tu reserva con el hotel…";
-        updateNav();
-        setTimeout(function () {
-          state.verified = true;
-          statusEl.dataset.verifyStatus = "done";
-          textEl.textContent = "Reserva verificada con el hotel ✓";
-          updateNav();
-        }, 1300);
-      } else {
-        statusEl.dataset.verifyStatus = "done";
-        textEl.textContent = "Como este hotel todavía no es socio de LIBERA, vamos a validar tu reserva con el comprobante que subas a continuación.";
-        state.verified = true;
-        updateNav();
-      }
+      statusEl.dataset.verifyStatus = "done";
+      textEl.textContent = state.hotel.partner
+        ? "Como " + state.hotel.name + " es socio de LIBERA, nuestro equipo confirma la reserva directamente con el hotel antes de publicarla."
+        : "Como este hotel todavía no es socio de LIBERA, nuestro equipo valida la reserva con el comprobante que subas en el paso siguiente.";
+      state.verified = true;
+      updateNav();
     }
 
     /* ---------- Paso 4 — comprobante ---------- */
@@ -1791,9 +1888,16 @@
     var fileInput = $("[data-upload-input]", shell);
     var uploadConfirmed = $("[data-upload-confirmed]", shell);
 
+    var VOUCHER_TYPES = ["application/pdf", "image/jpeg", "image/png", "image/webp"];
+    var VOUCHER_MAX_BYTES = 5 * 1024 * 1024;
+
     function handleFile(file) {
       if (!file) return;
+      if (VOUCHER_TYPES.indexOf(file.type) === -1) { showToast("El comprobante tiene que ser un PDF, JPG, PNG o WEBP."); return; }
+      if (file.size > VOUCHER_MAX_BYTES) { showToast("El comprobante puede pesar hasta 5 MB."); return; }
       state.uploaded = true;
+      state.voucherFile = file;
+      state.voucherUploadedFor = null;
       $("[data-upload-filename]", shell).textContent = file.name;
       uploadConfirmed.hidden = false;
       $("[data-upload-label]", shell).textContent = "Cambiar archivo";
@@ -1954,8 +2058,8 @@
       var recapVerify = $("[data-wizard-recap-verify]", shell);
       if (recapVerify) {
         recapVerify.textContent = h.partner
-          ? "Reserva confirmada directamente con el hotel asociado"
-          : "Reserva validada con tu comprobante";
+          ? "Un administrador confirma tu reserva con el hotel antes de publicarla"
+          : "Un administrador valida tu reserva con el comprobante antes de publicarla";
       }
     }
 
@@ -1993,16 +2097,21 @@
       nextLabel.textContent = "Publicando…";
       var sale = computeSaleBreakdown(state.originalPrice, state.discount).sale;
       ensureBooking().then(function (bookingId) {
+        // el comprobante se sube una sola vez por reserva (si se reintenta, no se vuelve a mandar)
+        if (!state.voucherFile || state.voucherUploadedFor === bookingId) return bookingId;
+        return api.uploadVoucher(bookingId, state.voucherFile).then(function () {
+          state.voucherUploadedFor = bookingId;
+          return bookingId;
+        });
+      }).then(function (bookingId) {
         return api.createListing({
           originalBookingId: bookingId,
           listedTotalPrice: round2(sale),
           allowsSplitBooking: !!(state.hotel.splitAvailable && state.allowSplitBooking)
         });
-      }).then(function (listing) {
-        var link = $("[data-wizard-view-listing]", shell);
-        if (link) link.href = "oferta.html?id=" + listing.id;
+      }).then(function () {
         showStep("success");
-        showToast("¡Reserva publicada con éxito!");
+        showToast("¡Recibimos tu publicación! Queda en revisión.");
       }).catch(function (err) {
         nextBtn.disabled = false;
         nextLabel.textContent = "Publicar mi reserva";
@@ -2130,6 +2239,7 @@
           box.className = "nav-session";
           box.dataset.sessionNav = "";
           box.innerHTML =
+            '<a class="btn btn-ghost-nav" href="admin.html" data-session-admin hidden>Panel admin</a>' +
             '<a class="btn btn-ghost-nav" href="mi-cuenta.html" data-session-name></a>' +
             '<button type="button" class="btn btn-primary nav-cta" data-logout>Cerrar sesión</button>';
           $("[data-logout]", box).addEventListener("click", function () {
@@ -2139,11 +2249,14 @@
           nav.appendChild(box);
         }
         $("[data-session-name]", box).textContent = "Hola, " + user.firstName;
+        $("[data-session-admin]", box).hidden = user.role !== "ADMIN";
       });
     }
 
     api.onSessionChange(render);
     render();
+    // Los datos guardados pueden estar viejos (rol cambiado, sesión vencida): se actualizan en segundo plano
+    api.refreshSession().catch(function () { /* sin conexión: queda la sesión guardada */ });
   }
 
   /* ---------------------------------------------------------------
@@ -2157,11 +2270,47 @@
     DISPUTED: { label: "En reclamo", tone: "alert", buyer: "Nuestro equipo está revisando el caso. El pago sigue retenido.", seller: "El comprador abrió un reclamo. El pago sigue retenido mientras lo revisamos." }
   };
   var LISTING_STATUS = {
+    PENDING_REVIEW: { label: "En revisión", tone: "pending" },
     ACTIVE: { label: "Publicada", tone: "ok" },
     PARTIALLY_SOLD: { label: "Vendida en parte", tone: "pending" },
     SOLD_OUT: { label: "Vendida", tone: "ok" },
-    CANCELLED: { label: "Cancelada", tone: "muted" }
+    CANCELLED: { label: "Cancelada", tone: "muted" },
+    REJECTED: { label: "Rechazada", tone: "alert" }
   };
+
+  var VOUCHER_ACCEPT = "application/pdf,image/jpeg,image/png,image/webp";
+
+  // Tarjeta de un ítem de cuenta (compra, venta, publicación, reserva). La usan Mi cuenta y admin.js.
+  function accountItem(opts) {
+    var el = document.createElement("article");
+    el.className = "account-item";
+    el.innerHTML =
+      '<div class="account-item-main"><h3></h3><p class="account-item-meta"></p><p class="account-item-hint"></p></div>' +
+      '<div class="account-item-side"><span class="status-pill"></span><strong class="account-item-price"></strong><div class="account-item-actions"></div></div>';
+    $("h3", el).textContent = opts.title;
+    $(".account-item-meta", el).textContent = opts.meta;
+    var hint = $(".account-item-hint", el);
+    hint.textContent = opts.hint || "";
+    hint.hidden = !opts.hint;
+    var pill = $(".status-pill", el);
+    pill.hidden = !opts.status;
+    if (opts.status) { pill.textContent = opts.status.label; pill.dataset.tone = opts.status.tone; }
+    $(".account-item-price", el).textContent = opts.price || "";
+    var actions = $(".account-item-actions", el);
+    (opts.actions || []).forEach(function (a) {
+      var btn = document.createElement(a.href ? "a" : "button");
+      btn.className = "btn btn-sm " + (a.primary ? "btn-primary" : "btn-outline");
+      btn.textContent = a.label;
+      if (a.href) btn.href = a.href;
+      else { btn.type = "button"; btn.addEventListener("click", function () { a.run(btn, el); }); }
+      actions.appendChild(btn);
+    });
+    return el;
+  }
+
+  function stayText(x) {
+    return fmtRangeShort(x.checkIn, x.checkOut) + " " + parseISODate(x.checkOut).getFullYear() + " · " + plural(x.nights, "noche", "noches");
+  }
 
   function initAccountPage() {
     var root = $("[data-account]");
@@ -2170,6 +2319,14 @@
     var panels = $("[data-account-panels]", root);
     var greeting = $("[data-account-greeting]");
     var defaultGreeting = greeting ? greeting.textContent : "";
+
+    // Acceso al panel para administradores
+    var adminBox = document.createElement("div");
+    adminBox.className = "account-admin";
+    adminBox.hidden = true;
+    adminBox.innerHTML = '<p><strong>Sos administrador.</strong> Revisá publicaciones, confirmá check-ins y mirá las solicitudes de demo.</p>' +
+      '<a class="btn btn-primary btn-sm" href="admin.html">Ir al panel de administración</a>';
+    panels.insertBefore(adminBox, panels.firstChild);
 
     $$("[data-account-tab]", root).forEach(function (tab) {
       tab.addEventListener("click", function () {
@@ -2182,33 +2339,6 @@
       });
     });
 
-    function item(opts) {
-      var el = document.createElement("article");
-      el.className = "account-item";
-      el.innerHTML =
-        '<div class="account-item-main"><h3></h3><p class="account-item-meta"></p><p class="account-item-hint"></p></div>' +
-        '<div class="account-item-side"><span class="status-pill"></span><strong class="account-item-price"></strong><div class="account-item-actions"></div></div>';
-      $("h3", el).textContent = opts.title;
-      $(".account-item-meta", el).textContent = opts.meta;
-      var hint = $(".account-item-hint", el);
-      hint.textContent = opts.hint || "";
-      hint.hidden = !opts.hint;
-      var pill = $(".status-pill", el);
-      pill.textContent = opts.status.label;
-      pill.dataset.tone = opts.status.tone;
-      $(".account-item-price", el).textContent = opts.price;
-      var actions = $(".account-item-actions", el);
-      (opts.actions || []).forEach(function (a) {
-        var btn = document.createElement(a.href ? "a" : "button");
-        btn.className = "btn btn-sm " + (a.primary ? "btn-primary" : "btn-outline");
-        btn.textContent = a.label;
-        if (a.href) btn.href = a.href;
-        else { btn.type = "button"; btn.addEventListener("click", function () { a.run(btn); }); }
-        actions.appendChild(btn);
-      });
-      return el;
-    }
-
     function fill(panelName, items, emptyHtml) {
       var panel = $('[data-account-panel="' + panelName + '"]', root);
       panel.innerHTML = "";
@@ -2217,13 +2347,10 @@
         empty.className = "account-empty";
         empty.innerHTML = emptyHtml;
         panel.appendChild(empty);
-        return;
+        return panel;
       }
       items.forEach(function (el) { panel.appendChild(el); });
-    }
-
-    function stayText(x) {
-      return fmtRangeShort(x.checkIn, x.checkOut) + " " + parseISODate(x.checkOut).getFullYear() + " · " + plural(x.nights, "noche", "noches");
+      return panel;
     }
 
     // Corre una acción con confirmación y recarga todo al terminar
@@ -2238,18 +2365,21 @@
 
     function purchaseItem(p) {
       var st = PURCHASE_STATUS[p.status] || { label: p.status, tone: "muted" };
-      var canDispute = p.status === "PAYMENT_HELD" || p.status === "NAME_CHANGED";
-      return item({
+      var actions = [{ label: "Ver detalle", href: "compra.html?id=" + p.id }];
+      if (p.status === "PAYMENT_HELD" || p.status === "NAME_CHANGED") {
+        actions.push({
+          label: "Tengo un problema",
+          run: action("¿Querés abrir un reclamo por esta compra? El pago va a quedar retenido mientras lo revisamos.",
+            function () { return api.openDispute(p.id); }, "Abrimos tu reclamo. Te vamos a contactar.")
+        });
+      }
+      return accountItem({
         title: p.hotelName,
         meta: p.roomType + " · " + stayText(p),
         hint: st.buyer,
         status: { label: st.buyerLabel || st.label, tone: st.tone },
-        price: formatMoney(Number(p.totalPrice)),
-        actions: canDispute ? [{
-          label: "Tengo un problema",
-          run: action("¿Querés abrir un reclamo por esta compra? El pago va a quedar retenido mientras lo revisamos.",
-            function () { return api.openDispute(p.id); }, "Abrimos tu reclamo. Te vamos a contactar.")
-        }] : []
+        price: formatAmount(p.totalPaid != null ? p.totalPaid : p.totalPrice),
+        actions: actions
       });
     }
 
@@ -2258,18 +2388,23 @@
       var soldNights = (l.soldRanges || []).reduce(function (n, r) {
         return n + Math.round((parseISODate(r.checkOut) - parseISODate(r.checkIn)) / 86400000);
       }, 0);
-      var actions = [{ label: "Ver publicación", href: "oferta.html?id=" + l.id }];
-      if (l.status === "ACTIVE") {
+      var hint = l.status === "PENDING_REVIEW" ? "Estamos validando tu reserva. Apenas la aprobemos aparece en el catálogo."
+        : l.status === "REJECTED" ? "Motivo: " + (l.reviewNote || "no pudimos validar la reserva.")
+        : soldNights ? "Vendiste " + plural(soldNights, "noche", "noches") + " de " + l.nights + "."
+        : l.allowsSplitBooking ? "Admite noches sueltas." : "";
+      var actions = [];
+      if (l.status !== "REJECTED" && l.status !== "CANCELLED") actions.push({ label: "Ver publicación", href: "oferta.html?id=" + l.id });
+      if (l.status === "ACTIVE" || l.status === "PENDING_REVIEW") {
         actions.push({
           label: "Cancelar",
           run: action("¿Seguro que querés cancelar esta publicación? Va a dejar de aparecer en el catálogo.",
             function () { return api.cancelListing(l.id); }, "Publicación cancelada")
         });
       }
-      return item({
+      return accountItem({
         title: l.hotelName,
         meta: l.roomType + " · " + stayText(l),
-        hint: soldNights ? "Vendiste " + plural(soldNights, "noche", "noches") + " de " + l.nights + "." : (l.allowsSplitBooking ? "Admite noches sueltas." : ""),
+        hint: hint,
         status: st,
         price: formatMoney(Number(l.listedTotalPrice)),
         actions: actions
@@ -2278,32 +2413,203 @@
 
     function saleItem(p) {
       var st = PURCHASE_STATUS[p.status] || { label: p.status, tone: "muted" };
-      return item({
+      return accountItem({
         title: p.hotelName,
         meta: p.roomType + " · " + stayText(p),
         hint: st.seller,
         status: st,
-        price: formatMoney(Number(p.totalPrice))
+        price: formatAmount(p.totalPrice),
+        actions: [{ label: "Ver detalle", href: "compra.html?id=" + p.id }]
       });
+    }
+
+    // Reserva cargada que nunca se publicó (o cuya publicación se canceló): se publica desde acá
+    function bookingItem(b) {
+      var el = accountItem({
+        title: b.hotelName,
+        meta: b.roomType + " · " + stayText(b) + " · Código " + b.pmsConfirmationCode,
+        hint: "Pagaste " + formatMoney(Number(b.totalAmountPaid)) + ". Todavía no está publicada.",
+        actions: [{ label: "Publicar", primary: true, run: function (btn, item) { btn.hidden = true; $(".account-publish", item).hidden = false; } }]
+      });
+      var max = Number(b.totalAmountPaid);
+      var form = document.createElement("form");
+      form.className = "account-publish";
+      form.hidden = true;
+      form.noValidate = true;
+      form.innerHTML =
+        '<div class="field"><label>Precio de venta (USD)</label><input type="number" name="price" min="1" step="0.01" required></div>' +
+        (b.splitBookingAvailable ? '<label class="wizard-consent"><input type="checkbox" name="split" checked><span>Permitir comprar noches sueltas (Split Booking)</span></label>' : "") +
+        (b.hasVoucher ? '<p class="account-item-hint">Ya subiste el comprobante de esta reserva.</p>'
+          : '<div class="field"><label>Comprobante de la reserva (PDF o imagen, hasta 5 MB)</label><input type="file" name="voucher" accept="' + VOUCHER_ACCEPT + '"></div>') +
+        '<p class="account-item-hint">La publicación queda en revisión hasta que validemos la reserva.</p>' +
+        '<div class="account-item-actions"><button type="submit" class="btn btn-primary btn-sm">Enviar a revisión</button></div>';
+      var priceInput = form.elements.price;
+      priceInput.max = String(max);
+      priceInput.value = String(Math.round(max * 0.75));
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var price = Number(priceInput.value);
+        if (!(price > 0) || price > max) { showToast("El precio tiene que ser mayor a 0 y no superar lo que pagaste (" + formatMoney(max) + ")."); return; }
+        var fileInput = form.elements.voucher;
+        var file = fileInput && fileInput.files[0];
+        if (file && (VOUCHER_ACCEPT.split(",").indexOf(file.type) === -1 || file.size > 5 * 1024 * 1024)) {
+          showToast("El comprobante tiene que ser un PDF o una imagen de hasta 5 MB."); return;
+        }
+        var submit = form.querySelector('button[type="submit"]');
+        submit.disabled = true;
+        (file ? api.uploadVoucher(b.id, file) : Promise.resolve()).then(function () {
+          return api.createListing({
+            originalBookingId: b.id,
+            listedTotalPrice: Math.round(price * 100) / 100,
+            allowsSplitBooking: !!(form.elements.split && form.elements.split.checked)
+          });
+        }).then(function () {
+          showToast("¡Recibimos tu publicación! Queda en revisión.");
+          load();
+        }).catch(function (err) {
+          submit.disabled = false;
+          showToast(err.message);
+        });
+      });
+      $(".account-item-main", el).appendChild(form);
+      return el;
     }
 
     function load() {
       var user = api.currentUser();
       guest.hidden = !!user;
       panels.hidden = !user;
+      adminBox.hidden = !(user && user.role === "ADMIN");
       if (greeting) greeting.textContent = user ? "Hola, " + user.firstName + ". " + defaultGreeting : defaultGreeting;
       if (!user) return;
 
       $$("[data-account-panel]", root).forEach(function (p) { p.innerHTML = '<p class="account-empty">Cargando…</p>'; });
-      Promise.all([api.myPurchases(), api.myListings(), api.mySales()]).then(function (res) {
+      Promise.all([api.myPurchases(), api.myListings(), api.mySales(), api.myBookings()]).then(function (res) {
         fill("purchases", res[0].map(purchaseItem), 'Todavía no compraste ninguna reserva. <a href="catalogo.html">Ver ofertas</a>');
-        fill("listings", res[1].map(listingItem), 'Todavía no publicaste ninguna reserva. <a href="vender.html">Vender mi reserva</a>');
+        var unpublished = res[3].filter(function (b) { return !b.listingStatus && parseISODate(b.checkIn) >= new Date(new Date().toDateString()); });
+        var listingsPanel = fill("listings", res[1].map(listingItem),
+          unpublished.length ? "" : 'Todavía no publicaste ninguna reserva. <a href="vender.html">Vender mi reserva</a>');
+        if (unpublished.length) {
+          var head = document.createElement("h3");
+          head.className = "account-subhead";
+          head.textContent = "Reservas cargadas sin publicar";
+          listingsPanel.insertBefore(head, listingsPanel.firstChild);
+          unpublished.slice().reverse().forEach(function (b) { listingsPanel.insertBefore(bookingItem(b), head.nextSibling); });
+          var emptyNote = $(".account-empty", listingsPanel);
+          if (emptyNote) emptyNote.remove();
+        }
         fill("sales", res[2].map(saleItem), "Todavía no vendiste noches de tus publicaciones.");
       }).catch(function (err) {
         $$("[data-account-panel]", root).forEach(function (p) {
           p.innerHTML = '<p class="account-empty"></p>';
           p.firstChild.textContent = err.message;
         });
+      });
+    }
+
+    api.onSessionChange(load);
+    load();
+  }
+
+  /* ---------------------------------------------------------------
+     DETALLE DE COMPRA (compra.html?id=) — para comprador, vendedor o admin
+  --------------------------------------------------------------- */
+  var PURCHASE_STEPS = [
+    { code: "PAYMENT_HELD", label: "Pago retenido", text: "LIBERA guarda el pago hasta que se confirme la estadía." },
+    { code: "NAME_CHANGED", label: "Reserva a nombre del comprador", text: "El hotel ya tiene el nombre del nuevo huésped." },
+    { code: "CHECKED_IN", label: "Check-in confirmado", text: "El hotel confirmó la llegada." },
+    { code: "LIQUIDATED", label: "Pago liberado", text: "El vendedor cobra su parte." }
+  ];
+
+  function initPurchaseDetail() {
+    var root = $("[data-purchase-page]");
+    if (!root || !api) return;
+    var id = new URLSearchParams(location.search).get("id");
+    var guest = $("[data-account-guest]", root);
+    var detail = $("[data-purchase-detail]", root);
+    var errorEl = $("[data-purchase-error]", root);
+
+    function row(dl, label, value, strong) {
+      var dt = document.createElement("dt"); dt.textContent = label;
+      var dd = document.createElement("dd"); dd.textContent = value;
+      if (strong) dd.className = "is-strong";
+      dl.appendChild(dt); dl.appendChild(dd);
+    }
+
+    function render(p) {
+      var user = api.currentUser();
+      var isBuyer = user && user.id === p.buyerId;
+      $("[data-purchase-title]").textContent = p.hotelName;
+      $("[data-purchase-sub]").textContent = isBuyer ? "Tu compra" : "Venta de tu reserva";
+
+      // Línea de tiempo del pago en custodia
+      var current = PURCHASE_STEPS.map(function (s) { return s.code; }).indexOf(p.status);
+      var timeline = $("[data-purchase-timeline]", root);
+      timeline.innerHTML = "";
+      PURCHASE_STEPS.forEach(function (step, i) {
+        var li = document.createElement("li");
+        li.className = "purchase-step" + (current >= 0 && i <= current ? " is-done" : "") + (i === current ? " is-current" : "");
+        li.innerHTML = "<strong></strong><span></span>";
+        li.children[0].textContent = step.label;
+        li.children[1].textContent = step.text;
+        timeline.appendChild(li);
+      });
+      var alertEl = $("[data-purchase-alert]", root);
+      var st = PURCHASE_STATUS[p.status] || {};
+      alertEl.hidden = p.status !== "DISPUTED";
+      if (p.status === "DISPUTED") alertEl.textContent = isBuyer ? st.buyer : st.seller;
+
+      var stay = $("[data-purchase-stay]", root);
+      stay.innerHTML = "";
+      row(stay, "Hotel", p.hotelName);
+      row(stay, "Habitación", p.roomType);
+      row(stay, "Check-in", fmtDateLong(p.checkIn));
+      row(stay, "Check-out", fmtDateLong(p.checkOut));
+      row(stay, "Noches", String(p.nights));
+      row(stay, "Estado", (isBuyer ? st.buyerLabel || st.label : st.label) || p.status);
+
+      var money = $("[data-purchase-money]", root);
+      money.innerHTML = "";
+      var price = Number(p.totalPrice);
+      if (isBuyer) {
+        row(money, "Precio de las noches", formatAmount(price));
+        row(money, "Garantía de Traspaso", "+" + formatAmount(Number(p.buyerFee || 0)));
+        row(money, "Total pagado", formatAmount(Number(p.totalPaid != null ? p.totalPaid : price)), true);
+      } else {
+        var fee = Math.round(price * 7.5) / 100;
+        row(money, "Precio de venta", formatAmount(price));
+        row(money, "Comisión LIBERA (7,5%)", "−" + formatAmount(fee));
+        row(money, p.status === "LIQUIDATED" ? "Cobraste" : "Vas a cobrar", formatAmount(price - fee), true);
+      }
+
+      var actions = $("[data-purchase-actions]", root);
+      actions.innerHTML = "";
+      if (isBuyer && (p.status === "PAYMENT_HELD" || p.status === "NAME_CHANGED")) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn btn-outline btn-sm";
+        btn.textContent = "Tengo un problema con esta compra";
+        btn.addEventListener("click", function () {
+          if (!window.confirm("¿Querés abrir un reclamo? El pago va a quedar retenido mientras lo revisamos.")) return;
+          btn.disabled = true;
+          api.openDispute(p.id).then(function (updated) { showToast("Abrimos tu reclamo. Te vamos a contactar."); render(updated); })
+            .catch(function (err) { btn.disabled = false; showToast(err.message); });
+        });
+        actions.appendChild(btn);
+      }
+      detail.hidden = false;
+    }
+
+    function load() {
+      var user = api.currentUser();
+      guest.hidden = !!user;
+      detail.hidden = true;
+      errorEl.hidden = true;
+      if (!user) return;
+      if (!id) { errorEl.textContent = "Falta indicar qué compra querés ver."; errorEl.hidden = false; return; }
+      api.purchaseDetail(id).then(render).catch(function (err) {
+        errorEl.textContent = err.message;
+        errorEl.hidden = false;
       });
     }
 
@@ -2320,11 +2626,16 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!form.reportValidity()) return;
+      if (!api) { showToast("No se pudo cargar la conexión con el servidor."); return; }
       var btn = form.querySelector('button[type="submit"]');
       var original = btn.innerHTML;
+      var value = function (name) { var el = form.elements[name]; return el ? el.value.trim() : ""; };
       btn.disabled = true;
       btn.querySelector("span").textContent = "Enviando…";
-      setTimeout(function () {
+      api.sendContact({
+        name: value("name"), hotel: value("hotel"), email: value("email"),
+        phone: value("phone"), rooms: value("rooms"), message: value("message")
+      }).then(function () {
         btn.innerHTML = original;
         btn.disabled = false;
         form.reset();
@@ -2332,7 +2643,11 @@
         success.hidden = false;
         nextFrame(function () { success.classList.add("is-visible"); });
         showToast("Solicitud enviada correctamente");
-      }, 700);
+      }).catch(function (err) {
+        btn.innerHTML = original;
+        btn.disabled = false;
+        showToast(err.message);
+      });
     });
   }
 
@@ -2393,12 +2708,24 @@
   }
 
   /* ---------------------------------------------------------------
+     Helpers compartidos con admin.js (solo lo carga admin.html)
+  --------------------------------------------------------------- */
+  window.LiberaUI = {
+    $: $, $$: $$, nextFrame: nextFrame, showToast: showToast, formatMoney: formatMoney, formatAmount: formatAmount,
+    fmtDateLong: fmtDateLong, fmtRangeShort: fmtRangeShort, plural: plural, parseISODate: parseISODate,
+    requireLogin: requireLogin, accountItem: accountItem, stayText: stayText,
+    purchaseStatus: function (code) { return PURCHASE_STATUS[code]; },
+    listingStatus: function (code) { return LISTING_STATUS[code]; }
+  };
+
+  /* ---------------------------------------------------------------
      BOOT
   --------------------------------------------------------------- */
   function boot() {
     safe(initSplash, "initSplash");
     safe(initCatalogLoading, "initCatalogLoading");
     safe(initSmoothScroll, "initSmoothScroll");
+    safe(initAnchorLinks, "initAnchorLinks");
     safe(initNavScroll, "initNavScroll");
     safe(initMobileNav, "initMobileNav");
     safe(initScrollTopLinks, "initScrollTopLinks");
@@ -2414,8 +2741,10 @@
     safe(initOtaSearch, "initOtaSearch");
     safe(initOtaSearchRedirect, "initOtaSearchRedirect");
     safe(initCatalog, "initCatalog");
+    safe(initFeaturedOffers, "initFeaturedOffers");
     safe(initSellerWizard, "initSellerWizard");
     safe(initAccountPage, "initAccountPage");
+    safe(initPurchaseDetail, "initPurchaseDetail");
     safe(initContactForm, "initContactForm");
     safe(initHeroCarousel, "initHeroCarousel");
     safe(initCarousels, "initCarousels");

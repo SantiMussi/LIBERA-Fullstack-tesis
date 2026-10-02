@@ -13,6 +13,8 @@ CREATE DATABASE IF NOT EXISTS libera_db CHARACTER SET utf8mb4 COLLATE utf8mb4_09
 USE libera_db;
 
 SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS contact_requests;
+DROP TABLE IF EXISTS booking_vouchers;
 DROP TABLE IF EXISTS transactions;
 DROP TABLE IF EXISTS resale_purchases;
 DROP TABLE IF EXISTS listings;
@@ -78,7 +80,8 @@ CREATE TABLE listings (
     listed_total_price   DECIMAL(10,2) NOT NULL,
     discount_percentage  DECIMAL(5,2)  NULL,
     allows_split_booking BOOLEAN       NOT NULL DEFAULT FALSE,
-    status               ENUM('ACTIVE','PARTIALLY_SOLD','SOLD_OUT','CANCELLED') NOT NULL DEFAULT 'ACTIVE',
+    status               ENUM('PENDING_REVIEW','ACTIVE','PARTIALLY_SOLD','SOLD_OUT','CANCELLED','REJECTED') NOT NULL DEFAULT 'PENDING_REVIEW',
+    review_note          VARCHAR(500)  NULL,
     PRIMARY KEY (id),
     KEY idx_listings_booking (original_booking_id),
     KEY idx_listings_seller (seller_id),
@@ -94,6 +97,7 @@ CREATE TABLE resale_purchases (
     check_in    DATE          NOT NULL,
     check_out   DATE          NOT NULL,
     total_price DECIMAL(10,2) NOT NULL,
+    buyer_fee   DECIMAL(10,2) NOT NULL,
     status      ENUM('PAYMENT_HELD','NAME_CHANGED','CHECKED_IN','LIQUIDATED','DISPUTED') NOT NULL DEFAULT 'PAYMENT_HELD',
     PRIMARY KEY (id),
     KEY idx_purchases_listing (listing_id),
@@ -118,4 +122,30 @@ CREATE TABLE transactions (
     -- una compra se liquida una sola vez
     UNIQUE KEY uk_transactions_purchase (resale_purchase_id),
     CONSTRAINT fk_transactions_purchase FOREIGN KEY (resale_purchase_id) REFERENCES resale_purchases (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Comprobante de la reserva original (lo revisa un administrador antes de aprobar la publicación)
+CREATE TABLE booking_vouchers (
+    id                  BIGINT       NOT NULL AUTO_INCREMENT,
+    original_booking_id BIGINT       NOT NULL,
+    file_name           VARCHAR(255) NOT NULL,
+    content_type        VARCHAR(100) NOT NULL,
+    data                MEDIUMBLOB   NOT NULL,
+    uploaded_at         DATETIME(6)  NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_vouchers_booking (original_booking_id),
+    CONSTRAINT fk_vouchers_booking FOREIGN KEY (original_booking_id) REFERENCES original_bookings (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Solicitudes de demo del formulario de la vista Hoteles
+CREATE TABLE contact_requests (
+    id         BIGINT        NOT NULL AUTO_INCREMENT,
+    name       VARCHAR(150)  NOT NULL,
+    hotel_name VARCHAR(200)  NOT NULL,
+    email      VARCHAR(255)  NOT NULL,
+    phone      VARCHAR(50)   NULL,
+    rooms      VARCHAR(30)   NULL,
+    message    VARCHAR(2000) NULL,
+    created_at DATETIME(6)   NOT NULL,
+    PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

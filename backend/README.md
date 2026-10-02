@@ -12,7 +12,7 @@ El front es HTML/JS puro: consume esta API con `fetch()`, no necesita React.
 2. **Tests**: `mvnw test`. También usan H2 en memoria.
 
 Usuarios de prueba de `seed.sql` (contraseña `Libera2026!`): `vendedor@libera.test`, `comprador@libera.test`,
-`admin@libera.test` (rol ADMIN).
+`admin@libera.test` (rol ADMIN: panel en `admin.html`).
 
 ### Con MySQL (opcional)
 
@@ -62,20 +62,27 @@ Fechas en formato `YYYY-MM-DD`. Una estadía es `[checkIn, checkOut)`: la noche 
 | GET | `/hotels?q=&city=` | público | buscador de hoteles (wizard de venta) |
 | GET | `/hotels/{id}` | público | detalle de hotel |
 | POST | `/bookings` | usuario | el titular carga su reserva original (`hotelId, pmsConfirmationCode, checkIn, checkOut, roomType, totalAmountPaid`) |
-| GET | `/bookings/mine` | usuario | reservas cargadas por el usuario |
+| GET | `/bookings/mine` | usuario | reservas cargadas por el usuario (con `listingStatus`, `hasVoucher`) |
+| POST | `/bookings/{id}/voucher` | titular | sube el comprobante (multipart, campo `file`: PDF/JPG/PNG/WEBP, hasta 5 MB) |
 | GET | `/listings?city=&hotelId=&checkIn=&checkOut=&maxPrice=` | público | catálogo (solo publicaciones con noches disponibles) |
-| GET | `/listings/{id}` | público | detalle; `soldRanges` = noches ya vendidas |
+| GET | `/listings/{id}` | público | detalle; `soldRanges` = noches ya vendidas. En revisión o rechazada: solo vendedor y admin |
 | GET | `/listings/mine` | usuario | publicaciones del vendedor |
-| POST | `/listings` | usuario | publicar una reserva propia (`originalBookingId, listedTotalPrice, allowsSplitBooking`) |
-| POST | `/listings/{id}/cancel` | vendedor | cancelar (solo si no vendió noches) |
+| POST | `/listings` | usuario | publicar una reserva propia (`originalBookingId, listedTotalPrice, allowsSplitBooking`); queda `PENDING_REVIEW` |
+| POST | `/listings/{id}/cancel` | vendedor | cancelar (en revisión o activa sin noches vendidas) |
 | POST | `/purchases` | usuario | comprar (`listingId, checkIn, checkOut`); con Split Booking se pueden comprar solo algunas noches |
 | GET | `/purchases/mine` | usuario | compras del usuario |
 | GET | `/purchases/sales` | usuario | ventas sobre mis publicaciones |
 | GET | `/purchases/{id}` | comprador, vendedor o admin | detalle de una compra |
 | POST | `/purchases/{id}/dispute` | comprador | reportar un problema; el pago queda retenido |
+| POST | `/contact` | público | solicitud de demo de un hotel (`name, hotel, email, phone, rooms, message`) |
 | POST | `/webhooks/pms/checkin` | PMS (`X-API-KEY`) | el hotel confirma el check-in → se libera el pago (idempotente) |
-| GET | `/admin/purchases?status=` | admin | todas las compras |
+| GET | `/admin/purchases?status=` | admin | todas las compras, con comprador, vendedor y reparto del dinero si ya se liquidó |
 | POST | `/admin/purchases/{id}/check-in` | admin | confirmación manual de check-in (hoteles sin PMS / disputas) |
+| GET | `/admin/listings?status=` | admin | publicaciones por estado (por defecto `PENDING_REVIEW`), con datos para revisarlas |
+| POST | `/admin/listings/{id}/approve` | admin | aprueba: pasa a `ACTIVE` y aparece en el catálogo |
+| POST | `/admin/listings/{id}/reject` | admin | rechaza con motivo (`note`); el vendedor lo ve en Mi cuenta |
+| GET | `/admin/bookings/{id}/voucher` | admin | descarga el comprobante de una reserva |
+| GET | `/admin/contact-requests` | admin | solicitudes de demo de hoteles |
 
 Todas las rutas llevan el prefijo `/api/v1`.
 
@@ -91,6 +98,14 @@ Todas las respuestas de error tienen la misma forma:
 
 ## Reglas de negocio
 
+- **Fees públicos** (los mismos para todos los modelos de hotel):
+  - Comprador: precio + **Garantía de Traspaso** según el descuento del vendedor: 7,5% (descuento menor a 35%),
+    10% (35% a 54,99%) y 12,5% de tope (55% o más). Se guarda en la compra (`buyerFee`) y se ve como `totalPaid`.
+  - Vendedor: 7,5% fijo sobre el precio de venta.
+  - Modelo Integración: el hotel recibe su revenue share (`markupFee`, en % de lo que cobra LIBERA). Convenio y hoteles
+    sin convenio: sin revenue share.
+- **Revisión**: toda publicación nueva queda `PENDING_REVIEW` (fuera del catálogo) hasta que un admin la aprueba
+  (`ACTIVE`) o la rechaza con motivo (`REJECTED`, no se puede volver a publicar esa reserva).
 - Solo el titular de una reserva puede publicarla, a un precio que no supere lo que pagó; una reserva tiene una sola publicación vigente.
 - Split Booking solo en hoteles del Modelo Integración. Sin Split, se compra la estadía completa.
 - No se venden dos veces las mismas noches (la publicación se bloquea durante la compra para evitar ventas simultáneas).

@@ -25,7 +25,7 @@ Usuarios de prueba (contraseña `Libera2026!`):
 |---|---|
 | `comprador@libera.test` | comprar reservas |
 | `vendedor@libera.test` | titular de las reservas publicadas |
-| `admin@libera.test` | rol ADMIN (confirmación manual de check-in) |
+| `admin@libera.test` | rol ADMIN: panel `admin.html` (revisión de publicaciones, check-ins, solicitudes de demo) |
 
 ## Tests
 

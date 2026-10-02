@@ -5,30 +5,14 @@ import com.libera.backend.domain.enums.PartnershipModel;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
+/** Modelo Convenio: fees públicos, sin revenue share para el hotel. */
 @Component
 public class ConvenioFeeStrategy implements FeeCalculationStrategy {
 
-    private static final BigDecimal PLATFORM_FEE_PERCENTAGE = new BigDecimal("0.10"); // 10% fee for Convenio
-    
     @Override
-    public FeeCalculationResult calculateFees(BigDecimal totalPaidByBuyer, Hotel hotel) {
-        // In CONVENIO, we might just charge a flat fee to the seller, no buyer fee, no hotel rev share
-        BigDecimal buyerFee = BigDecimal.ZERO;
-        BigDecimal sellerFee = totalPaidByBuyer.multiply(PLATFORM_FEE_PERCENTAGE).setScale(2, RoundingMode.HALF_UP);
-        BigDecimal sellerPayout = totalPaidByBuyer.subtract(sellerFee);
-        
-        BigDecimal hotelRevenueShare = BigDecimal.ZERO; // No revenue share in Convenio
-        BigDecimal liberaNetRevenue = sellerFee;
-
-        return FeeCalculationResult.builder()
-                .buyerFeeAmount(buyerFee)
-                .sellerFeeAmount(sellerFee)
-                .sellerPayoutAmount(sellerPayout)
-                .hotelRevenueShareAmount(hotelRevenueShare)
-                .liberaNetRevenue(liberaNetRevenue)
-                .build();
+    public FeeCalculationResult calculateFees(BigDecimal salePrice, BigDecimal discountPercentage, Hotel hotel) {
+        return PublicFees.calculate(salePrice, discountPercentage, BigDecimal.ZERO);
     }
 
     @Override

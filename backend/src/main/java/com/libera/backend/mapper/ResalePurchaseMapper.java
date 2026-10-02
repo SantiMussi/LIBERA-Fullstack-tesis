@@ -15,5 +15,6 @@ public interface ResalePurchaseMapper {
     @Mapping(source = "listing.originalBooking.hotel.name", target = "hotelName")
     @Mapping(source = "listing.originalBooking.roomType", target = "roomType")
     @Mapping(target = "nights", expression = "java(StayDates.nights(resalePurchase.getCheckIn(), resalePurchase.getCheckOut()))")
+    @Mapping(target = "totalPaid", expression = "java(resalePurchase.getTotalPrice() == null || resalePurchase.getBuyerFee() == null ? resalePurchase.getTotalPrice() : resalePurchase.getTotalPrice().add(resalePurchase.getBuyerFee()))")
     ResalePurchaseResponseDTO toDto(ResalePurchase resalePurchase);
 }

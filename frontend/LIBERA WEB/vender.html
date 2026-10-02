@@ -5,13 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vender mi reserva — LIBERA</title>
 <meta name="description" content="Publicá tu reserva en el marketplace de LIBERA en minutos: elegí tu descuento, verificamos tu reserva y tu identidad, y listo.">
-<link rel="icon" type="image/png" href="assets/brand/libera-bird-only.png?v=20260806d">
+<link rel="icon" type="image/png" href="assets/brand/libera-bird-only.png?v=20260806e">
 
+<link rel="preconnect" href="https://images.unsplash.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
 
-<link rel="stylesheet" href="style.css?v=20260806d">
+<link rel="stylesheet" href="style.css?v=20260806e">
 </head>
 <body data-view="b2c" data-page="vender">
 
@@ -38,7 +39,7 @@
 <header class="nav" data-nav>
   <div class="nav-inner">
     <a href="index.html" class="logo" aria-label="LIBERA — inicio">
-      <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806d" alt="LIBERA" />
+      <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806e" alt="LIBERA" />
     </a>
 
     <nav class="nav-links" aria-label="Navegación viajeros">
@@ -206,15 +207,15 @@
         <!-- PASO 3 -->
         <div class="wizard-panel" data-wizard-panel="3" hidden>
           <p class="wizard-kicker">Paso 3 de 7</p>
-          <h2>Confirmemos tu reserva</h2>
-          <p class="wizard-lede">Así protegemos cada operación en LIBERA, tanto para quien compre como para el hotel.</p>
+          <h2>Cómo validamos tu reserva</h2>
+          <p class="wizard-lede">Antes de que tu publicación aparezca en el marketplace, alguien del equipo de LIBERA revisa que la reserva sea real. Así protegemos a quien compre y al hotel.</p>
 
           <div class="verify-status" data-verify-status="pending">
             <span class="verify-spinner" aria-hidden="true"></span>
             <svg class="verify-check" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>
-            <p data-verify-text>Verificando tu reserva con el hotel…</p>
+            <p data-verify-text>Tu publicación queda en revisión hasta que la validemos.</p>
           </div>
-          <p class="wizard-demo-note">Versión demo — esta verificación no se procesa contra un sistema real todavía.</p>
+          <p class="wizard-demo-note">La revisión suele estar lista en menos de 24 horas. Podés seguir el estado en "Mi cuenta".</p>
         </div>
 
         <!-- PASO 4 -->
@@ -226,14 +227,14 @@
           <label class="upload-dropzone" data-upload-dropzone for="voucher-upload">
             <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-upload"></use></svg>
             <span data-upload-label>Arrastrá tu voucher acá o hacé click para subirlo</span>
-            <span class="upload-hint">PDF, JPG o PNG</span>
-            <input type="file" id="voucher-upload" accept="image/*,.pdf" data-upload-input hidden>
+            <span class="upload-hint">PDF, JPG, PNG o WEBP · hasta 5 MB</span>
+            <input type="file" id="voucher-upload" accept="application/pdf,image/jpeg,image/png,image/webp" data-upload-input hidden>
           </label>
           <p class="upload-confirmed" data-upload-confirmed hidden>
             <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg>
             <span data-upload-filename>—</span><span>&nbsp;cargado correctamente</span>
           </p>
-          <p class="wizard-demo-note">Versión demo — el archivo no se sube a ningún servidor todavía.</p>
+          <p class="wizard-demo-note">El comprobante solo lo ve el equipo de LIBERA que revisa tu publicación.</p>
         </div>
 
         <!-- PASO 5 -->
@@ -326,8 +327,8 @@
             <h3><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-shield"></use></svg>Así protegemos esta operación</h3>
             <ul>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg><span data-wizard-recap-verify>Reserva verificada</span></li>
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg><span>Comprobante de reserva validado</span></li>
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg><span>Identidad del vendedor confirmada</span></li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg><span>Tu comprobante solo lo ve el equipo que revisa la publicación</span></li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg><span>La publicación queda a tu nombre y con tu documento</span></li>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg><span>El pago queda protegido hasta después de tu check-in</span></li>
             </ul>
           </div>
@@ -336,15 +337,15 @@
         <!-- ÉXITO -->
         <div class="wizard-panel wizard-success" data-wizard-panel="success" hidden>
           <div class="wizard-success-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-check"></use></svg></div>
-          <h2>¡Tu reserva ya está publicada!</h2>
-          <p class="wizard-lede">Ya aparece en el marketplace de LIBERA. Te avisamos apenas alguien la compre.</p>
+          <h2>¡Recibimos tu publicación!</h2>
+          <p class="wizard-lede">Queda en revisión: apenas validemos tu reserva aparece en el marketplace de LIBERA.</p>
           <ul class="wizard-success-facts">
-            <li>Podés cancelar la publicación en cualquier momento antes de que se venda.</li>
-            <li>El dinero llega a tu cuenta unos días hábiles después de confirmada la operación.</li>
-            <li>Vas a recibir una notificación por email en cada paso — y el hotel también.</li>
+            <li>Seguís el estado (en revisión, publicada, vendida) desde "Mi cuenta".</li>
+            <li>Podés cancelar la publicación mientras esté en revisión o antes de que se venda.</li>
+            <li>Cuando alguien compre, el pago queda retenido hasta su check-in; recién ahí se libera a tu favor.</li>
           </ul>
           <div class="wizard-success-actions">
-            <a href="catalogo.html" class="btn btn-primary btn-lg" data-wizard-view-listing>Ver cómo se ve tu publicación</a>
+            <a href="mi-cuenta.html" class="btn btn-primary btn-lg">Ver mis publicaciones</a>
             <a href="index.html" class="btn btn-outline btn-lg">Volver al inicio</a>
           </div>
         </div>
@@ -378,7 +379,7 @@
   <div class="footer-inner">
     <div class="footer-brand">
       <a href="index.html" class="logo" aria-label="LIBERA — inicio">
-        <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806d" alt="LIBERA" />
+        <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806e" alt="LIBERA" />
       </a>
       <p class="footer-tagline">Tu reserva, siempre flexible.</p>
     </div>
@@ -443,7 +444,7 @@
   </button>
 
   <div class="auth-modal-head">
-    <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806d" alt="LIBERA" />
+    <img class="logo-img" src="assets/brand/libera-name-only.png?v=20260806e" alt="LIBERA" />
     <h2 id="auth-title" class="sr-only">Iniciar sesión o registrarse</h2>
   </div>
 
@@ -500,8 +501,8 @@
 
 <script defer src="lib/gsap.min.js"></script>
 <script defer src="lib/ScrollTrigger.min.js"></script>
-<script defer src="offers-data.js?v=20260806d"></script>
-<script defer src="api.js?v=20260806d"></script>
-<script defer src="app.js?v=20260806d"></script>
+<script defer src="offers-data.js?v=20260806e"></script>
+<script defer src="api.js?v=20260806e"></script>
+<script defer src="app.js?v=20260806e"></script>
 </body>
 </html>

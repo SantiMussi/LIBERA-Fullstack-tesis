@@ -39,4 +39,8 @@ public class Listing {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ListingStatus status;
+
+    /** Motivo que deja el administrador al rechazar la publicación (lo ve el vendedor). */
+    @Column(name = "review_note", length = 500)
+    private String reviewNote;
 }

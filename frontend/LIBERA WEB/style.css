@@ -306,14 +306,6 @@ ul, ol { list-style: none; padding: 0; }
 .hero-actions { display: flex; gap: 1rem; justify-content: center; }
 .hero-b2b .hero-actions { justify-content: flex-start; }
 
-.hero-scroll-cue {
-  position: absolute; bottom: 2.4rem; left: 50%; transform: translateX(-50%);
-  z-index: 2; display: flex; flex-direction: column; align-items: center; gap: .6rem;
-  font-family: var(--font-mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
-  color: rgba(244,247,250,0.7);
-}
-.hero-scroll-cue span { width: 1px; height: 32px; background: linear-gradient(180deg, var(--orange), transparent); animation: scrollCue 1.8s ease-in-out infinite; }
-@keyframes scrollCue { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
 
 /* B2B hero */
 .hero-b2b { justify-content: flex-start; background: var(--navy-deep); }
@@ -403,31 +395,15 @@ body[data-page="catalogo"] .ota-search-section { margin-top: 0; padding-top: cal
 .ota-stepper span { font-family: var(--font-mono); font-weight: 600; min-width: 1.4rem; text-align: center; color: var(--ink); }
 
 /* =============================================================
-   9.2 QUICK ACCESS — Comprá / Vendé (B2C)
+   9.2 QUICK ACCESS — íconos y links de los accesos del hero (B2C)
    ============================================================= */
-.quick-access { padding: 4rem 0 1rem; }
-.quick-access-grid { max-width: var(--container); margin: 0 auto; padding: 0 4vw; display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; }
-.quick-access-card {
-  display: block; padding: 2.4rem 2.4rem 2.2rem; border-radius: var(--radius-xl);
-  background: var(--surface); border: 1px solid var(--line);
-  transition: transform .4s var(--ease-out), box-shadow .4s var(--ease-out);
-}
-.quick-access-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px -30px rgba(6,20,30,0.2); }
-.quick-access-card-alt { background: var(--navy-deep); border-color: var(--navy-deep); }
 .quick-access-icon {
   display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px;
   border-radius: 50%; background: rgba(255,90,31,0.1); color: var(--orange); margin-bottom: 1.4rem;
 }
 .quick-access-icon svg { width: 24px; height: 24px; }
-.quick-access-card-alt .quick-access-icon { background: rgba(255,90,31,0.18); }
-.quick-access-card h3 { font-size: 1.3rem; margin-bottom: .6rem; color: var(--ink); }
-.quick-access-card-alt h3 { color: #fff; }
-.quick-access-card p { color: var(--ink-soft); font-size: .94rem; margin-bottom: 1.6rem; max-width: 40ch; }
-.quick-access-card-alt p { color: rgba(255,255,255,0.7); }
 .quick-access-link { display: inline-flex; align-items: center; gap: .5rem; font-weight: 600; font-size: .92rem; color: var(--orange-dark); }
-.quick-access-card-alt .quick-access-link { color: var(--orange-light); }
 .quick-access-link svg { width: 16px; height: 16px; transition: transform .3s var(--ease-out); }
-.quick-access-card:hover .quick-access-link svg { transform: translateX(4px); }
 
 /* =============================================================
    9.3 QUICK TRUST STRIP (B2C)
@@ -608,7 +584,6 @@ body[data-page="catalogo"] .ota-search-section { margin-top: 0; padding-top: cal
 /* =============================================================
    12. DASHBOARD (SELLER)
    ============================================================= */
-.dashboard { padding: 7rem 0 8rem; }
 .dashboard-panel {
   max-width: var(--container); margin: 0 auto; padding: 0 4vw;
   display: grid; grid-template-columns: 1fr 1fr;
@@ -659,7 +634,6 @@ input[type="range"]::-moz-range-thumb {
 }
 input[type="range"]::-moz-range-track { height: 6px; border-radius: 100px; background: var(--line-strong); }
 .range-scale { display: flex; justify-content: space-between; margin-top: .6rem; font-family: var(--font-mono); font-size: .72rem; color: var(--ink-mute); }
-.simulator .range-scale { color: rgba(236,242,247,0.5); }
 
 .result-row { display: flex; align-items: center; justify-content: space-between; padding: .8rem 0; border-bottom: 1px solid rgba(236,242,247,0.12); font-size: .96rem; }
 .result-row span { color: rgba(236,242,247,0.65); }
@@ -668,7 +642,6 @@ input[type="range"]::-moz-range-track { height: 6px; border-radius: 100px; backg
 .result-row-net { border-bottom: none; padding-top: 1.3rem; align-items: center; }
 .result-row-net span { color: #ECF2F7; font-weight: 600; font-size: 1rem; }
 .net-value { font-size: 2.3rem; color: var(--orange); font-weight: 700; }
-.dashboard-cta { max-width: var(--container); margin: 2.4rem auto 0; padding: 0 4vw; text-align: center; }
 
 /* =============================================================
    13. TESTIMONIALS
@@ -986,7 +959,6 @@ input[type="range"]::-moz-range-track { height: 6px; border-radius: 100px; backg
 .auth-success svg { width: 18px; height: 18px; flex-shrink: 0; }
 .auth-success.is-visible { display: flex; }
 
-.auth-demo-note { margin-top: 1.4rem; text-align: center; font-size: .76rem; color: #8A97A6; }
 
 /* =============================================================
    19. FOOTER
@@ -1102,7 +1074,6 @@ input[type="range"]::-moz-range-track { height: 6px; border-radius: 100px; backg
   .hero-mesh { animation: none; }
   .marquee-track { animation-duration: 90s; }
   .splash-mark { animation: none; }
-  .hero-scroll-cue span { animation: none; }
 }
 
 /* =============================================================
@@ -1218,8 +1189,6 @@ input[type="range"]::-moz-range-track { height: 6px; border-radius: 100px; backg
 .split-cal-apply:hover { text-decoration: underline; }
 .split-cal-apply:disabled { color: var(--ink-mute); cursor: not-allowed; text-decoration: none; }
 
-.split-suggested-tag { display: inline-flex; align-items: center; gap: .35rem; font-family: var(--font-mono); font-size: .74rem; color: var(--ink-mute); }
-.split-suggested-tag svg { width: 13px; height: 13px; }
 .split-room-line { font-size: .84rem; color: var(--ink-mute); margin-top: -.6rem; }
 
 /* =============================================================
@@ -1521,12 +1490,21 @@ input[type="range"]::-moz-range-track { height: 6px; border-radius: 100px; backg
 /* Botón hamburguesa (initMobileNav) y "Mostrar filtros" (initCatalog): solo en pantallas chicas */
 .nav-toggle, .catalog-filters-toggle { display: none; }
 
-@media (max-width: 1200px) {
-  .nav-inner { gap: 1.4rem; }
-  .nav-links { gap: 1.4rem; }
+/* Los links de la barra nunca se parten en dos líneas */
+.nav-links a { white-space: nowrap; }
+
+/* Escritorio angosto: con sesión iniciada hay hasta 4 botones; se achican espacios para que entren */
+@media (min-width: 1201px) and (max-width: 1400px) {
+  .nav-inner { gap: 1rem; }
+  .nav-links { gap: 1.2rem; }
+  .nav-actions, .nav-auth, .nav-session { gap: .5rem; }
+  .nav-actions .btn-ghost-nav { padding: .55rem .85rem; }
+  .nav-actions .nav-cta { padding: .7rem 1.15rem; }
 }
 
-@media (max-width: 1024px) {
+/* La barra pasa a hamburguesa por debajo de 1200px: con sesión iniciada (Panel admin, Hola…,
+   Cerrar sesión) los links ya no entran en una línea */
+@media (max-width: 1200px) {
   :root { --nav-h: 72px; }
 
   /* ---------- Nav: logo + hamburguesa, el resto en un panel desplegable ---------- */
@@ -1555,6 +1533,10 @@ input[type="range"]::-moz-range-track { height: 6px; border-radius: 100px; backg
   .nav.is-menu-open .nav-actions .btn-ghost-nav { justify-content: center; width: 100%; padding-block: .8rem; }
   .nav-inner > .logo { height: var(--nav-h); }
   .nav.is-menu-open::before { background: var(--surface); box-shadow: 0 20px 40px -20px rgba(6,20,30,0.35); }
+
+}
+
+@media (max-width: 1024px) {
 
   /* ---------- Hero viajeros: los dos accesos pasan abajo del título ---------- */
   .hero-b2c { flex-direction: column; align-items: stretch; justify-content: flex-end; min-height: 0; padding-top: calc(var(--nav-h) + 3rem); }
@@ -1613,7 +1595,7 @@ input[type="range"]::-moz-range-track { height: 6px; border-radius: 100px; backg
 @media (max-width: 640px) {
   /* ---------- Espaciados generales ---------- */
   .section-head { padding-bottom: 2.2rem; }
-  .manifesto, .marketplace, .dashboard, .about-libera, .destacadas, .contact, .models-b2b, .split-preview-b2c, .trust-b2c-strip { padding-top: 4rem; padding-bottom: 4.5rem; }
+  .manifesto, .marketplace, .about-libera, .destacadas, .contact, .models-b2b, .split-preview-b2c, .trust-b2c-strip { padding-top: 4rem; padding-bottom: 4.5rem; }
   .faq-preview-b2c { padding-bottom: 4.5rem; }
   .btn-lg { padding: .95rem 1.5rem; }
 
@@ -1625,7 +1607,6 @@ input[type="range"]::-moz-range-track { height: 6px; border-radius: 100px; backg
   .hero-side-card .quick-access-icon { display: none; }
   .hero-side-card p { margin-bottom: .7rem; }
   .hero-sub { font-size: 1.02rem; }
-  .hero-scroll-cue { display: none; }
   .hero-actions { flex-direction: column; align-items: stretch; }
   .hero-b2b-stats { flex-wrap: wrap; gap: 1.4rem 2rem; }
   .engine-mockup-body { flex-direction: column; }
@@ -1641,7 +1622,7 @@ input[type="range"]::-moz-range-track { height: 6px; border-radius: 100px; backg
 
   /* ---------- Grillas a una columna ---------- */
   .destacadas-grid, .process-grid, .trust-strip-grid, .trust-strip-grid.trust-strip-grid-4,
-  .about-grid, .testimonial-grid, .hbenefits-grid, .models-grid, .quick-access-grid,
+  .about-grid, .testimonial-grid, .hbenefits-grid, .models-grid,
   .manifesto-tracks, .split-points, .form-row, .detail-amenities { grid-template-columns: minmax(0, 1fr); }
   .destacadas-carousel .destacada-card { flex-basis: 82%; min-width: 0; }
   .carousel-arrow { display: none; }
@@ -1690,3 +1671,70 @@ html.lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
 .lenis [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* ===============================================================
+   PANEL DE ADMIN, DETALLE DE COMPRA Y PUBLICAR DESDE MI CUENTA
+   =============================================================== */
+.destacada-dates { font-size: .84rem; color: var(--ink-mute); margin: -.2rem 0 .8rem; }
+.split-fee-line { font-size: .8rem; color: var(--ink-mute); margin-top: .45rem; }
+
+/* Mi cuenta */
+.account-admin {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  padding: 1rem 1.3rem; margin-bottom: 1.4rem; border-radius: var(--radius-m);
+  background: rgba(255,90,31,0.08); border: 1px solid rgba(255,90,31,0.25); font-size: .9rem; color: var(--ink-soft);
+}
+.account-admin strong { color: var(--ink); }
+.account-subhead { font-size: .82rem; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-mute); margin: .4rem 0 -.2rem; }
+.account-publish { display: flex; flex-direction: column; gap: .8rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--line); max-width: 460px; }
+.account-publish .field input[type="number"] { max-width: 200px; }
+.account-publish .account-item-actions { justify-content: flex-start; }
+
+/* Panel de admin */
+.tab-count {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 1.4rem; height: 1.4rem; padding: 0 .35rem;
+  margin-left: .35rem; border-radius: 999px; background: var(--orange); color: var(--navy-deep); font-size: .72rem; font-weight: 700;
+}
+.admin-toolbar { display: flex; align-items: center; gap: .7rem; margin-bottom: 1rem; }
+.admin-toolbar label { font-size: .82rem; color: var(--ink-mute); }
+.admin-toolbar select { border: 1.5px solid var(--line-strong); border-radius: var(--radius-s); padding: .5rem .8rem; font-size: .85rem; background: var(--surface); color: var(--ink); }
+
+/* Detalle de compra */
+.purchase-detail { max-width: 920px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.6rem; }
+.purchase-detail .detail-back { margin-bottom: 0; }
+.purchase-timeline { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; counter-reset: step; }
+.purchase-step {
+  position: relative; display: flex; flex-direction: column; gap: .3rem; padding: 1rem 1.1rem 1.1rem;
+  border-radius: var(--radius-m); background: var(--surface); border: 1px solid var(--line); color: var(--ink-mute);
+}
+.purchase-step::before {
+  counter-increment: step; content: counter(step);
+  display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%;
+  font-size: .78rem; font-weight: 700; border: 1.5px solid var(--line-strong); margin-bottom: .3rem;
+}
+.purchase-step strong { font-size: .9rem; color: var(--ink-soft); }
+.purchase-step span { font-size: .8rem; line-height: 1.4; }
+.purchase-step.is-done::before { content: "✓"; background: var(--orange); border-color: var(--orange); color: var(--navy-deep); }
+.purchase-step.is-done strong { color: var(--ink); }
+.purchase-step.is-current { border-color: rgba(255,90,31,0.45); box-shadow: 0 0 0 3px rgba(255,90,31,0.10); }
+.purchase-alert { padding: .9rem 1.1rem; border-radius: var(--radius-s); background: rgba(213,21,28,0.08); color: var(--red-accent); font-size: .9rem; }
+.purchase-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; }
+.purchase-card { padding: 1.4rem 1.5rem; border-radius: var(--radius-m); background: var(--surface); border: 1px solid var(--line); }
+.purchase-card h3 { font-size: 1rem; margin-bottom: 1rem; }
+.purchase-card dl { display: grid; grid-template-columns: auto 1fr; gap: .55rem 1.2rem; font-size: .9rem; }
+.purchase-card dt { color: var(--ink-mute); }
+.purchase-card dd { margin: 0; text-align: right; color: var(--ink); }
+.purchase-card dd.is-strong { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--orange-dark); }
+.purchase-actions { margin-top: 1.2rem; display: flex; gap: .6rem; flex-wrap: wrap; }
+
+@media (max-width: 640px) {
+  .purchase-timeline, .purchase-grid { grid-template-columns: minmax(0, 1fr); }
+  .account-admin { flex-direction: column; align-items: flex-start; }
+}
+
+/* Pestañas de Mi cuenta y del panel: en pantallas chicas no parten el texto, se desplazan de costado */
+@media (max-width: 640px) {
+  .account-tabs { overflow-x: auto; scrollbar-width: none; }
+  .account-tabs::-webkit-scrollbar { display: none; }
+  .account-tabs .auth-tab { flex: 1 0 auto; white-space: nowrap; padding-inline: .9rem; font-size: .84rem; }
+}

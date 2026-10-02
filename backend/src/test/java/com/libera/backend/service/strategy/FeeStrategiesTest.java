@@ -4,13 +4,21 @@ import com.libera.backend.domain.entity.Hotel;
 import com.libera.backend.domain.enums.PartnershipModel;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Fees públicos (documento del proyecto): el comprador paga precio + Garantía de Traspaso por tramos
+ * (7,5% / 10% / 12,5% según el descuento del vendedor) y el vendedor paga 7,5% fijo.
+ */
 class FeeStrategiesTest {
+
+    private static final BigDecimal D20 = new BigDecimal("20.00");
 
     private static Hotel hotel(PartnershipModel model, String markupFee) {
         return Hotel.builder()
@@ -19,12 +27,27 @@ class FeeStrategiesTest {
                 .build();
     }
 
-    /** El dinero del comprador tiene que quedar 100% repartido: vendedor + hotel + LIBERA. */
-    private static void assertMoneyIsConserved(BigDecimal total, FeeCalculationResult r) {
+    /** Todo lo que paga el comprador se reparte: vendedor + hotel + LIBERA. */
+    private static void assertMoneyIsConserved(FeeCalculationResult r) {
         BigDecimal distributed = r.getSellerPayoutAmount()
                 .add(r.getHotelRevenueShareAmount())
                 .add(r.getLiberaNetRevenue());
-        assertThat(distributed).isEqualByComparingTo(total);
+        assertThat(distributed).isEqualByComparingTo(r.getTotalPaidByBuyer());
+    }
+
+    @Nested
+    class GuaranteeTiers {
+
+        @ParameterizedTest(name = "descuento {0}% -> Garantía {1}")
+        @CsvSource({"0, 0.075", "10, 0.075", "34.99, 0.075", "35, 0.10", "54.99, 0.10", "55, 0.125", "80, 0.125"})
+        void tierDependsOnSellerDiscount(String discount, String expectedRate) {
+            assertThat(PublicFees.buyerFeeRate(new BigDecimal(discount))).isEqualByComparingTo(expectedRate);
+        }
+
+        @Test
+        void missingDiscountUsesLowestTier() {
+            assertThat(PublicFees.buyerFeeRate(null)).isEqualByComparingTo("0.075");
+        }
     }
 
     @Nested
@@ -33,43 +56,47 @@ class FeeStrategiesTest {
         private final IntegrationFeeStrategy strategy = new IntegrationFeeStrategy();
 
         @Test
-        void calculatesFeesWithHotelRevenueShare() {
-            BigDecimal total = new BigDecimal("1050.00");
+        void publicFeesPlusHotelRevenueShare() {
+            FeeCalculationResult r = strategy.calculateFees(new BigDecimal("1000.00"), D20, hotel(PartnershipModel.INTEGRATION, "20.00"));
 
-            FeeCalculationResult r = strategy.calculateFees(total, hotel(PartnershipModel.INTEGRATION, "20.00"));
+            // comprador: 1000 + 7,5% de Garantía
+            assertThat(r.getBuyerFeeAmount()).isEqualByComparingTo("75.00");
+            assertThat(r.getTotalPaidByBuyer()).isEqualByComparingTo("1075.00");
+            // vendedor: 7,5% de 1000
+            assertThat(r.getSellerFeeAmount()).isEqualByComparingTo("75.00");
+            assertThat(r.getSellerPayoutAmount()).isEqualByComparingTo("925.00");
+            // LIBERA cobra 150 y le da el 20% al hotel
+            assertThat(r.getHotelRevenueShareAmount()).isEqualByComparingTo("30.00");
+            assertThat(r.getLiberaNetRevenue()).isEqualByComparingTo("120.00");
+            assertMoneyIsConserved(r);
+        }
 
-            // base = 1050 / 1.05 = 1000 -> fee comprador 50, fee vendedor 15% de 1000 = 150
-            assertThat(r.getBuyerFeeAmount()).isEqualByComparingTo("50.00");
-            assertThat(r.getSellerFeeAmount()).isEqualByComparingTo("150.00");
-            assertThat(r.getSellerPayoutAmount()).isEqualByComparingTo("850.00");
-            // fees totales 200, el hotel se lleva el 20% = 40
-            assertThat(r.getHotelRevenueShareAmount()).isEqualByComparingTo("40.00");
-            assertThat(r.getLiberaNetRevenue()).isEqualByComparingTo("160.00");
-            assertMoneyIsConserved(total, r);
+        @Test
+        void higherDiscountRaisesTheGuarantee() {
+            FeeCalculationResult r = strategy.calculateFees(new BigDecimal("400.00"), new BigDecimal("60"), hotel(PartnershipModel.INTEGRATION, "20.00"));
+
+            assertThat(r.getBuyerFeeAmount()).isEqualByComparingTo("50.00"); // 12,5% (tope)
+            assertThat(r.getTotalPaidByBuyer()).isEqualByComparingTo("450.00");
+            assertMoneyIsConserved(r);
         }
 
         @Test
         void nullMarkupMeansNoHotelShare() {
-            BigDecimal total = new BigDecimal("1050.00");
-
-            FeeCalculationResult r = strategy.calculateFees(total, hotel(PartnershipModel.INTEGRATION, null));
+            FeeCalculationResult r = strategy.calculateFees(new BigDecimal("1000.00"), D20, hotel(PartnershipModel.INTEGRATION, null));
 
             assertThat(r.getHotelRevenueShareAmount()).isEqualByComparingTo("0");
-            assertThat(r.getLiberaNetRevenue()).isEqualByComparingTo("200.00");
-            assertMoneyIsConserved(total, r);
+            assertThat(r.getLiberaNetRevenue()).isEqualByComparingTo("150.00");
+            assertMoneyIsConserved(r);
         }
 
         @Test
         void conservesMoneyWithAwkwardAmounts() {
             for (String amount : List.of("0.01", "1.00", "99.99", "333.33", "1234.57", "98765.43")) {
-                BigDecimal total = new BigDecimal(amount);
-                assertMoneyIsConserved(total, strategy.calculateFees(total, hotel(PartnershipModel.INTEGRATION, "12.50")));
+                for (String discount : List.of("10", "40", "70")) {
+                    assertMoneyIsConserved(strategy.calculateFees(new BigDecimal(amount), new BigDecimal(discount),
+                            hotel(PartnershipModel.INTEGRATION, "12.50")));
+                }
             }
-        }
-
-        @Test
-        void supportsIntegrationModel() {
-            assertThat(strategy.getSupportedModel()).isEqualTo(PartnershipModel.INTEGRATION);
         }
     }
 
@@ -79,26 +106,24 @@ class FeeStrategiesTest {
         private final ConvenioFeeStrategy strategy = new ConvenioFeeStrategy();
 
         @Test
-        void chargesOnlyTheSellerTenPercent() {
-            BigDecimal total = new BigDecimal("1000.00");
+        void samePublicFeesWithoutRevenueShare() {
+            FeeCalculationResult r = strategy.calculateFees(new BigDecimal("1000.00"), new BigDecimal("40"), hotel(PartnershipModel.CONVENIO, "20.00"));
 
-            FeeCalculationResult r = strategy.calculateFees(total, hotel(PartnershipModel.CONVENIO, "20.00"));
-
-            assertThat(r.getBuyerFeeAmount()).isEqualByComparingTo("0");
-            assertThat(r.getSellerFeeAmount()).isEqualByComparingTo("100.00");
-            assertThat(r.getSellerPayoutAmount()).isEqualByComparingTo("900.00");
+            assertThat(r.getBuyerFeeAmount()).isEqualByComparingTo("100.00"); // 10%
+            assertThat(r.getSellerFeeAmount()).isEqualByComparingTo("75.00");
+            assertThat(r.getSellerPayoutAmount()).isEqualByComparingTo("925.00");
             // aunque el hotel tenga markup cargado, en Convenio no hay revenue share
             assertThat(r.getHotelRevenueShareAmount()).isEqualByComparingTo("0");
-            assertThat(r.getLiberaNetRevenue()).isEqualByComparingTo("100.00");
-            assertMoneyIsConserved(total, r);
+            assertThat(r.getLiberaNetRevenue()).isEqualByComparingTo("175.00");
+            assertMoneyIsConserved(r);
         }
 
         @Test
         void roundsHalfUp() {
-            FeeCalculationResult r = strategy.calculateFees(new BigDecimal("0.05"), hotel(PartnershipModel.CONVENIO, null));
+            FeeCalculationResult r = strategy.calculateFees(new BigDecimal("0.10"), D20, hotel(PartnershipModel.CONVENIO, null));
 
-            assertThat(r.getSellerFeeAmount()).isEqualByComparingTo("0.01");
-            assertThat(r.getSellerPayoutAmount()).isEqualByComparingTo("0.04");
+            assertThat(r.getSellerFeeAmount()).isEqualByComparingTo("0.01"); // 0,0075 -> 0,01
+            assertThat(r.getSellerPayoutAmount()).isEqualByComparingTo("0.09");
         }
     }
 
@@ -115,16 +140,16 @@ class FeeStrategiesTest {
         }
 
         @Test
-        void fallbackForNoneChargesNothing() {
-            FeeCalculationStrategy fallback = factory.getStrategy(PartnershipModel.NONE);
-            BigDecimal total = new BigDecimal("500.00");
+        void hotelsWithoutPartnershipPayPublicFeesWithoutShare() {
+            FeeCalculationStrategy none = factory.getStrategy(PartnershipModel.NONE);
 
-            FeeCalculationResult r = fallback.calculateFees(total, hotel(PartnershipModel.NONE, null));
+            FeeCalculationResult r = none.calculateFees(new BigDecimal("500.00"), D20, hotel(PartnershipModel.NONE, null));
 
-            assertThat(fallback.getSupportedModel()).isEqualTo(PartnershipModel.NONE);
-            assertThat(r.getSellerPayoutAmount()).isEqualByComparingTo(total);
-            assertThat(r.getLiberaNetRevenue()).isEqualByComparingTo("0");
-            assertMoneyIsConserved(total, r);
+            assertThat(none.getSupportedModel()).isEqualTo(PartnershipModel.NONE);
+            assertThat(r.getBuyerFeeAmount()).isEqualByComparingTo("37.50");
+            assertThat(r.getSellerPayoutAmount()).isEqualByComparingTo("462.50");
+            assertThat(r.getHotelRevenueShareAmount()).isEqualByComparingTo("0");
+            assertMoneyIsConserved(r);
         }
 
         @Test

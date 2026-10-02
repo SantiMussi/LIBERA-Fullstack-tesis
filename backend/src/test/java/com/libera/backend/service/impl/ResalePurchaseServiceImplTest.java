@@ -15,7 +15,9 @@ import com.libera.backend.dto.response.ResalePurchaseResponseDTO;
 import com.libera.backend.exception.BusinessConflictException;
 import com.libera.backend.exception.InvalidSplitBookingException;
 import com.libera.backend.exception.ResourceNotFoundException;
+import com.libera.backend.dto.response.AdminPurchaseResponseDTO;
 import com.libera.backend.mapper.ResalePurchaseMapperImpl;
+import com.libera.backend.mapper.TransactionMapperImpl;
 import com.libera.backend.repository.ListingRepository;
 import com.libera.backend.repository.ResalePurchaseRepository;
 import com.libera.backend.repository.TransactionRepository;
@@ -79,7 +81,7 @@ class ResalePurchaseServiceImplTest {
     void setUp() {
         FeeStrategyFactory factory = new FeeStrategyFactory(List.of(new IntegrationFeeStrategy(), new ConvenioFeeStrategy()));
         service = new ResalePurchaseServiceImpl(resalePurchaseRepository, listingRepository, userRepository,
-                transactionRepository, new ResalePurchaseMapperImpl(), List.of(roibackPort), factory);
+                transactionRepository, new ResalePurchaseMapperImpl(), List.of(roibackPort), factory, new TransactionMapperImpl());
 
         seller = User.builder().id(SELLER_ID).firstName("Ana").lastName("Pérez").build();
         buyer = User.builder().id(BUYER_ID).firstName("Juan").lastName("Gómez").documentNumber("30111222").build();
@@ -92,7 +94,8 @@ class ResalePurchaseServiceImplTest {
         OriginalBooking booking = OriginalBooking.builder().id(100L).hotel(hotel).pmsConfirmationCode(CONFIRMATION_CODE)
                 .checkIn(STAY_IN).checkOut(STAY_OUT).roomType("Doble").build();
         return Listing.builder().id(LISTING_ID).originalBooking(booking).seller(seller)
-                .listedTotalPrice(new BigDecimal(price)).allowsSplitBooking(split).status(ListingStatus.ACTIVE).build();
+                .listedTotalPrice(new BigDecimal(price)).discountPercentage(new BigDecimal("20.00"))
+                .allowsSplitBooking(split).status(ListingStatus.ACTIVE).build();
     }
 
     private static ResalePurchase existingPurchase(Listing listing, LocalDate in, LocalDate out, String price) {
@@ -150,6 +153,9 @@ class ResalePurchaseServiceImplTest {
             assertThat(response.getBuyerId()).isEqualTo(BUYER_ID);
             assertThat(response.getNights()).isEqualTo(4);
             assertThat(response.getTotalPrice()).isEqualByComparingTo("1050.00");
+            // Garantía de Traspaso del 7,5% encima del precio
+            assertThat(response.getBuyerFee()).isEqualByComparingTo("78.75");
+            assertThat(response.getTotalPaid()).isEqualByComparingTo("1128.75");
             assertThat(response.getStatus()).isEqualTo(ResalePurchaseStatus.NAME_CHANGED);
             assertThat(listing.getStatus()).isEqualTo(ListingStatus.SOLD_OUT);
         }
@@ -336,12 +342,13 @@ class ResalePurchaseServiceImplTest {
             verify(transactionRepository).save(tx.capture());
             Transaction t = tx.getValue();
             assertThat(t.getResalePurchase()).isSameAs(purchase);
-            assertThat(t.getTotalPaidByBuyer()).isEqualByComparingTo("1050.00");
-            assertThat(t.getBuyerFeeAmount()).isEqualByComparingTo("50.00");
-            assertThat(t.getSellerFeeAmount()).isEqualByComparingTo("150.00");
-            assertThat(t.getSellerPayoutAmount()).isEqualByComparingTo("850.00");
-            assertThat(t.getHotelRevenueShareAmount()).isEqualByComparingTo("40.00");
-            assertThat(t.getLiberaNetRevenue()).isEqualByComparingTo("160.00");
+            // precio 1050 + Garantía 7,5% = 1128,75; vendedor paga 7,5%; el hotel se lleva el 20% de lo que cobra LIBERA
+            assertThat(t.getTotalPaidByBuyer()).isEqualByComparingTo("1128.75");
+            assertThat(t.getBuyerFeeAmount()).isEqualByComparingTo("78.75");
+            assertThat(t.getSellerFeeAmount()).isEqualByComparingTo("78.75");
+            assertThat(t.getSellerPayoutAmount()).isEqualByComparingTo("971.25");
+            assertThat(t.getHotelRevenueShareAmount()).isEqualByComparingTo("31.50");
+            assertThat(t.getLiberaNetRevenue()).isEqualByComparingTo("126.00");
             assertThat(purchase.getStatus()).isEqualTo(ResalePurchaseStatus.LIQUIDATED);
         }
 
@@ -354,8 +361,8 @@ class ResalePurchaseServiceImplTest {
 
             ArgumentCaptor<Transaction> tx = ArgumentCaptor.forClass(Transaction.class);
             verify(transactionRepository).save(tx.capture());
-            assertThat(tx.getValue().getTotalPaidByBuyer()).isEqualByComparingTo("525.00");
-            assertThat(tx.getValue().getSellerPayoutAmount()).isEqualByComparingTo("425.00");
+            assertThat(tx.getValue().getTotalPaidByBuyer()).isEqualByComparingTo("564.38");
+            assertThat(tx.getValue().getSellerPayoutAmount()).isEqualByComparingTo("485.62");
         }
 
         @Test
@@ -368,8 +375,9 @@ class ResalePurchaseServiceImplTest {
 
             ArgumentCaptor<Transaction> tx = ArgumentCaptor.forClass(Transaction.class);
             verify(transactionRepository).save(tx.capture());
-            assertThat(tx.getValue().getSellerPayoutAmount()).isEqualByComparingTo("900.00");
-            assertThat(tx.getValue().getLiberaNetRevenue()).isEqualByComparingTo("100.00");
+            assertThat(tx.getValue().getSellerPayoutAmount()).isEqualByComparingTo("925.00");
+            assertThat(tx.getValue().getHotelRevenueShareAmount()).isEqualByComparingTo("0");
+            assertThat(tx.getValue().getLiberaNetRevenue()).isEqualByComparingTo("150.00");
         }
 
         @Test
@@ -407,9 +415,12 @@ class ResalePurchaseServiceImplTest {
             purchase.setStatus(ResalePurchaseStatus.PAYMENT_HELD);
             when(resalePurchaseRepository.findByIdForUpdate(PURCHASE_ID)).thenReturn(Optional.of(purchase));
 
-            ResalePurchaseResponseDTO response = service.confirmCheckInManually(PURCHASE_ID);
+            AdminPurchaseResponseDTO response = service.confirmCheckInManually(PURCHASE_ID);
 
-            assertThat(response.getStatus()).isEqualTo(ResalePurchaseStatus.LIQUIDATED);
+            assertThat(response.getPurchase().getStatus()).isEqualTo(ResalePurchaseStatus.LIQUIDATED);
+            assertThat(response.getBuyerName()).isEqualTo("Juan Gómez");
+            assertThat(response.getSellerName()).isEqualTo("Ana Pérez");
+            assertThat(response.getTransaction().getSellerPayoutAmount()).isEqualByComparingTo("971.25");
             verify(transactionRepository).save(any(Transaction.class));
         }
     }

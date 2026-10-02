@@ -18,4 +18,10 @@ public class OriginalBookingResponseDTO {
     private String roomType;
     private BigDecimal totalAmountPaid;
     private Boolean isLiberaRate;
+    /** Si el hotel admite Split Booking (Modelo Integración). */
+    private Boolean splitBookingAvailable;
+    /** Si el titular ya subió el comprobante. */
+    private Boolean hasVoucher;
+    /** Estado de la publicación vigente de esta reserva (null si nunca se publicó o se canceló). */
+    private String listingStatus;
 }

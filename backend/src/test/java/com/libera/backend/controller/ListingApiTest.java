@@ -39,7 +39,7 @@ class ListingApiTest extends ApiTestBase {
                     .andExpect(jsonPath("$.listedTotalPrice").value(1200.50))
                     .andExpect(jsonPath("$.discountPercentage").value(19.97))
                     .andExpect(jsonPath("$.allowsSplitBooking").value(true))
-                    .andExpect(jsonPath("$.status").value("ACTIVE"))
+                    .andExpect(jsonPath("$.status").value("PENDING_REVIEW"))
                     .andExpect(jsonPath("$.pmsConfirmationCode").doesNotExist());
 
             assertThat(listingRepository.count()).isEqualTo(1);
@@ -163,7 +163,7 @@ class ListingApiTest extends ApiTestBase {
             split.setStatus(ListingStatus.PARTIALLY_SOLD);
             listingRepository.save(split);
             purchaseRepository.save(com.libera.backend.domain.entity.ResalePurchase.builder().listing(split).buyer(buyer)
-                    .checkIn(STAY_IN).checkOut(STAY_IN.plusDays(2)).totalPrice(new java.math.BigDecimal("500.00"))
+                    .checkIn(STAY_IN).checkOut(STAY_IN.plusDays(2)).totalPrice(new java.math.BigDecimal("500.00")).buyerFee(new java.math.BigDecimal("37.50"))
                     .status(ResalePurchaseStatus.NAME_CHANGED).build());
 
             mvc.perform(get("/api/v1/listings").param("checkIn", STAY_IN.toString()).param("checkOut", STAY_IN.plusDays(1).toString()))

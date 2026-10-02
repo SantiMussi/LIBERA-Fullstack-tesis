@@ -45,6 +45,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // Public endpoints
                 .requestMatchers(HttpMethod.POST, "/api/v1/auth/register", "/api/v1/auth/login").permitAll()
+                // "Agendar demo" de la vista Hoteles: lo completa un hotel sin cuenta
+                .requestMatchers(HttpMethod.POST, "/api/v1/contact").permitAll()
                 // Webhooks using API Key or different mechanism
                 .requestMatchers("/api/v1/webhooks/**").permitAll()
                 .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
